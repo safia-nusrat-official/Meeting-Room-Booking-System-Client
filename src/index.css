@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Kenao";
+  src: url("./assets/font/Kenao.otf");
+}
+
+.inter-regular {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+.inter-medium {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+.inter-semibold {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+.inter-bold {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+.inter-extrabold {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+.inter-black {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
+* {
+  font-family: "Inter";
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: "#184E77";
+  --secondary-color: "#C7F9CC";
+  --body-text-color: "#6c757d";
+}
+.ant-menu-item{
+  color: #6c757d !important;
+}
+.ant-menu-item-selected::after {
+  border-bottom-color: #184E77 !important;
+
+}
+.active, .ant-menu-item:hover {
+  color: #184E77 !important;
+}
+/* the border color*/
+.ant-menu-item-active::after {
+  border-bottom-color: #184E77 !important;
+}
