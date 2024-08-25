@@ -1,4 +1,4 @@
-import Bookings from "../pages/bookings/Bookings";
+import MyBookings from "../pages/userPages/bookings/MyBookings";
 import ProtectedRoute from "../pages/ProtectedRoute";
 
 export const userPaths = [
@@ -7,8 +7,8 @@ export const userPaths = [
     path: "my-bookings",
     element: (
       <ProtectedRoute>
-        <Bookings></Bookings>
+        <MyBookings></MyBookings>
       </ProtectedRoute>
     ),
-  }
+  },
 ];

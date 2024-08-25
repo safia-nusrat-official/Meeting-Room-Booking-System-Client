@@ -3,7 +3,7 @@ import HeroSection from './heroSection/HeroSection'
 
 const Home = () => {
   return (
-    <section className='lg:p-20'>
+    <section className=''>
       <HeroSection></HeroSection>
     </section>
   )

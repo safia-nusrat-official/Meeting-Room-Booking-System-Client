@@ -1,11 +1,13 @@
+import { Button as ShadBtn } from "@/components/ui/button";
 import { Layout, Button, Divider, Menu } from "antd";
+import "../style/customNav.css";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
 import { logout } from "../redux/features/authSlice";
 import { Footer } from "antd/es/layout/layout";
 import { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
-import { LuLogIn } from "react-icons/lu";
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 const { Content, Header } = Layout;
 
@@ -38,19 +40,16 @@ const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
-
     if (location.pathname === "/") {
       setSelectedKeys("home");
-    }else if (
+    } else if (
       sideBarItems.find((item) => item.key === location.pathname.slice(1))
     ) {
       setSelectedKeys(location.pathname.slice(1));
     } else {
       setSelectedKeys("");
     }
-
   }, [location.pathname]);
-
 
   return (
     <Layout>
@@ -64,7 +63,7 @@ const MainLayout = () => {
           alignItems: "center",
           justifyContent: "space-between",
         }}
-        className="border-[0.5px] text-primaryColor bg-white border-zinc-200 pl-4 pr-8 py-4 md:px-8"
+        className="border-b-[0.5px] text-primaryColor bg-white border-zinc-200 pl-4 pr-8 py-4 md:px-12"
       >
         <button
           className="mr-4 text-2xl md:hidden block"
@@ -98,14 +97,14 @@ const MainLayout = () => {
             marginLeft: "6rem",
             fontWeight: "600",
             fontSize: "1rem",
-            background: "transparent",
             flex: 1,
             minWidth: 0,
           }}
         />
-        <NavLink to="/login"
-        className="flex items-center h-12 justify-center bg-primaryColor text-white rounded-md px-6 gap-2 font-semibold ">
-          <LuLogIn className="text-xl"></LuLogIn> Login
+        <NavLink to="/login">
+          <ShadBtn className="mt-6 hover:border-slate-800 hover:border-2 hover:bg-transparent font-semibold hover:text-slate-800 bg-slate-800 rounded-none">
+            Login / Register
+          </ShadBtn>
         </NavLink>
       </Header>
 
@@ -153,10 +152,10 @@ const MainLayout = () => {
         </Content>
       </Layout>
 
-      <Footer className="py-[4rem] bg-primaryColor text-white selection:text-primaryColor selection:bg-secondaryColor">
+      <Footer className="py-[4rem] bg-slate-800 text-white selection:text-slate-800 font-normal selection:bg-secondaryColor">
         <div className="flex md:flex-row flex-col md:gap-6 gap-10 justify-between">
           {/* logo and socials */}
-          <div className=" max-w-64">
+          <div className="max-w-64">
             <h3
               style={{
                 fontSize: "2rem",
@@ -173,37 +172,44 @@ const MainLayout = () => {
             </span>
           </div>
 
-          {/**links */}
 
-          <div className="grid md:grid-cols-2 text-left gap-6 grid-cols-1">
+          <div className="grid md:grid-cols-3 text-left gap-6 grid-cols-1">
             {/* col-2 */}
             <div>
-              <h4 className="text-xl font-[500] mb-2">Quick Links</h4>
-              <ul>
-                <li>
-                  <NavLink to="/products">Products</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/about-us">About Us</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/contact-us">Contact Us</NavLink>
-                </li>
-              </ul>
+              <h4 className="text-xl font-bold mb-2">Address</h4>
+              <p>
+                The Hoteller
+                <br />
+                456 Urban Avenue Cityville,
+                <br />
+                NY 10001 United States
+              </p>
             </div>
             {/* col-3 */}
             <div>
-              <h4 className="text-xl font-[500] mb-2">Contact Us</h4>
-              <p>123 Street Name, City, Country</p>
-              <p>Email: info@example.com</p>
-              <p>Phone: +1234567890</p>
+              <h4 className="text-xl font-semibold mb-2">Contact Us</h4>
+              <p>info@example.com</p>
+              <p>+1234567890</p>
+            </div>
+            <div>
+              <h4 className="text-xl font-semibold mb-2">Follow Us</h4>
+              <div className="flex gap-4 text-xl"><FaFacebook></FaFacebook>
+              <FaInstagram></FaInstagram>
+              <FaYoutube></FaYoutube>
+              <FaTwitter></FaTwitter></div>
             </div>
           </div>
         </div>
-        <Divider className="bg-zinc-500 my-12" />
-        <p className="text-center">
-          &copy; {new Date().getFullYear()} KeyWizards. All rights reserved.
-        </p>
+        <div className="flex items-center justify-between">
+          <Link to="/meeting-rooms">
+            <Button className="mt-6 hover:border-slate-800 hover:border-2 hover:bg-transparent font-bold hover:text-slate-800 bg-white rounded-none">
+              Book Now
+            </Button>
+          </Link>
+          <p className="text-center">
+            &copy; {new Date().getFullYear()} KeyWizards. All rights reserved.
+          </p>
+        </div>
       </Footer>
     </Layout>
   );

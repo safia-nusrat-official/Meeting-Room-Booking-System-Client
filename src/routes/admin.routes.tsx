@@ -1,4 +1,4 @@
-import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminDashboard from "../pages/adminPages/AdminDashboard";
 import ProtectedRoute from "../pages/ProtectedRoute";
 
 export const adminPaths = [

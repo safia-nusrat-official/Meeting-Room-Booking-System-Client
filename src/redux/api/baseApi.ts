@@ -5,7 +5,7 @@ import {
 
 export const baseApi = createApi({
     reducerPath: "baseApi",
-    baseQuery: fetchBaseQuery({baseUrl:`https://meeting-room-booking-system-phi.vercel.app/`}),
+    baseQuery: fetchBaseQuery({baseUrl:`https://meeting-room-booking-system-phi.vercel.app/api/`}),
     endpoints: () => ({}),
     tagTypes: [
       "bookings",

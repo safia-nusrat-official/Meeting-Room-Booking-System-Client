@@ -1,0 +1,12 @@
+.active {
+  color: #184E77 !important;
+}
+.ant-menu-item-selected::after {
+  border-bottom-color: #184E77 !important;
+}
+.ant-menu-item:hover {
+  border-bottom-color: #184E77 !important;
+}
+.ant-menu-item-active::after{
+    border-bottom-color: #184E77 !important;
+}
