@@ -1,0 +1,27 @@
+.typing-effect {
+  border-right: 2px solid #184E77;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #184E77;
+  }
+}
+
+.hero-text {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.hero-text.fade-in {
+  opacity: 1;
+}

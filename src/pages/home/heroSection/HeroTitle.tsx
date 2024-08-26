@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../../../style/heroSection.css";
 
 const HeroTitle = () => {
   const lines = ["Book Your", "Ideal Meeting", "Room with", "Ease"];
@@ -51,9 +52,7 @@ const HeroTitle = () => {
     <h1 className="font-black text-slate-800 md:text-6xl text-4xl h-fit md:h-[250px]">
       {displayedText.map((text, index) => (
         <>
-          <span className={currentLineIndex > 4 ? "" : "typing-effect"}>
-            {text}
-          </span>
+          <span className={index === 3 ? "typing-effect" : ""}>{text}</span>
           {index !== 3 && <br />}
         </>
       ))}
