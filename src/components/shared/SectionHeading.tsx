@@ -1,11 +1,13 @@
+import { ReactNode } from "react";
+
 const SectionHeading = ({
-    text,
+    children,
     mode = "light",
     animateFrom = undefined,
     center = false,
     showIn = ["all"],
   }: {
-    text: string;
+    children: ReactNode;
     mode?: "light" | "dark";
     animateFrom?: "left" | "right";
     center?: boolean;
@@ -26,7 +28,7 @@ const SectionHeading = ({
         ${center ? "text-center" : ""}
         `}
       >
-        {text}
+        {children}
       </h2>
     );
   };
