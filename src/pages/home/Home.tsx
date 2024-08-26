@@ -4,6 +4,7 @@ import ServiceSection from './ServiceSection'
 import FeaturedRooms from './FeaturedRooms'
 import WhyChoose from './WhyChoose'
 import TestimonialSection from './Testimonials'
+import HowItWorks from './HowItWorks'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <FeaturedRooms></FeaturedRooms>
       <WhyChoose></WhyChoose>
       <TestimonialSection></TestimonialSection>
+      <HowItWorks></HowItWorks>
     </section>
   )
 }
