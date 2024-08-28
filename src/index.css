@@ -78,3 +78,24 @@
   font-family: "Kenao";
   src: url("./assets/font/Kenao.otf");
 }
+
+.ant-input:focus , .ant-input:hover{
+  border-color: #020817;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0px #02081729;
+  box-shadow: 0 0 0 0px #0208170b;
+}
+.ant-btn{
+  font-weight: 600;
+}
+.ant-btn:hover{
+  background: #ffffff !important;
+  color: #020817 !important;
+  border: 1px solid #020817 !important;
+}
+ul.dashboard.ant-menu .ant-menu-item.ant-menu-item-active span a::before{
+  background:#05071963
+}
+ul.dashboard.ant-menu .ant-menu-item .ant-menu-title-content a, ul.dashboard.ant-menu .ant-menu-item.ant-menu-item:hover{
+  color: #fff !important;
+}

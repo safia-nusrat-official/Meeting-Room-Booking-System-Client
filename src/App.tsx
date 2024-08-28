@@ -13,6 +13,7 @@ function App() {
           controlOutline: "#fff",
           colorIcon: "#020817",
         },
+      
         components: {
           Button: {
             colorPrimaryBg: "#020817",
@@ -24,8 +25,7 @@ function App() {
           },
         },
       }}
-    >
-      <MainLayout></MainLayout>
+    ><MainLayout></MainLayout>
     </ConfigProvider>
   );
 }

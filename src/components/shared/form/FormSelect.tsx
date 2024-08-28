@@ -1,12 +1,11 @@
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Form, Input } from "antd";
+import { Form, Select, SelectProps } from "antd";
 import { Controller, FieldValues, Validate } from "react-hook-form";
 
-const FormInput = ({
-  type = "text",
+const FormSelect = ({
   name,
   label,
-  placeholder = `Enter ${label}`,
+  options,
+  placeholder = `Select ${label}`,
   defaultValue,
   required = true,
   validate,
@@ -15,7 +14,7 @@ const FormInput = ({
   placeholder?: string;
   label: string;
   name: string;
-  type?: "text" | "password" | "number";
+  options: SelectProps["options"];
   required?: boolean;
   validate?:
     | Validate<any, FieldValues>
@@ -38,25 +37,16 @@ const FormInput = ({
               validateStatus={fieldState.error ? "error" : ""}
               help={fieldState.error ? fieldState.error.message : ""}
             >
-              {type !== "password" ? (
-                <Input
-                  {...field}
-                  placeholder={placeholder}
-                  size="large"
-                  type={type}
-                  id={name}
-                />
-              ) : (
-                <Input.Password
-                  {...field}
-                  size="large"
-                  placeholder={placeholder}
-                  id={name}
-                  iconRender={(visible) =>
-                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                  }
-                />
-              )}
+              <Select
+                mode="multiple"
+                size="large"
+                placeholder={placeholder}
+                {...field}
+                style={{ width: "100%",
+                    borderColor:"#020817"
+                 }}
+                options={options}
+              />
             </Form.Item>
           );
         }}
@@ -65,4 +55,4 @@ const FormInput = ({
   );
 };
 
-export default FormInput;
+export default FormSelect;

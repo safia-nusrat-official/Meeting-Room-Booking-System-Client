@@ -1,3 +1,11 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button as ShadBtn } from "@/components/ui/button";
 import { Layout, Button, Divider, Menu } from "antd";
 import "../style/customNav.css";
@@ -9,6 +17,8 @@ import { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { Toaster } from "sonner";
+import { CiCalendar, CiLogout, CiUser } from "react-icons/ci";
+import { PiPresentationChartLight } from "react-icons/pi";
 
 const { Content, Header } = Layout;
 
@@ -16,7 +26,7 @@ const MainLayout = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(getUser);
   const handleLogout = () => {
-    dispatch(logout());
+    setTimeout(() => dispatch(logout()), 600);
   };
   console.log(user);
 
@@ -106,11 +116,60 @@ const MainLayout = () => {
             minWidth: 0,
           }}
         />
-        <NavLink to={user ? `/profile` : `/login`}>
-          <ShadBtn className="text-xs md:text-sm h-fit p-[8px] justify-self-end hover:border-slate-800 hover:border-2 hover:bg-transparent font-semibold hover:text-slate-800 bg-slate-800 rounded-none">
-            {user ? `${user.name}` : "Login / Register"}
-          </ShadBtn>
-        </NavLink>
+
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="outline-none h-12 px-2 hover:bg-slate-50 items-center flex gap-2">
+              {user.name}
+              <CiUser className="text-xl" />
+            </DropdownMenuTrigger>
+            {user.role === "user" ? (
+              <DropdownMenuContent className="font-medium">
+                <DropdownMenuItem>
+                  <Link
+                    to="/my-bookings"
+                    className="flex gap-2 justify-between items-center"
+                  >
+                    My Bookings<CiCalendar className="text-xl"></CiCalendar>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <button
+                    onClick={handleLogout}
+                    className="flex gap-2 w-full justify-between items-center"
+                  >
+                    Logout<CiLogout className="text-xl"></CiLogout>
+                  </button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            ) : (
+              <DropdownMenuContent className="font-medium">
+                <DropdownMenuItem>
+                  <Link
+                    to="/admin/dashboard"
+                    className="flex gap-2 justify-between items-center"
+                  >
+                    Dashboard<PiPresentationChartLight className="text-xl"></PiPresentationChartLight>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <button
+                    onClick={handleLogout}
+                    className="flex gap-2 w-full justify-between items-center"
+                  >
+                    Logout<CiLogout className="text-xl"></CiLogout>
+                  </button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            )}
+          </DropdownMenu>
+        ) : (
+          <NavLink to={`/login`}>
+            <ShadBtn className="text-xs md:text-sm h-fit p-[8px] justify-self-end hover:border-slate-800 hover:border-2 hover:bg-transparent font-semibold hover:text-slate-800 bg-slate-800 rounded-none">
+              Login / Register
+            </ShadBtn>
+          </NavLink>
+        )}
       </Header>
 
       <Layout style={{ position: "relative" }}>

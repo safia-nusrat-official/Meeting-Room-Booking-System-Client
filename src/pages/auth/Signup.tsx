@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { TReduxResponse } from "./../../types/index";
+import { TReduxResponse } from "../../types/index";
 
 import {
   Controller,
@@ -19,10 +19,9 @@ import loginAnimationData from "../../assets/animations/loginAnimation.json";
 import LottieAnimation from "@/lib/LottieAnimation";
 import { useSignupMutation } from "@/redux/api/auth.api";
 import { TUser } from "@/types/user.types";
-import { verifyToken } from "@/utility/authUtils/verifyToken";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
-import { logout, setUser } from "@/redux/features/authSlice";
+import { logout } from "@/redux/features/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import CustomForm from "@/components/shared/form/CustomForm";
 import FormInput from "@/components/shared/form/FormInput";

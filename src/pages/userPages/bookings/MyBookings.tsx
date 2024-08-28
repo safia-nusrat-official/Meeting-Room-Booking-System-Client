@@ -2,7 +2,9 @@ import React from 'react'
 
 const MyBookings = () => {
   return (
-    <div>MyBookings</div>
+    <div className='md:p-12 p-8'>
+      
+    </div>
   )
 }
 

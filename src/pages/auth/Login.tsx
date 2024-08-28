@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { TReduxResponse } from "./../../types/index";
+import { TReduxResponse } from "../../types/index";
 
 import {
   Controller,
@@ -24,12 +24,13 @@ import { Input, Form, Button } from "antd";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/authSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const { control, reset, handleSubmit } = useForm({});
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
@@ -45,6 +46,7 @@ export default function Login() {
         dispatch(setUser({ user, token }));
         toast.success(`Logged in as ${user.name}.`);
         reset();
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
