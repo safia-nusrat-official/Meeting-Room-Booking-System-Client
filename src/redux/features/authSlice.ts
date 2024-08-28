@@ -1,13 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import LogoutFromLS from "../../utility/authUtils/LogoutFromLS";
+import { TUser } from "@/types/user.types";
 
-export type TUser = {
-  userId: string;
-  role: string;
-  iat: number;
-  exp: number;
-};
+
 export interface IAuthState {
   user: null | TUser;
   token: null | string;

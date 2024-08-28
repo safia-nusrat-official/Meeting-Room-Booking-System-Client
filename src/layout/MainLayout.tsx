@@ -2,20 +2,23 @@ import { Button as ShadBtn } from "@/components/ui/button";
 import { Layout, Button, Divider, Menu } from "antd";
 import "../style/customNav.css";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { useAppDispatch } from "../redux/hooks";
-import { logout } from "../redux/features/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { getUser, logout } from "../redux/features/authSlice";
 import { Footer } from "antd/es/layout/layout";
 import { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { Toaster } from "sonner";
 
 const { Content, Header } = Layout;
 
 const MainLayout = () => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(getUser);
   const handleLogout = () => {
     dispatch(logout());
   };
+  console.log(user);
 
   const location = useLocation();
   const sideBarItems = [
@@ -63,30 +66,32 @@ const MainLayout = () => {
           alignItems: "center",
           justifyContent: "space-between",
         }}
-        className="border-b-[0.5px] text-primaryColor bg-white border-zinc-200 pl-4 pr-8 py-4 md:px-12"
+        className="border-b-[0.5px] text-primaryColor bg-white border-zinc-200 px-4 md:px-12"
       >
-        <button
-          className="mr-4 text-2xl md:hidden block"
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          <div
-            className={`w-6 mb-2 relative h-[3px] transition-all bg-custom-primary rounded-md ${
-              collapsed ? "rotate-0 top-0" : "rotate-45 top-[3px]"
-            }`}
-          ></div>
-          <div
-            className={`w-6 h-[3px] relative transition-all bg-custom-primary rounded-md ${
-              collapsed ? "rotate-0 top-0" : "-rotate-45 -top-[8px] "
-            }`}
-          ></div>
-        </button>
-        <Link
-          to="/"
-          style={{ fontFamily: "Kenao" }}
-          className="demo-logo font-[600] md:text-[2rem] text-[1.5rem]"
-        >
-          MeetWise
-        </Link>
+        <div className="flex items-center">
+          <button
+            className="mr-4 text-2xl md:hidden block"
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            <div
+              className={`w-6 mb-2 relative h-[3px] transition-all bg-primaryColor rounded-md ${
+                collapsed ? "rotate-0 top-0" : "rotate-45 top-[3px]"
+              }`}
+            ></div>
+            <div
+              className={`w-6 h-[3px] relative transition-all bg-primaryColor rounded-md ${
+                collapsed ? "rotate-0 top-0" : "-rotate-45 -top-[8px] "
+              }`}
+            ></div>
+          </button>
+          <Link
+            to="/"
+            style={{ fontFamily: "Kenao" }}
+            className="demo-logo font-[600] md:text-[2rem] text-[1.5rem]"
+          >
+            MeetWise
+          </Link>
+        </div>
         <Menu
           onSelect={(k) => console.log(k)}
           className="hidden md:flex .nav-menu"
@@ -101,9 +106,9 @@ const MainLayout = () => {
             minWidth: 0,
           }}
         />
-        <NavLink to="/login">
-          <ShadBtn className="mt-6 hover:border-slate-800 hover:border-2 hover:bg-transparent font-semibold hover:text-slate-800 bg-slate-800 rounded-none">
-            Login / Register
+        <NavLink to={user ? `/profile` : `/login`}>
+          <ShadBtn className="text-xs md:text-sm h-fit p-[8px] justify-self-end hover:border-slate-800 hover:border-2 hover:bg-transparent font-semibold hover:text-slate-800 bg-slate-800 rounded-none">
+            {user ? `${user.name}` : "Login / Register"}
           </ShadBtn>
         </NavLink>
       </Header>
@@ -126,7 +131,6 @@ const MainLayout = () => {
             paddingTop: "1rem",
           }}
         >
-          <div className="demo-logo-vertical" />
           <Menu
             onClick={() => setCollapsed(!collapsed)}
             theme="dark"
@@ -142,12 +146,12 @@ const MainLayout = () => {
         <Content>
           <Outlet></Outlet>
           <div className="fixed bottom-0 h-screen right-0">
-            {/* <Toaster
+            <Toaster
               richColors={true}
               duration={2000}
               visibleToasts={1}
               position={"bottom-right"}
-            ></Toaster> */}
+            ></Toaster>
           </div>
         </Content>
       </Layout>
@@ -172,7 +176,6 @@ const MainLayout = () => {
             </span>
           </div>
 
-
           <div className="grid md:grid-cols-3 text-left gap-6 grid-cols-1">
             {/* col-2 */}
             <div>
@@ -193,10 +196,12 @@ const MainLayout = () => {
             </div>
             <div>
               <h4 className="text-xl font-semibold mb-2">Follow Us</h4>
-              <div className="flex gap-4 text-xl"><FaFacebook></FaFacebook>
-              <FaInstagram></FaInstagram>
-              <FaYoutube></FaYoutube>
-              <FaTwitter></FaTwitter></div>
+              <div className="flex gap-4 text-xl">
+                <FaFacebook></FaFacebook>
+                <FaInstagram></FaInstagram>
+                <FaYoutube></FaYoutube>
+                <FaTwitter></FaTwitter>
+              </div>
             </div>
           </div>
         </div>

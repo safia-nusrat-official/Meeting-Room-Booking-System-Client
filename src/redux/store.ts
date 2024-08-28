@@ -4,11 +4,11 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PERSIST, PAUSE, PURGE, 
 import authReducer from "./features/authSlice"
 import storage from "redux-persist/lib/storage";
 
-const persistCongfig = {
+const persistConfig = {
   key: "auth",
   storage,
 };
-const persistAuthReducer = persistReducer(persistCongfig, authReducer);
+const persistAuthReducer = persistReducer(persistConfig, authReducer);
 
 export const store = configureStore({
   reducer: {

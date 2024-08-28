@@ -1,10 +1,26 @@
 import { TRoom } from "../../types/room.types";
 import { baseApi } from "./baseApi";
 
+type TQueryArgs = {
+  key: string;
+  value: string;
+};
+
 const roomApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAllAvailableRooms: build.query({
-      query: () => `/rooms`,
+      query: (args: TQueryArgs[]) => {
+        const params = new URLSearchParams();
+        if (args.length) {
+          args.forEach((arg) => params.append(`${arg.key}`, `${arg.value}`));
+        }
+
+        return {
+          url: `/rooms`,
+          method: "GET",
+          params,
+        };
+      },
       providesTags: ["rooms"],
     }),
     getSingleRoom: build.query({
@@ -38,9 +54,9 @@ const roomApi = baseApi.injectEndpoints({
 });
 
 export const {
-    useCreateRoomMutation, 
-    useDeleteRoomMutation, 
-    useUpdateRoomMutation,
-    useGetAllAvailableRoomsQuery,
-    useGetSingleRoomQuery
-} = roomApi
+  useCreateRoomMutation,
+  useDeleteRoomMutation,
+  useUpdateRoomMutation,
+  useGetAllAvailableRoomsQuery,
+  useGetSingleRoomQuery,
+} = roomApi;

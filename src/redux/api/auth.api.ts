@@ -1,5 +1,4 @@
-import { TLoginData } from "../../types/user.types";
-import { TUser } from "../features/authSlice";
+import { TLoginData, TUser } from "../../types/user.types";
 import { baseApi } from "./baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -8,7 +7,7 @@ const authApi = baseApi.injectEndpoints({
         query:(data:TLoginData)=>({
             url:`/auth/login`,
             method:"POST",
-            body:data
+            body:data,
         })
     }),
     signup:build.mutation({

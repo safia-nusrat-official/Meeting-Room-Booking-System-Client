@@ -6,17 +6,15 @@ import customerSupportAnimationData from "../../assets/animations/customerSuppor
 
 import LottieAnimation from "@/lib/LottieAnimation";
 import { GoCheckbox } from "react-icons/go";
-import CustomBtn from "@/components/shared/CustomBtn";
+import FormBtn from "@/components/shared/CustomBtn";
 import { Button } from "@/components/ui/button";
 
 const ServiceSection = () => {
   return (
     <section className="md:p-20 md:gap-8 overflow-hidden p-10 flex lg:flex-row md:flex-col flex-col justify-between">
-      <SectionHeading
-        mode="dark"
-        animateFrom="right"
-        showIn={["md", "sm"]}
-      >Our Services</SectionHeading>
+      <SectionHeading mode="dark" animateFrom="right" showIn={["md", "sm"]}>
+        Our Services
+      </SectionHeading>
       <div className="collage gap-4 md:gap-6 grid grid-cols-2 lg:grid-cols-2 md:grid-cols-4 font-bold">
         <div
           data-aos="zoom-out"
@@ -60,12 +58,10 @@ const ServiceSection = () => {
       </div>
 
       <div className="flex flex-col lg:flex-col w-full lg:w-1/2">
-        <SectionHeading
-          mode="dark"
-          animateFrom="left"
-          showIn={["lg"]}
-        >Our Services</SectionHeading>
-        <ul className="lg:flex flex md:grid md:grid-cols-2  md:mt-0 mt-6 lg:mt-0 flex-col gap-4">
+        <SectionHeading mode="dark" animateFrom="left" showIn={["lg"]}>
+          Our Services
+        </SectionHeading>
+        <ul className="md:mt-0 mt-6 lg:mt-0 flex-col flex  gap-4">
           <li
             data-aos-offset="100"
             data-aos="fade-left"
