@@ -11,7 +11,7 @@ const FormInput = ({
   required = true,
   validate,
 }: {
-  defaultValue?: string;
+  defaultValue?: string | number;
   placeholder?: string;
   label: string;
   name: string;

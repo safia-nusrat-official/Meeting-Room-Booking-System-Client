@@ -8,6 +8,7 @@ export const AmenitiesSelectOptions: SelectProps["options"] = [
   "Stage",
   "Microphone",
   "Air Conditioning",
+  "Large TV Screen",
   "Podium",
   "Projector",
   "Whiteboard",

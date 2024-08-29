@@ -84,7 +84,7 @@ const AdminLayout = () => {
         </Button>
       </Sider>
       <Layout>
-        <Content style={{height:"100vh", position:"relative", marginLeft:"250px"}}>
+        <Content style={{height:"100vh", position:"relative"}} className="md:ml-[250px] ml-0">
           <Outlet></Outlet>
           <div className="fixed bottom-0 h-screen right-0">
             <Toaster

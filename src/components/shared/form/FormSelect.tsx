@@ -6,11 +6,11 @@ const FormSelect = ({
   label,
   options,
   placeholder = `Select ${label}`,
-  defaultValue,
+  defaultValue=[],
   required = true,
   validate,
 }: {
-  defaultValue?: string;
+  defaultValue?: string[];
   placeholder?: string;
   label: string;
   name: string;
@@ -24,7 +24,6 @@ const FormSelect = ({
   return (
     <div className="">
       <Controller
-        defaultValue={defaultValue}
         name={name}
         rules={{
           required: required && `${label} is required`,
@@ -45,6 +44,7 @@ const FormSelect = ({
                 style={{ width: "100%",
                     borderColor:"#020817"
                  }}
+                 defaultValue={defaultValue||[]}
                 options={options}
               />
             </Form.Item>

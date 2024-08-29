@@ -10,8 +10,10 @@ import {
 const CustomForm = ({
   children,
   onSubmit,
+  resetForm=true,
   defaultValues
 }: {
+  resetForm?:boolean
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
   defaultValues?:any
@@ -20,7 +22,9 @@ const CustomForm = ({
 
   const submit:SubmitHandler<FieldValues> = (data) => {
     onSubmit(data)
-    methods.reset()
+    if(resetForm){
+      methods.reset()
+    }
   }
   return (
     <FormProvider {...methods}>

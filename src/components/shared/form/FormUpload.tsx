@@ -1,24 +1,45 @@
-import { Button, Form, Upload, UploadFile } from "antd";
-import { useState } from "react";
+import { Button, Form, Spin, Upload, UploadFile } from "antd";
+import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { PiUploadSimpleLight } from "react-icons/pi";
+
+export const imgBBApiKey = import.meta.env.VITE_IMGBBAPIKEY;
 
 const FormUpload = ({
   setImageUrl,
   name,
   label,
+  isSuccess,
+  isError,
+  imgUrl,
+  defaultFileList=[],
   required = true,
 }: {
   name: string;
   label: string;
+  imgUrl: string[];
+  isSuccess: boolean;
+  isError: boolean;
+  defaultFileList?:UploadFile<any>[];
   required?: boolean;
   setImageUrl: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
-  const imgBBApiKey = import.meta.env.VITE_IMGBBAPIKEY;
+  const [fileList, setFileList] = useState<UploadFile<any>[]>(defaultFileList);
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    (isSuccess || isError) && setFileList([]);
+
+    if(defaultFileList.length){
+      setImageUrl(defaultFileList.map(file=>file.url as string))
+    }
+    fileList && setImageUrl(fileList.map(file=>file.url as string))
+
+  }, [isSuccess, isError, fileList]);
 
   const handleUpload = async (options: any) => {
     const { file, onSuccess, onError } = options;
-
+    setLoading(true)
     const form = new FormData();
     form.append("image", file);
     try {
@@ -35,7 +56,15 @@ const FormUpload = ({
         console.log(result.data);
         const imageURl = result.data.url;
         onSuccess(result);
-        setImageUrl([imageURl]);
+        setLoading(false)
+        setFileList([
+          ...fileList,
+          {
+            name: result.data.title,
+            url: imageURl,
+            uid: result.data.id,
+          },
+        ]);
       } else {
         console.log(result, result?.error);
         onError(new Error(result?.error?.message || "Image Upload Failed"));
@@ -45,6 +74,11 @@ const FormUpload = ({
       onError(error as Error);
     }
   };
+
+  const onRemove = (file: UploadFile<any>) => {
+    setFileList(fileList.filter(prev=>prev.uid!==file.uid));
+  };
+
   return (
     <Controller
       rules={{
@@ -57,8 +91,23 @@ const FormUpload = ({
           help={error && `${error.message}`}
           validateStatus={error && "error"}
         >
-          <Upload showUploadList={false} {...field} customRequest={handleUpload}>
-            <Button type="primary" size="large" icon={<PiUploadSimpleLight />}>Click to Upload</Button>
+          <Upload
+            listType="picture-card"
+            showUploadList={true}
+            maxCount={3}
+            method="POST"
+            progress={{ strokeWidth: 2, showInfo: false }}
+            {...field}
+            customRequest={handleUpload}
+            fileList={fileList}
+            onRemove={onRemove}
+          >
+            {
+              loading?<Spin spinning></Spin>:<div className="flex flex-col text-xs items-center font-bold">
+              <PiUploadSimpleLight className="text-2xl font-bold" />
+              <p>Upload Image</p>
+            </div>
+            }
           </Upload>
         </Form.Item>
       )}

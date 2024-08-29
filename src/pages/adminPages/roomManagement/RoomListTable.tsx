@@ -9,20 +9,19 @@ import { TRoom } from "@/types/room.types";
 import { Table } from "antd";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
-import { IoAlertCircleOutline } from "react-icons/io5";
 import { PiTrashLight } from "react-icons/pi";
-import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import UpdateRoom from "./UpdateRoom";
 
 const RoomListTable = () => {
   const { data, isLoading, isFetching } = useGetAllAvailableRoomsQuery([]);
-  const [deleteRoom, { DeleteLoading }] = useDeleteRoomMutation();
+  const [deleteRoom] = useDeleteRoomMutation();
   const roomData: TRoom[] =
     !isLoading &&
     data?.data.map((room: TRoom) => ({ ...room, key: room._id as string }));
-  console.log(roomData);
 
+  
   const handleDelete = async (id: string) => {
     confirm({
       title: "Are you sure delete this room?",
@@ -38,7 +37,7 @@ const RoomListTable = () => {
           const res = (await deleteRoom(id)) as TReduxResponse<any>;
           if (res.data) {
             console.log(res.data);
-            toast.success("Room Created Successfully!");
+            toast.success("Room Deleted Successfully!");
           } else {
             console.log(res.error?.message || res.error?.data?.message);
             toast.success(res.error?.message || "Room Created Successfully!");
@@ -47,8 +46,7 @@ const RoomListTable = () => {
           console.log(error);
         }
       },
-      onCancel() {
-      },
+      onCancel() {},
     });
   };
 
@@ -82,14 +80,10 @@ const RoomListTable = () => {
     {
       title: "Actions",
       render: (item: TRoom) => {
-        console.log(item);
         return (
           <div className="flex gap-2">
             <Button variant="link">See Details</Button>
-            <Button variant={"outline"}>
-              Update
-              <SlPencil className="text-md ml-2"></SlPencil>
-            </Button>
+            <UpdateRoom id={item._id as string}></UpdateRoom>
             <Button
               onClick={() => handleDelete(item._id as string)}
               variant={"destructive"}
