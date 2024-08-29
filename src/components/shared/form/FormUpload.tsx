@@ -43,7 +43,7 @@ const FormUpload = ({
     form.append("image", file);
     try {
       const response = await fetch(
-        `https://api.imgbb.com/1/upload?&key=${imgBBApiKey}`,
+        `https://api.imgbb.com/1/upload?key=${imgBBApiKey}`,
         {
           method: "POST",
           body: form,

@@ -1,6 +1,7 @@
 import CustomForm from "@/components/shared/form/CustomForm";
 import FormInput from "@/components/shared/form/FormInput";
 import FormSelect from "@/components/shared/form/FormSelect";
+import FormTextArea from "@/components/shared/form/FormTextArea";
 import FormUpload from "@/components/shared/form/FormUpload";
 import { AmenitiesSelectOptions } from "@/const/rooms.const";
 import {
@@ -33,11 +34,6 @@ const UpdateRoom = ({ id }: { id: string }) => {
   };
 
   const handleUpdate: SubmitHandler<FieldValues> = async (updatedData: any) => {
-    console.log("new", imageUrls);
-    console.log("new", updatedData);
-    console.log("old", roomData);
-    // the added items are the ones who are not in the old array but is included in the new updated array
-
     const updatedAmenities = handleNonPrimitiveUpdates(
       roomData?.amenities,
       updatedData?.amenities as string[]
@@ -46,13 +42,14 @@ const UpdateRoom = ({ id }: { id: string }) => {
       roomData?.roomImages,
       imageUrls
     );
-    console.log("Updated amenities", updatedAmenities);
 
     const room: TRoom = {
       roomImages: updatedImages,
+      rating:Number(updatedData.rating || roomData?.rating),
       amenities: updatedAmenities || roomData?.amenities,
       capacity: Number(updatedData.capacity || roomData?.capacity),
       name: updatedData.name || roomData?.name,
+      description: updatedData.description || roomData?.description,
       floorNo: Number(updatedData.floorNo || roomData?.floorNo),
       roomNo: Number(updatedData.roomNo || roomData?.roomNo),
       pricePerSlot: Number(updatedData.pricePerSlot || roomData?.pricePerSlot),
@@ -116,6 +113,23 @@ const UpdateRoom = ({ id }: { id: string }) => {
                   name="roomNo"
                   required={false}
                   defaultValue={roomData?.roomNo}
+                ></FormInput>
+              </div>
+              <div className="md:col-span-2">
+                <FormTextArea
+                  label="Description"
+                  defaultValue={roomData?.description}
+                  name="descriptions"
+                  required={false}
+                ></FormTextArea>
+              </div>
+              <div className="md:col-span-1">
+                <FormInput
+                  type="number"
+                  label="Rating"
+                  name="rating"
+                  required={false}
+                  defaultValue={roomData?.rating}
                 ></FormInput>
               </div>
               <div className="md:col-span-1">

@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import UpdateRoom from "./UpdateRoom";
 import { useState } from "react";
+import RoomDetailsCard from "./RoomDetailsCard";
 
 const RoomListTable = () => {
   const [current, setCurrent] = useState(1);
@@ -91,9 +92,7 @@ const RoomListTable = () => {
       render: (item: TRoom) => {
         return (
           <div className="flex gap-2">
-            <Link to={`/rooms/${item._id as string}`}>
-              <Button variant="link">See Details</Button>
-            </Link>
+            <RoomDetailsCard id={item._id as string}></RoomDetailsCard>
             <UpdateRoom id={item._id as string}></UpdateRoom>
             <Button
               onClick={() => handleDelete(item._id as string)}

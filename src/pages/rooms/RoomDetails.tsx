@@ -1,5 +1,4 @@
 import "swiper/css/free-mode";
-import "../../style/room.styles.css";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,7 +20,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Navigation, FreeMode, Thumbs, Pagination } from "swiper/modules";
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Rate, Skeleton } from "antd";
 import Swiper from "swiper";
 import {
@@ -32,7 +31,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { IoKeyOutline } from "react-icons/io5";
+import { IoChevronBack, IoChevronForward, IoKeyOutline } from "react-icons/io5";
 import { LuArrowUpDown } from "react-icons/lu";
 import { IoIosPeople } from "react-icons/io";
 import { Button } from "@/components/ui/button";
@@ -46,24 +45,25 @@ export const roomFloorNumbersMap = {
 
 const RoomDetails = () => {
   const thumbsSwiper = useRef<Swiper | null>(null);
+  const prevRef = useRef<any | null>(null);
+  const nextRef = useRef<any | null>(null);
+
   const { id } = useParams();
-  const { data: suggestedRooms, sLoading } = useGetAllAvailableRoomsQuery([
-    { key: "limit", value: "2" },
-    { key: "page", value: `${Math.floor(Math.random() * 3)}` },
-  ]);
+  const { data: suggestedRooms, isLoading: sLoading } =
+    useGetAllAvailableRoomsQuery([
+      { key: "limit", value: "2" },
+      { key: "page", value: `${Math.floor(Math.random() * 3)}` },
+    ]);
 
   const { data, isLoading } = useGetSingleRoomQuery(id as string);
-  console.log(data, isLoading);
   const [room, setRoom] = useState<TRoom | null>(null);
 
   useEffect(() => {
     if (!isLoading && data) {
       setRoom(data?.data);
     }
-    console.log(room, data, isLoading);
   }, [isLoading, data]);
 
-  console.log(room);
   return (
     <section className="md:p-12 selection:bg-secondaryColor/45">
       <Breadcrumb className="md:m-0 mx-auto">
@@ -98,14 +98,31 @@ const RoomDetails = () => {
 
       <div className="grid gap-6 mt-6 md:grid-cols-2 grid-cols-1">
         <div className="relative img-container">
+          <div className="flex px-4 z-20 justify-between items-center absolute w-full h-1/2 top-0 left-0">
+            <button
+              className="bg-white rounded-full p-2 text-slate-500 text-xl"
+              ref={prevRef}
+            >
+              <IoChevronBack></IoChevronBack>
+            </button>
+            <button
+              className="bg-white rounded-full p-2 text-slate-500 text-xl"
+              ref={nextRef}
+            >
+              <IoChevronForward></IoChevronForward>
+            </button>
+          </div>
           <SwiperComponent
             loop={true}
             thumbs={{ swiper: thumbsSwiper.current }}
             spaceBetween={10}
             modules={[Navigation, Pagination, FreeMode, Thumbs]}
-            navigation={true}
+            navigation={{
+              prevEl: prevRef.current,
+              nextEl: nextRef.current,
+            }}
             pagination={true}
-            className="room-swiper"
+            className="room-swiper bg-white rounded-md overflow-hidden"
           >
             {room &&
               room?.roomImages?.length > 0 &&
@@ -137,7 +154,11 @@ const RoomDetails = () => {
               room?.roomImages?.length > 0 &&
               room?.roomImages.map((roomImage) => (
                 <SwiperSlide>
-                  <img src={roomImage} alt="" className="h-fit" />
+                  <img
+                    src={roomImage}
+                    alt=""
+                    className="h-fit hover:opacity-75 transition-all rounded-sm overflow-hidden"
+                  />
                 </SwiperSlide>
               ))}
             {isLoading &&
@@ -245,9 +266,7 @@ const RoomDetails = () => {
                   <RoomCard size="sm" room={room}></RoomCard>
                 ))}
               {sLoading &&
-                Array(2).map((item) => (
-                  <Skeleton active={true} avatar></Skeleton>
-                ))}
+                Array(2).map(() => <Skeleton active={true} avatar></Skeleton>)}
             </div>
           </div>
         </div>

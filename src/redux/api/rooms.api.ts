@@ -1,7 +1,7 @@
 import { TRoom } from "../../types/room.types";
 import { baseApi } from "./baseApi";
 
-type TQueryArgs = {
+export type TQueryArgs = {
   key: string;
   value: string;
 };

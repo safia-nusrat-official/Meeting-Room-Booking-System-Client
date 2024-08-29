@@ -1,6 +1,7 @@
 import CustomForm from "@/components/shared/form/CustomForm";
 import FormInput from "@/components/shared/form/FormInput";
 import FormSelect from "@/components/shared/form/FormSelect";
+import FormTextArea from "@/components/shared/form/FormTextArea";
 import FormUpload from "@/components/shared/form/FormUpload";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { AmenitiesSelectOptions } from "@/const/rooms.const";
@@ -16,15 +17,17 @@ import { toast } from "sonner";
 
 const CreateRoom = () => {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-  const [createRoom, { isLoading, isSuccess, isError }] = useCreateRoomMutation();
+  const [createRoom, { isLoading, isSuccess, isError }] =
+    useCreateRoomMutation();
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
-
     const room: TRoom = {
       roomImages: imageUrls,
       amenities: data.amenities,
       capacity: Number(data.capacity),
       name: data.name,
       floorNo: Number(data.floorNo),
+      description: data.description,
+      rating: Number(data.rating),
       roomNo: Number(data.roomNo),
       pricePerSlot: Number(data.pricePerSlot),
       isDeleted: false,
@@ -33,12 +36,16 @@ const CreateRoom = () => {
       const res = (await createRoom(room)) as TReduxResponse<any>;
       console.log(res);
       setImageUrls([]);
-      if(res.error){
-        console.log(res.error)
-        toast.error(res.error?.data.message||res.error?.message||"Failed to create room")
-      }else{
-        console.log(res.data)
-        toast.success(res.data?.message||"Successfully Created Room")
+      if (res.error) {
+        console.log(res.error);
+        toast.error(
+          res.error?.data.message ||
+            res.error?.message ||
+            "Failed to create room"
+        );
+      } else {
+        console.log(res.data);
+        toast.success(res.data?.message || "Successfully Created Room");
       }
     } catch (error) {
       console.log(error);
@@ -85,6 +92,23 @@ const CreateRoom = () => {
                 name="roomNo"
               ></FormInput>
             </div>
+            <div className="md:col-span-2">
+              <FormTextArea
+                label="Room Description"
+                name="description"
+              ></FormTextArea>
+            </div>
+            <div className="md:col-span-1 flex gap-2">
+              <FormUpload
+                required
+                name="roomImages"
+                label="Room Images"
+                isSuccess={isSuccess}
+                isError={isError}
+                imgUrl={imageUrls}
+                setImageUrl={setImageUrls}
+              ></FormUpload>
+            </div>
             <div className="md:col-span-1">
               <FormInput
                 type="number"
@@ -114,20 +138,16 @@ const CreateRoom = () => {
                 options={AmenitiesSelectOptions}
               ></FormSelect>
             </div>
-            <div className="md:col-span-1 flex gap-2">
-              <FormUpload
-                required
-                name="roomImages"
-                label="Room Images"
-                isSuccess={isSuccess}
-                isError={isError}
-                imgUrl={imageUrls}
-                setImageUrl={setImageUrls}
-              ></FormUpload>
-              {/* <ImgUploader></ImgUploader> */}
+            <div className="md:col-span-1">
+              <FormInput type="number" label="Rating" name="rating"></FormInput>
             </div>
           </div>
-          <Button loading={isLoading} type="primary" htmlType="submit" className="mt-8">
+          <Button
+            loading={isLoading}
+            type="primary"
+            htmlType="submit"
+            className="mt-8"
+          >
             Create Room
           </Button>
         </ConfigProvider>
