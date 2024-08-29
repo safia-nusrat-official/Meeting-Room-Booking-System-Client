@@ -24,7 +24,10 @@ const roomApi = baseApi.injectEndpoints({
       providesTags: ["rooms"],
     }),
     getSingleRoom: build.query({
-      query: (id: string) => `/rooms/${id}`,
+      query: (id: string) => ({
+        url: `/rooms/${id}`,
+        method: "GET",
+      }),
       providesTags: ["room"],
     }),
     createRoom: build.mutation({
@@ -41,7 +44,7 @@ const roomApi = baseApi.injectEndpoints({
         method: "PUT",
         body: data.room,
       }),
-      invalidatesTags: ["rooms", "room"],
+      invalidatesTags: ["room", "rooms"],
     }),
     deleteRoom: build.mutation({
       query: (id: string) => ({

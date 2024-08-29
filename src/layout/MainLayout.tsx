@@ -9,7 +9,13 @@ import {
 import { Button as ShadBtn } from "@/components/ui/button";
 import { Layout, Button, Divider, Menu } from "antd";
 import "../style/customNav.css";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getUser, logout } from "../redux/features/authSlice";
 import { Footer } from "antd/es/layout/layout";
@@ -24,11 +30,12 @@ const { Content, Header } = Layout;
 
 const MainLayout = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const user = useAppSelector(getUser);
   const handleLogout = () => {
-    setTimeout(() => dispatch(logout()), 600);
+    dispatch(logout());
+    navigate("/login");
   };
-  console.log(user);
 
   const location = useLocation();
   const sideBarItems = [
@@ -38,7 +45,7 @@ const MainLayout = () => {
     },
     {
       key: "meeting-rooms",
-      label: <NavLink to={`/meeting-rooms`}>Meeting Rooms</NavLink>,
+      label: <NavLink to={`/rooms`}>Meeting Rooms</NavLink>,
     },
     {
       key: "about-us",
@@ -149,7 +156,8 @@ const MainLayout = () => {
                     to="/admin/dashboard"
                     className="flex gap-2 justify-between items-center"
                   >
-                    Dashboard<PiPresentationChartLight className="text-xl"></PiPresentationChartLight>
+                    Dashboard
+                    <PiPresentationChartLight className="text-xl"></PiPresentationChartLight>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>

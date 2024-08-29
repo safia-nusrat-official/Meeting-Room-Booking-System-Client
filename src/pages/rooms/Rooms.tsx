@@ -11,6 +11,10 @@ const Rooms = () => {
   return (
     <div className="md:p-12 p-8 ">
       <SearchBar></SearchBar>
+
+      {
+        
+      }
     </div>
   )
 }

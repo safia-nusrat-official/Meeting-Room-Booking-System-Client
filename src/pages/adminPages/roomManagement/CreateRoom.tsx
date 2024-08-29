@@ -38,7 +38,7 @@ const CreateRoom = () => {
         toast.error(res.error?.data.message||res.error?.message||"Failed to create room")
       }else{
         console.log(res.data)
-        toast.error(res.data?.message||"Successfully Created Room")
+        toast.success(res.data?.message||"Successfully Created Room")
       }
     } catch (error) {
       console.log(error);
@@ -53,7 +53,7 @@ const CreateRoom = () => {
         </Link>
         <SectionHeading mode="dark">Create a Room</SectionHeading>
       </div>
-      <CustomForm onSubmit={handleSubmit}>
+      <CustomForm resetForm={isSuccess} onSubmit={handleSubmit}>
         <ConfigProvider
           theme={{
             token: {

@@ -10,7 +10,7 @@ import {
 import { TReduxResponse } from "@/types";
 import { TRoom } from "@/types/room.types";
 import { handleNonPrimitiveUpdates } from "@/utility/roomUtils/updateRooms.utils";
-import { Button, ConfigProvider, Modal } from "antd";
+import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { SlPencil } from "react-icons/sl";
@@ -18,8 +18,8 @@ import { toast } from "sonner";
 
 const UpdateRoom = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
-  const { data, isLoading } = useGetSingleRoomQuery(id, {
-    skip: !open,
+  const { data, isLoading, refetch } = useGetSingleRoomQuery(id, {
+    skip: !open
   });
   const roomData: TRoom = (!isLoading && data?.data) || null;
 
@@ -40,7 +40,7 @@ const UpdateRoom = ({ id }: { id: string }) => {
 
     const updatedAmenities = handleNonPrimitiveUpdates(
       roomData?.amenities,
-      updatedData.amenities as string[]
+      updatedData?.amenities as string[]
     );
     const updatedImages = handleNonPrimitiveUpdates(
       roomData?.roomImages,
@@ -67,6 +67,7 @@ const UpdateRoom = ({ id }: { id: string }) => {
         toast.error(res.error?.message || res.error?.data.message);
       } else {
         console.log(res.data);
+        refetch()
         toast.success("Room Data Updated Successfully");
         setOpen(false);
       }
@@ -99,27 +100,7 @@ const UpdateRoom = ({ id }: { id: string }) => {
         confirmLoading={UpdateLoading}
       >
         <CustomForm resetForm={false} onSubmit={handleUpdate}>
-          <ConfigProvider
-            theme={{
-              token: {
-                controlOutline: "transparent",
-                borderRadius: 0,
-                colorPrimaryBorderHover: "#020817",
-              },
-            }}
-            input={{
-              style: {
-                color: "#020817",
-              },
-            }}
-            button={{
-              style: {
-                color: "#fff",
-                backgroundColor: "#020817",
-              },
-            }}
-          >
-            <div className="grid grid-cols-3 md:gap-2">
+        <div className="grid grid-cols-3 md:gap-2">
               <div className="md:col-span-2">
                 <FormInput
                   label="Room Name"
@@ -195,7 +176,6 @@ const UpdateRoom = ({ id }: { id: string }) => {
             >
               Update Room
             </Button>
-          </ConfigProvider>
         </CustomForm>
       </Modal>
     </>

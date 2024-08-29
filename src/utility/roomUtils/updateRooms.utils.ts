@@ -2,20 +2,26 @@ export const handleNonPrimitiveUpdates = (
   oldItems: string[],
   newItems: string[]
 ) => {
-  const addedItems = newItems.filter(
+  console.log("args received New:", newItems, "Old:", oldItems)
+
+  const addedItems = newItems ? newItems.filter(
     (item: string) => !oldItems?.includes(item)
-  );
+  ) : [];
+  console.log(addedItems)
 
   // filter those items which are not in the updated list, meaning they were removed
   // after filtering map over to add '-' infront of the removed items
-  const removedItems = newItems.length
+  console.log("inside function before remove")
+  const removedItems = (newItems && newItems.length)
     ? oldItems
         .filter((item) => !newItems.includes(item))
         .map((item) => `-${item}`)
     : [];
+    console.log("inside function after remove")
+    console.log("removed items", removedItems)
 
   // the items which were in both the old and new array are the unchanged ones
-  const unchangedItems = newItems.filter((item: string) =>
+  const unchangedItems = newItems && newItems.filter((item: string) =>
     oldItems?.includes(item)
   );
 

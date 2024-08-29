@@ -12,7 +12,7 @@ const FormUpload = ({
   isSuccess,
   isError,
   imgUrl,
-  defaultFileList=[],
+  defaultFileList = [],
   required = true,
 }: {
   name: string;
@@ -20,31 +20,30 @@ const FormUpload = ({
   imgUrl: string[];
   isSuccess: boolean;
   isError: boolean;
-  defaultFileList?:UploadFile<any>[];
+  defaultFileList?: UploadFile<any>[];
   required?: boolean;
   setImageUrl: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   const [fileList, setFileList] = useState<UploadFile<any>[]>(defaultFileList);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (isSuccess || isError) && setFileList([]);
 
-    if(defaultFileList.length){
-      setImageUrl(defaultFileList.map(file=>file.url as string))
+    if (defaultFileList.length) {
+      setImageUrl(defaultFileList.map((file) => file.url as string));
     }
-    fileList && setImageUrl(fileList.map(file=>file.url as string))
-
+    fileList && setImageUrl(fileList.map((file) => file.url as string));
   }, [isSuccess, isError, fileList]);
 
   const handleUpload = async (options: any) => {
     const { file, onSuccess, onError } = options;
-    setLoading(true)
+    setLoading(true);
     const form = new FormData();
     form.append("image", file);
     try {
       const response = await fetch(
-        `https://api.imgbb.com/1/upload?expiration=2000&key=${imgBBApiKey}`,
+        `https://api.imgbb.com/1/upload?&key=${imgBBApiKey}`,
         {
           method: "POST",
           body: form,
@@ -56,7 +55,7 @@ const FormUpload = ({
         console.log(result.data);
         const imageURl = result.data.url;
         onSuccess(result);
-        setLoading(false)
+        setLoading(false);
         setFileList([
           ...fileList,
           {
@@ -76,7 +75,7 @@ const FormUpload = ({
   };
 
   const onRemove = (file: UploadFile<any>) => {
-    setFileList(fileList.filter(prev=>prev.uid!==file.uid));
+    setFileList(fileList.filter((prev) => prev.uid !== file.uid));
   };
 
   return (
@@ -95,19 +94,23 @@ const FormUpload = ({
             listType="picture-card"
             showUploadList={true}
             maxCount={3}
-            method="POST"
-            progress={{ strokeWidth: 2, showInfo: false }}
             {...field}
             customRequest={handleUpload}
             fileList={fileList}
             onRemove={onRemove}
           >
-            {
-              loading?<Spin spinning></Spin>:<div className="flex flex-col text-xs items-center font-bold">
-              <PiUploadSimpleLight className="text-2xl font-bold" />
-              <p>Upload Image</p>
-            </div>
-            }
+            {loading ? (
+              <Spin spinning></Spin>
+            ) : (
+              <div className="flex flex-col text-xs items-center font-bold">
+                <PiUploadSimpleLight className="text-2xl font-bold" />
+                <p>
+                  {fileList.length > 4
+                    ? "Max Upload Limit 4"
+                    : "Upload Image"}
+                </p>
+              </div>
+            )}
           </Upload>
         </Form.Item>
       )}

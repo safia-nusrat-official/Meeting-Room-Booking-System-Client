@@ -11,6 +11,7 @@ import ContactUs from "../pages/contactUs/ContactUs";
 import AdminLayout from "@/layout/AdminLayout";
 import ProtectedRoute from "@/pages/ProtectedRoute";
 import MyBookings from "@/pages/userPages/bookings/MyBookings";
+import RoomDetails from "@/pages/rooms/RoomDetails";
 
 export const router = createBrowserRouter([
   {
@@ -30,8 +31,12 @@ export const router = createBrowserRouter([
         element: <ContactUs></ContactUs>,
       },
       {
-        path: "/meeting-rooms",
+        path: "/rooms",
         element: <Rooms></Rooms>,
+      },
+      {
+        path: "/rooms/:id",
+        element: <RoomDetails></RoomDetails>,
       },
       {
         path: "/login",

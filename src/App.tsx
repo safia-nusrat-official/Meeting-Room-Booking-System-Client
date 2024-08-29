@@ -11,21 +11,18 @@ function App() {
           controlHeight: 36,
           fontFamily: "Inter",
           controlOutline: "#fff",
-          colorIcon: "#020817",
         },
-      
+
         components: {
           Button: {
             colorPrimaryBg: "#020817",
             colorText: "#fff",
             fontWeight: 600,
           },
-          Form: {
-            fontSizeSM: 12,
-          },
         },
       }}
-    ><MainLayout></MainLayout>
+    >
+      <MainLayout></MainLayout>
     </ConfigProvider>
   );
 }
