@@ -51,7 +51,7 @@ const RoomDetails = () => {
   const { id } = useParams();
   const { data: suggestedRooms, isLoading: sLoading } =
     useGetAllAvailableRoomsQuery([
-      { key: "limit", value: "2" },
+      { key: "limit", value: "4" },
       { key: "page", value: `${Math.floor(Math.random() * 3)}` },
     ]);
 
@@ -136,7 +136,17 @@ const RoomDetails = () => {
                 .fill("img")
                 .map(() => (
                   <SwiperSlide>
-                    <div className="">Hi</div>
+                    <div className="">
+                      <Skeleton.Avatar
+                        active={true}
+                        size={"large"}
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                        }}
+                        shape={"square"}
+                      />
+                    </div>
                   </SwiperSlide>
                 ))}
           </SwiperComponent>
@@ -182,92 +192,97 @@ const RoomDetails = () => {
           </SwiperComponent>
         </div>
 
-        <div className="flex flex-col gap-6">
-          <Card className="shadow-none h-fit font-Inter rounded-sm">
-            {room && (
-              <>
-                <CardHeader>
-                  <CardTitle>
-                    <h1 className="font-bold text-4xl text-slate-800">
-                      {room.name}
-                    </h1>
-                    <div className="flex items-center gap-2">
-                      <Rate
-                        allowHalf
-                        defaultValue={room.rating}
-                        disabled
-                        className="mt-2  mb-4"
-                      ></Rate>
-                      <span className="text-slate-400">({room.rating})</span>
-                    </div>
-                  </CardTitle>
-                  <CardDescription className="text-slate-600 mt-2">
-                    {room.description}
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent>
-                  <div className="flex justify-between font-medium mb-4 text-slate-800 gap-2">
-                    <p className="flex gap-2 items-center ">
-                      <IoKeyOutline className="text-xl"></IoKeyOutline> Room No.{" "}
-                      {room.roomNo}
-                    </p>
-                    <p className="flex gap-2 items-center">
-                      <LuArrowUpDown className="text-xl"></LuArrowUpDown>
-                      <span>
-                        {room.floorNo}
-                        <sup className="mr-2">
-                          {room.floorNo < 4
-                            ? roomFloorNumbersMap[
-                                room.floorNo as keyof typeof roomFloorNumbersMap
-                              ]
-                            : "th"}
-                        </sup>
-                        Floor
-                      </span>
-                    </p>
-                    <p className="flex gap-2 items-center">
-                      <IoIosPeople className="text-2xl"></IoIosPeople>
-                      Total Capacity {room.capacity}
-                    </p>
-                  </div>
-                  <h1 className="font-bold text-2xl text-slate-800">
-                    $ {room.pricePerSlot}
-                    <span className="text-slate-600 text-lg ml-2">
-                      per slot
-                    </span>
+        <Card className="shadow-none font-Inter rounded-sm">
+          {room && (
+            <>
+              <CardHeader>
+                <CardTitle>
+                  <h1 className="font-bold text-4xl text-slate-800">
+                    {room.name}
                   </h1>
-                </CardContent>
-                <CardFooter>
-                  <Link
-                    className="mt-6 w-full"
-                    to={`/create-booking/${room._id}`}
-                  >
-                    <Button className="rounded-sm w-full">Book Now</Button>
-                  </Link>
-                </CardFooter>
-              </>
-            )}
+                  <div className="flex items-center gap-2">
+                    <Rate
+                      allowHalf
+                      defaultValue={room.rating}
+                      disabled
+                      className="mt-2  mb-4"
+                    ></Rate>
+                    <span className="text-slate-400">({room.rating})</span>
+                  </div>
+                </CardTitle>
+                <CardDescription className="text-slate-600 mt-2">
+                  {room.description}
+                </CardDescription>
+              </CardHeader>
 
-            {isLoading && (
-              <CardContent className="p-6">
-                <Skeleton paragraph round></Skeleton>
+              <CardContent>
+                <div className="flex justify-between font-medium mb-4 text-slate-800 gap-2">
+                  <p className="flex gap-2 items-center ">
+                    <IoKeyOutline className="text-xl"></IoKeyOutline> Room No.
+                    {room.roomNo}
+                  </p>
+                  <p className="flex gap-2 items-center">
+                    <LuArrowUpDown className="text-xl"></LuArrowUpDown>
+                    <span>
+                      {room.floorNo}
+                      <sup className="mr-2">
+                        {room.floorNo < 4
+                          ? roomFloorNumbersMap[
+                              room.floorNo as keyof typeof roomFloorNumbersMap
+                            ]
+                          : "th"}
+                      </sup>
+                      Floor
+                    </span>
+                  </p>
+                  <p className="flex gap-2 items-center">
+                    <IoIosPeople className="text-2xl"></IoIosPeople>
+                    Total Capacity {room.capacity}
+                  </p>
+                </div>
+                <h1 className="font-bold text-2xl text-slate-800">
+                  $ {room.pricePerSlot}
+                  <span className="text-slate-600 text-lg ml-2">per slot</span>
+                </h1>
               </CardContent>
-            )}
-          </Card>
+              <CardFooter>
+                <Link
+                  className="mt-6 w-full"
+                  to={`/create-booking/${room._id}`}
+                >
+                  <Button className="rounded-sm w-full">Book Now</Button>
+                </Link>
+              </CardFooter>
+            </>
+          )}
 
-          <div className="">
-            <h1 className="font-bold text-2xl text-slate-800">
-              You May Also Like
-            </h1>
-            <div className="flex gap-6 mt-4">
-              {suggestedRooms &&
-                suggestedRooms.data.map((room: TRoom) => (
-                  <RoomCard size="sm" room={room}></RoomCard>
-                ))}
-              {sLoading &&
-                Array(2).map(() => <Skeleton active={true} avatar></Skeleton>)}
-            </div>
+          {isLoading && (
+            <CardContent className="p-6">
+              <Skeleton paragraph round></Skeleton>
+            </CardContent>
+          )}
+        </Card>
+      </div>
+
+      <div className="you-may-also-like-section my-8 md:mt-12 md:mx-0 mx-4">
+        <h1 className="font-bold text-2xl text-slate-800">You May Also Like</h1>
+        <div className="grid md:grid-cols-4 grid-cols-1 relative gap-6 mt-4">
+          {suggestedRooms &&
+            suggestedRooms.data.map((room: TRoom) => (
+              <RoomCard size="sm" room={room}></RoomCard>
+            ))}
+          {sLoading &&
+            Array(2).map(() => <Skeleton active={true} avatar></Skeleton>)}
+
+          <div className="absolute w-full md:w-2/5 bottom-0 right-0 h-1/3 md:h-full md:bg-gradient-to-l bg-gradient-to-t md:pr-2 md:pb-2 from-[#efefef] md:justify-end justify-center to-transparent flex items-end">
+            <Link to="/rooms">
+              <Button
+                variant={"link"}
+                className="font-semibold  text-primaryColor rounded-sm"
+              >
+                See More <IoChevronForward></IoChevronForward>
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

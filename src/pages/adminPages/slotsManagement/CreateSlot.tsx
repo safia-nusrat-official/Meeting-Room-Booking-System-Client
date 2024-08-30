@@ -107,12 +107,13 @@ const CreateSlot = () => {
             </div>
             <div className="md:col-span-1">
               <FormTimePicker
+              clock="12hr"
                 label="Start Time"
                 name="startTime"
               ></FormTimePicker>
             </div>
             <div className="md:col-span-1">
-              <FormTimePicker label="End Time" name="endTime"></FormTimePicker>
+              <FormTimePicker clock="12hr" label="End Time" name="endTime"></FormTimePicker>
             </div>
           </div>
           <Button

@@ -5,6 +5,7 @@ export interface TUser {
   phone: string;
   address: string;
   role: "admin" | "user";
+  _id?:string // mongoDB ID
 }
 export interface TLoginData {
   email: string;

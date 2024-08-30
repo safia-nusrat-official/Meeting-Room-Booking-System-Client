@@ -34,6 +34,8 @@ const UpdateRoom = ({ id }: { id: string }) => {
   };
 
   const handleUpdate: SubmitHandler<FieldValues> = async (updatedData: any) => {
+    console.log(updatedData)
+
     const updatedAmenities = handleNonPrimitiveUpdates(
       roomData?.amenities,
       updatedData?.amenities as string[]
@@ -62,11 +64,11 @@ const UpdateRoom = ({ id }: { id: string }) => {
       if (res.error) {
         console.log(res.error?.message);
         toast.error(res.error?.message || res.error?.data.message);
-      } else {
+      } else if (res?.data?.sucess) {
         console.log(res.data);
+        setOpen(false);
         refetch();
         toast.success("Room Data Updated Successfully");
-        setOpen(false);
       }
     } catch (error) {
       console.log(error);
@@ -119,7 +121,7 @@ const UpdateRoom = ({ id }: { id: string }) => {
               <FormTextArea
                 label="Description"
                 defaultValue={roomData?.description}
-                name="descriptions"
+                name="description"
                 required={false}
               ></FormTextArea>
             </div>

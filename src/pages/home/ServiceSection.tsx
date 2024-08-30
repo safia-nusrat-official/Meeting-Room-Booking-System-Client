@@ -6,7 +6,6 @@ import customerSupportAnimationData from "../../assets/animations/customerSuppor
 
 import LottieAnimation from "@/lib/LottieAnimation";
 import { GoCheckbox } from "react-icons/go";
-import FormBtn from "@/components/shared/CustomBtn";
 import { Button } from "@/components/ui/button";
 
 const ServiceSection = () => {
@@ -20,18 +19,36 @@ const ServiceSection = () => {
           data-aos="zoom-out"
           className="p-6 flex flex-col items-center text-center justify-center col-span-1 row-span-1 aspect-square  bg-slate-200 text-primaryColor"
         >
-          <LottieAnimation
-            animationData={calendarAnimationData}
-          ></LottieAnimation>
+          <div className="md:hidden">
+            <LottieAnimation
+              width={75}
+              height={75}
+              animationData={calendarAnimationData}
+            ></LottieAnimation>
+          </div>
+          <div className="hidden md:block">
+            <LottieAnimation
+              animationData={calendarAnimationData}
+            ></LottieAnimation>
+          </div>
           <span className="md:text-sm text-xs">Real-Time Availability</span>
         </div>
         <div
           data-aos="zoom-out"
           className="p-4 flex flex-col items-center text-center justify-center  bg-slate-200 text-primaryColor"
         >
-          <LottieAnimation
-            animationData={bookingAnimationData}
-          ></LottieAnimation>
+          <div className="md:hidden">
+            <LottieAnimation
+              width={75}
+              height={75}
+              animationData={bookingAnimationData}
+            ></LottieAnimation>
+          </div>
+          <div className="hidden md:block">
+            <LottieAnimation
+              animationData={bookingAnimationData}
+            ></LottieAnimation>
+          </div>
 
           <span className="md:text-sm text-xs">
             Instant Booking Confirmation
@@ -41,18 +58,36 @@ const ServiceSection = () => {
           data-aos="zoom-out"
           className="p-4 col-span-1 row-span-1 flex flex-col items-center text-center justify-center aspect-square  bg-slate-200 text-primaryColor"
         >
-          <LottieAnimation
-            animationData={bookingAvailableAnimationData}
-          ></LottieAnimation>
+          <div className="md:hidden">
+            <LottieAnimation
+              width={75}
+              height={75}
+              animationData={bookingAvailableAnimationData}
+            ></LottieAnimation>
+          </div>
+          <div className="hidden md:block">
+            <LottieAnimation
+              animationData={bookingAvailableAnimationData}
+            ></LottieAnimation>
+          </div>
           <span className="md:text-sm text-xs">Flexible Scheduling:</span>
         </div>
         <div
           data-aos="zoom-out"
           className="p-4 flex flex-col items-center text-center justify-center aspect-square bg-slate-200 text-primaryColor"
         >
-          <LottieAnimation
-            animationData={customerSupportAnimationData}
-          ></LottieAnimation>
+          <div className="md:hidden">
+            <LottieAnimation
+              width={75}
+              height={75}
+              animationData={customerSupportAnimationData}
+            ></LottieAnimation>
+          </div>
+          <div className="hidden md:block">
+            <LottieAnimation
+              animationData={customerSupportAnimationData}
+            ></LottieAnimation>
+          </div>
           <span className="md:text-sm text-xs">24/7 Support System</span>
         </div>
       </div>

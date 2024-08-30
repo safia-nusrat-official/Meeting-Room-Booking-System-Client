@@ -6,7 +6,7 @@ import dashboard from "../../assets/icons/dashboard.png";
 
 const WhyChoose = () => {
   return (
-    <section className="selection:bg-secondaryColor md:px-20 md:py-12 p-8 overflow-hidden">
+    <section className="selection:bg-secondaryColor bg-white md:px-20 md:py-12 p-8 overflow-hidden">
       <SectionHeading animateFrom="left" mode="dark" center>
         Why Choose Us
       </SectionHeading>

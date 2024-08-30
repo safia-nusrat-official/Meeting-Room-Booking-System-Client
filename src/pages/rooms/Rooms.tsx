@@ -65,97 +65,96 @@ const Rooms = () => {
     <div className="md:p-12 relative bg-white p-8 md:grid-cols-4 gap-6 grid">
       <div className="flex relative md:sticky h-screen left-0 top-[8rem] flex-col md:col-span-1 col-span-4 ">
         <SearchBar setSearchTerm={setSearchTerm}></SearchBar>
-<ConfigProvider theme={{
-  components:{
-    Slider:{
-      railBg:"#ccc"
-    },
-    Tooltip:{
+        <ConfigProvider
+          theme={{
+            components: {
+              Slider: {
+                railBg: "#ccc",
+              },
+              Tooltip: {},
+            },
+          }}
+        >
+          <div className="my-4 text-slate-400 ">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl text-slate-800 font-semibold">
+                Filter By Price
+              </h3>
+              <IoCloseCircle
+                className="text-xl hover:scale-125 transition-all"
+                onClick={() => {
+                  setPriceRanges({ min: 20, max: 700 });
+                  setFilters([
+                    ...filters
+                      .filter((item) => item.key !== "minPrice")
+                      .filter((item) => item.key !== "maxPrice"),
+                  ]);
+                }}
+              ></IoCloseCircle>
+            </div>
+            <p className="mb-2">Drag the slider to change price ranges</p>
+            <div className="flex items-center gap-2">
+              <p className="whitespace-nowrap">$ {20}</p>
+              <Slider
+                defaultValue={[priceRanges.min, priceRanges.max]}
+                min={20}
+                max={700}
+                step={50}
+                range
+                style={{ width: "100%" }}
+                tooltip={{
+                  defaultOpen: allowFilters,
+                  placement: "bottom",
+                  formatter: (value) => `$ ${value}`,
+                }}
+                onChange={(values: any) => {
+                  setPriceRanges({ min: values[0], max: values[1] });
+                  setFilters([
+                    ...filters
+                      .filter((item) => item.key !== "priceMax")
+                      .filter((item) => item.key !== "priceMin"),
+                    { key: "priceMin", value: `${values[0]}` },
+                    { key: "priceMax", value: `${values[1]}` },
+                  ]);
+                }}
+              />
+              <p className="whitespace-nowrap">$ {700}</p>
+            </div>
+          </div>
 
-    }
-  }
-}}>
-
-<div className="my-4 text-slate-400 ">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl text-slate-800 font-semibold">
-              Filter By Price
-            </h3>
-            <IoCloseCircle
-              className="text-xl hover:scale-125 transition-all"
-              onClick={() => {
-                setPriceRanges({ min: 20, max: 700 });
-                setFilters([
-                  ...filters
-                    .filter((item) => item.key !== "minPrice")
-                    .filter((item) => item.key !== "maxPrice"),
-                ]);
-              }}
-            ></IoCloseCircle>
+          <div className="my-6 text-slate-400 ">
+            <div className="flex justify-between">
+              <h3 className="text-xl text-slate-800 font-semibold">
+                Filter By Capacity
+              </h3>
+            </div>
+            <p className="mb-2">Drag the slider to change capacity ranges</p>
+            <div className="flex items-center gap-2">
+              <GoPeople className="text-xl text-slate-800"></GoPeople>
+              <Slider
+                defaultValue={[15, 300]}
+                range
+                min={5}
+                max={500}
+                step={3}
+                style={{ width: "100%" }}
+                tooltip={{
+                  defaultOpen: true,
+                  placement: "bottom",
+                }}
+                onChange={(values: any) =>
+                  setFilters([
+                    ...filters
+                      .filter((item) => item.key !== "minCapacity")
+                      .filter((item) => item.key !== "maxCapacity"),
+                    { key: "minCapacity", value: `${values[0]}` },
+                    { key: "maxCapacity", value: `${values[1]}` },
+                  ])
+                }
+              />
+            </div>
           </div>
-          <p className="mb-2">Drag the slider to change price ranges</p>
-          <div className="flex items-center gap-2">
-            <p className="whitespace-nowrap">$ {20}</p>
-            <Slider
-              defaultValue={[priceRanges.min, priceRanges.max]}
-              min={20}
-              max={700}
-              step={50}
-              range
-              style={{ width: "100%" }}
-              tooltip={{
-                defaultOpen: allowFilters,
-                placement: "bottom",
-                formatter: (value) => `$ ${value}`,
-              }}
-              onChange={(values: any) => {
-                setPriceRanges({ min: values[0], max: values[1] });
-                setFilters([
-                  ...filters
-                    .filter((item) => item.key !== "priceMax")
-                    .filter((item) => item.key !== "priceMin"),
-                  { key: "priceMin", value: `${values[0]}` },
-                  { key: "priceMax", value: `${values[1]}` },
-                ]);
-              }}
-            />
-            <p className="whitespace-nowrap">$ {700}</p>
-          </div>
-        </div>
-
-        <div className="my-6 text-slate-400 ">
-          <div className="flex justify-between">
-            <h3 className="text-xl text-slate-800 font-semibold">
-              Filter By Capacity
-            </h3>
-          </div>
-          <p className="mb-2">Drag the slider to change capacity ranges</p>
-          <div className="flex items-center gap-2">
-            <GoPeople className="text-xl text-slate-800"></GoPeople>
-            <Slider
-              defaultValue={[15, 300]}
-              range
-              min={5}
-              max={500}
-              step={3}
-              style={{ width: "100%" }}
-              tooltip={{
-                defaultOpen: true,
-                placement: "bottom",
-              }}
-              onChange={(values: any) =>
-                setFilters([
-                  ...filters
-                    .filter((item) => item.key !== "minCapacity")
-                    .filter((item) => item.key !== "maxCapacity"),
-                  { key: "minCapacity", value: `${values[0]}` },
-                  { key: "maxCapacity", value: `${values[1]}` },
-                ])
-              }
-            />
-          </div>
-        </div>
-</ConfigProvider>
+        </ConfigProvider>
 
         <Button
           type="primary"
@@ -175,7 +174,8 @@ const Rooms = () => {
             <Skeleton.Node active></Skeleton.Node>
           ) : (
             <p>
-              Showing {meta.totalDocuments > 1 && "all"} {meta.totalDocuments} result
+              Showing {meta.totalDocuments > 1 && "all"} {meta.totalDocuments}{" "}
+              result
               {meta.totalDocuments > 1 && "s"}
             </p>
           )}

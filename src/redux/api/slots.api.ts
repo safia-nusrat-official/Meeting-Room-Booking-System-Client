@@ -38,13 +38,31 @@ const SlotApi = baseApi.injectEndpoints({
       query: ({
         id,
         isBooked,
+        args,
       }: {
         id: string;
+        args?: TQueryArgs[];
         isBooked?: string | boolean;
       }) => {
+        const params = new URLSearchParams();
+
+        params.append("room", id);
+        isBooked && params.append("isBooked", `${isBooked}`);
+        
+        if(args && args.filter(item=>item.key==="date").length && !(args.filter(item=>item.key==="date")[0].value)){
+          args = args.filter(item=>item.key!=="date")
+        }
+
+        if (args && args.length) {
+          args.forEach((arg) => {
+            params.append(`${arg.key}`, `${arg.value}`);
+          });
+        }
+        
         return {
-          url: `/slots/availability?room=${id}&isBooked=${isBooked || ""}`,
+          url: `/slots/availability`,
           method: "GET",
+          params,
         };
       },
       providesTags: ["slot"],
@@ -90,5 +108,5 @@ export const {
   useGetAllAvailableSlotsQuery,
   useGetAllSlotsQuery,
   useGetSlotsOfARoomQuery,
-  useGetSingleSlotQuery
+  useGetSingleSlotQuery,
 } = SlotApi;

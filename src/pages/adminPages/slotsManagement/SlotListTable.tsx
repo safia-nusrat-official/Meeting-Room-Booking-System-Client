@@ -27,14 +27,14 @@ import UpdateSlot from "./UpdateSlot";
 const SlotListTable = () => {
   const [current, setCurrent] = useState(1);
   const { data, isLoading, isFetching } = useGetAllSlotsQuery([
-    { key: "limit", value: "10" },
+    { key: "limit", value: "7" },
     { key: "page", value: `${current}` },
   ]);
   const [deleteSlot] = useDeleteSlotMutation();
   const slotData: TSlot[] =
     data && data?.data.map((slot: TSlot) => ({ ...slot }));
 
-  const meta: TMeta = !isLoading && data?.meta;
+  const meta: TMeta = data && data?.meta;
 
   const handleDelete = async (id: string) => {
     confirm({
@@ -119,7 +119,6 @@ const SlotListTable = () => {
       dataIndex: "isBooked",
       key: "isBooked",
       render: (item) => {
-        console.log(item);
         return <Tag color={item ? "blue" : "red"}>{`${item}`}</Tag>;
       },
     },
@@ -164,6 +163,9 @@ const SlotListTable = () => {
       },
     },
   ];
+
+  console.log(slotData)
+  
   return (
     <div className="md:p-8">
       <div className="flex md:p-0 px-4 pb-0 pt-6 w-full items-center justify-between">
@@ -173,9 +175,8 @@ const SlotListTable = () => {
         </Link>
       </div>
       <div className="flex flex-col gap-4 mt-6">
-        {data && (
-          <>
-            <Table
+        
+      <Table
               size="small"
               className="md:hidden block"
               style={{
@@ -201,8 +202,6 @@ const SlotListTable = () => {
               current={current}
               onChange={(value) => setCurrent(value)}
             ></Pagination>
-          </>
-        )}
       </div>
     </div>
   );

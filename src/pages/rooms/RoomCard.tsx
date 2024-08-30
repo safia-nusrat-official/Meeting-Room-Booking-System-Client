@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -12,26 +13,20 @@ import { CiUser } from "react-icons/ci";
 import { LuArrowUpDown } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { roomFloorNumbersMap } from "./RoomDetails";
-import { Rate } from "antd";
-import { BsChevronBarLeft } from "react-icons/bs";
-import { IoChevronBack, IoChevronForward } from "react-icons/io5";
+import { Rate, Skeleton } from "antd";
+import { IoChevronForward, IoKeyOutline } from "react-icons/io5";
+import { IoIosPeople } from "react-icons/io";
+import CustomSlider from "@/components/shared/CustomSlider";
 
 export const RoomCard = ({
   room,
   size = "md",
 }: {
   room: TRoom;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
 }) => {
-  const {
-    roomImages,
-    name,
-    pricePerSlot,
-    _id,
-    capacity,
-    floorNo,
-    rating,
-  } = room;
+  const { roomImages, name, pricePerSlot, _id, capacity, floorNo, rating } =
+    room;
   return size === "md" ? (
     <Card className="w-full max-w-sm border-0 rounded-sm overflow-hidden">
       <img
@@ -60,7 +55,7 @@ export const RoomCard = ({
         </Link>
       </CardFooter>
     </Card>
-  ) : (
+  ) : size === "sm" ? (
     <Link className="w-full" to={`/rooms/${_id}`}>
       <Card className="w-full max-w-sm border-0 relative hover:scale-105 transition-all rounded-sm overflow-hidden">
         <img
@@ -114,5 +109,64 @@ export const RoomCard = ({
         </CardContent>
       </Card>
     </Link>
+  ) : (
+    <div className="grid grid-cols-1">
+      {/*  */}
+
+      <Card className="shadow-none rounded-sm mt-6">
+        <CardHeader>
+          <CardTitle>{room.name}</CardTitle>
+          <CardDescription>
+            Spacious room with a beautiful city view
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="w-full overflow-hidden">
+            {roomImages && (
+              <CustomSlider
+                isLoading={false}
+                images={roomImages}
+              ></CustomSlider>
+            )}
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-4">
+            <div className="flex items-center gap-2">
+              <IoKeyOutline className="h-5 w-5 text-primary" />
+              <span>Room No. {room.roomNo}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <LuArrowUpDown className="h-5 w-5 text-primary" />
+              <span>Floor No. {room.floorNo}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <IoIosPeople className="h-5 w-5 text-primary" />
+              <span>
+                Up to{" "}
+                {room.capacity > 1
+                  ? `${room.capacity} people`
+                  : `${room.capacity} person`}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Rate defaultValue={room.rating} allowHalf disabled />
+              <span>{room.rating}</span>
+            </div>
+          </div>
+          <div className="mt-4 space-y-2">
+            <h3 className="font-semibold">Description</h3>
+            <p className="text-sm text-muted-foreground">{room.description}</p>
+          </div>
+          <div className="mt-4 space-y-2">
+            <h3 className="font-semibold">Price</h3>
+            <p className="text-2xl font-bold">
+              $199{" "}
+              <span className="text-sm font-normal text-muted-foreground">
+                per night
+              </span>
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
