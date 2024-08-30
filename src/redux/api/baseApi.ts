@@ -20,6 +20,7 @@ export const baseApi = createApi({
   tagTypes: [
     "bookings",
     "booking",
+    "my-bookings",
 
     "slots",
     "slot",

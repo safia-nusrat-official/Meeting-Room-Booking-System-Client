@@ -111,7 +111,7 @@ const MainLayout = () => {
         </div>
         <Menu
           onSelect={(k) => console.log(k)}
-          className="hidden md:flex .nav-menu"
+          className="hidden md:flex md:pl-20 nav-menu"
           mode="horizontal"
           selectedKeys={[selectedKeys]}
           items={sideBarItems}
@@ -134,7 +134,7 @@ const MainLayout = () => {
               <DropdownMenuContent className="font-medium">
                 <DropdownMenuItem>
                   <Link
-                    to="/my-bookings"
+                    to="/user/my-bookings"
                     className="flex gap-2 justify-between items-center"
                   >
                     My Bookings<CiCalendar className="text-xl"></CiCalendar>

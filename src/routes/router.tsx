@@ -10,9 +10,8 @@ import AboutUs from "../pages/aboutUs/AboutUs";
 import ContactUs from "../pages/contactUs/ContactUs";
 import AdminLayout from "@/layout/AdminLayout";
 import ProtectedRoute from "@/pages/ProtectedRoute";
-import MyBookings from "@/pages/userPages/bookings/MyBookings";
 import RoomDetails from "@/pages/rooms/RoomDetails";
-import CreateBooking from "@/pages/userPages/bookings/CreateBooking";
+import { userPaths } from "./user.routes";
 
 export const router = createBrowserRouter([
   {
@@ -37,7 +36,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/rooms/:id",
-        element: <ProtectedRoute><RoomDetails></RoomDetails></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <RoomDetails></RoomDetails>
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/login",
@@ -46,15 +49,7 @@ export const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup></Signup>,
-      },
-      {
-        path: "create-booking/:id",
-        element: (
-          <ProtectedRoute role="user">
-            <CreateBooking></CreateBooking>
-          </ProtectedRoute>
-        ),
-      },
+      }
     ],
   },
   {
@@ -67,11 +62,12 @@ export const router = createBrowserRouter([
     children: generateRoutes(adminPaths),
   },
   {
-    path: "my-bookings",
+    path: "/user",
     element: (
-      <ProtectedRoute>
-        <MyBookings></MyBookings>
+      <ProtectedRoute role="user">
+        <AdminLayout></AdminLayout>
       </ProtectedRoute>
     ),
+    children: generateRoutes(userPaths),
   },
 ]);
