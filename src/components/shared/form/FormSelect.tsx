@@ -5,8 +5,10 @@ const FormSelect = ({
   name,
   label,
   options,
+  loading,
+  mode,
   placeholder = `Select ${label}`,
-  defaultValue=[],
+  defaultValue = [],
   required = true,
   validate,
 }: {
@@ -14,6 +16,8 @@ const FormSelect = ({
   placeholder?: string;
   label: string;
   name: string;
+  loading?: boolean;
+  mode?: "multiple" | "tags" | undefined;
   options: SelectProps["options"];
   required?: boolean;
   validate?:
@@ -37,14 +41,13 @@ const FormSelect = ({
               help={fieldState.error ? fieldState.error.message : ""}
             >
               <Select
-                mode="multiple"
+                mode={mode}
                 size="large"
+                loading={loading}
                 placeholder={placeholder}
                 {...field}
-                style={{ width: "100%",
-                    borderColor:"#020817"
-                 }}
-                 defaultValue={defaultValue||[]}
+                style={{ width: "100%", borderColor: "#020817" }}
+                defaultValue={defaultValue || []}
                 options={options}
               />
             </Form.Item>

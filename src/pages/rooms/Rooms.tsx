@@ -65,8 +65,18 @@ const Rooms = () => {
     <div className="md:p-12 relative bg-white p-8 md:grid-cols-4 gap-6 grid">
       <div className="flex relative md:sticky h-screen left-0 top-[8rem] flex-col md:col-span-1 col-span-4 ">
         <SearchBar setSearchTerm={setSearchTerm}></SearchBar>
+<ConfigProvider theme={{
+  components:{
+    Slider:{
+      railBg:"#ccc"
+    },
+    Tooltip:{
 
-        <div className="my-4 text-slate-400 ">
+    }
+  }
+}}>
+
+<div className="my-4 text-slate-400 ">
           <div className="flex items-center justify-between">
             <h3 className="text-xl text-slate-800 font-semibold">
               Filter By Price
@@ -94,7 +104,7 @@ const Rooms = () => {
               range
               style={{ width: "100%" }}
               tooltip={{
-                open: allowFilters,
+                defaultOpen: allowFilters,
                 placement: "bottom",
                 formatter: (value) => `$ ${value}`,
               }}
@@ -130,7 +140,7 @@ const Rooms = () => {
               step={3}
               style={{ width: "100%" }}
               tooltip={{
-                open: true,
+                defaultOpen: true,
                 placement: "bottom",
               }}
               onChange={(values: any) =>
@@ -145,6 +155,7 @@ const Rooms = () => {
             />
           </div>
         </div>
+</ConfigProvider>
 
         <Button
           type="primary"

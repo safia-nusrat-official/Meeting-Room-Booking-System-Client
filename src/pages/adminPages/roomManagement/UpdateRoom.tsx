@@ -20,7 +20,7 @@ import { toast } from "sonner";
 const UpdateRoom = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
   const { data, isLoading, refetch } = useGetSingleRoomQuery(id, {
-    skip: !open
+    skip: !open,
   });
   const roomData: TRoom = (!isLoading && data?.data) || null;
 
@@ -45,7 +45,7 @@ const UpdateRoom = ({ id }: { id: string }) => {
 
     const room: TRoom = {
       roomImages: updatedImages,
-      rating:Number(updatedData.rating || roomData?.rating),
+      rating: Number(updatedData.rating || roomData?.rating),
       amenities: updatedAmenities || roomData?.amenities,
       capacity: Number(updatedData.capacity || roomData?.capacity),
       name: updatedData.name || roomData?.name,
@@ -64,7 +64,7 @@ const UpdateRoom = ({ id }: { id: string }) => {
         toast.error(res.error?.message || res.error?.data.message);
       } else {
         console.log(res.data);
-        refetch()
+        refetch();
         toast.success("Room Data Updated Successfully");
         setOpen(false);
       }
@@ -97,99 +97,100 @@ const UpdateRoom = ({ id }: { id: string }) => {
         confirmLoading={UpdateLoading}
       >
         <CustomForm resetForm={false} onSubmit={handleUpdate}>
-        <div className="grid grid-cols-3 md:gap-2">
-              <div className="md:col-span-2">
-                <FormInput
-                  label="Room Name"
-                  defaultValue={roomData?.name}
-                  name="name"
-                  required={false}
-                ></FormInput>
-              </div>
-              <div className="md:col-span-1">
-                <FormInput
-                  type="number"
-                  label="Room No"
-                  name="roomNo"
-                  required={false}
-                  defaultValue={roomData?.roomNo}
-                ></FormInput>
-              </div>
-              <div className="md:col-span-2">
-                <FormTextArea
-                  label="Description"
-                  defaultValue={roomData?.description}
-                  name="descriptions"
-                  required={false}
-                ></FormTextArea>
-              </div>
-              <div className="md:col-span-1">
-                <FormInput
-                  type="number"
-                  label="Rating"
-                  name="rating"
-                  required={false}
-                  defaultValue={roomData?.rating}
-                ></FormInput>
-              </div>
-              <div className="md:col-span-1">
-                <FormInput
-                  type="number"
-                  label="Capacity"
-                  name="capacity"
-                  required={false}
-                  defaultValue={roomData?.capacity}
-                ></FormInput>
-              </div>
-              <div className="md:col-span-1">
-                <FormInput
-                  type="number"
-                  label="Price Per Slot"
-                  required={false}
-                  name="pricePerSlot"
-                  defaultValue={roomData?.pricePerSlot}
-                ></FormInput>
-              </div>
-              <div className="md:col-span-1">
-                <FormInput
-                  type="number"
-                  label="Floor No"
-                  name="floorNo"
-                  required={false}
-                  defaultValue={roomData?.floorNo}
-                ></FormInput>
-              </div>
-              <div className="md:col-span-3">
-                <FormSelect
-                  placeholder="Select multiple amenities"
-                  label="Add Amenities"
-                  name="amenities"
-                  required={false}
-                  options={AmenitiesSelectOptions}
-                  defaultValue={roomData?.amenities}
-                ></FormSelect>
-              </div>
-              <div className="md:col-span-3 flex gap-2">
-                <FormUpload
-                  required={false}
-                  name="roomImages"
-                  label="Room Images"
-                  isSuccess={isSuccess}
-                  isError={isError}
-                  imgUrl={imageUrls}
-                  setImageUrl={setImageUrls}
-                  defaultFileList={defaultFileList}
-                ></FormUpload>
-              </div>
+          <div className="grid grid-cols-3 md:gap-2">
+            <div className="md:col-span-2">
+              <FormInput
+                label="Room Name"
+                defaultValue={roomData?.name}
+                name="name"
+                required={false}
+              ></FormInput>
             </div>
-            <Button
-              loading={UpdateLoading}
-              htmlType="submit"
-              className="mt-8"
-              type="primary"
-            >
-              Update Room
-            </Button>
+            <div className="md:col-span-1">
+              <FormInput
+                type="number"
+                label="Room No"
+                name="roomNo"
+                required={false}
+                defaultValue={roomData?.roomNo}
+              ></FormInput>
+            </div>
+            <div className="md:col-span-2">
+              <FormTextArea
+                label="Description"
+                defaultValue={roomData?.description}
+                name="descriptions"
+                required={false}
+              ></FormTextArea>
+            </div>
+            <div className="md:col-span-1">
+              <FormInput
+                type="number"
+                label="Rating"
+                name="rating"
+                required={false}
+                defaultValue={roomData?.rating}
+              ></FormInput>
+            </div>
+            <div className="md:col-span-1">
+              <FormInput
+                type="number"
+                label="Capacity"
+                name="capacity"
+                required={false}
+                defaultValue={roomData?.capacity}
+              ></FormInput>
+            </div>
+            <div className="md:col-span-1">
+              <FormInput
+                type="number"
+                label="Price Per Slot"
+                required={false}
+                name="pricePerSlot"
+                defaultValue={roomData?.pricePerSlot}
+              ></FormInput>
+            </div>
+            <div className="md:col-span-1">
+              <FormInput
+                type="number"
+                label="Floor No"
+                name="floorNo"
+                required={false}
+                defaultValue={roomData?.floorNo}
+              ></FormInput>
+            </div>
+            <div className="md:col-span-3">
+              <FormSelect
+                placeholder="Select multiple amenities"
+                label="Add Amenities"
+                name="amenities"
+                required={false}
+                mode={"multiple"}
+                options={AmenitiesSelectOptions}
+                defaultValue={roomData?.amenities}
+              ></FormSelect>
+            </div>
+            <div className="md:col-span-3 flex gap-2">
+              <FormUpload
+                required={false}
+                name="roomImages"
+                label="Room Images"
+                isSuccess={isSuccess}
+                isError={isError}
+                imgUrl={imageUrls}
+                setImageUrl={setImageUrls}
+                defaultFileList={defaultFileList}
+              ></FormUpload>
+            </div>
+          </div>
+          <Button
+            loading={UpdateLoading}
+            htmlType="submit"
+            className="mt-8"
+            type="primary"
+          >
+            Update Room
+          </Button>
         </CustomForm>
       </Modal>
     </>

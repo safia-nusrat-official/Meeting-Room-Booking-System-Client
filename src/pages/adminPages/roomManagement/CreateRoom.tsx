@@ -8,7 +8,7 @@ import { AmenitiesSelectOptions } from "@/const/rooms.const";
 import { useCreateRoomMutation } from "@/redux/api/rooms.api";
 import { TReduxResponse } from "@/types";
 import { TRoom } from "@/types/room.types";
-import { Button, ConfigProvider, Image } from "antd";
+import { Button, ConfigProvider } from "antd";
 import { useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { IoChevronBackOutline } from "react-icons/io5";
@@ -135,6 +135,7 @@ const CreateRoom = () => {
                 placeholder="Select multiple amenities"
                 label="Add Amenities"
                 name="amenities"
+                mode={"multiple"}
                 options={AmenitiesSelectOptions}
               ></FormSelect>
             </div>

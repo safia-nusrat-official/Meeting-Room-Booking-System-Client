@@ -1,3 +1,9 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import {
@@ -6,7 +12,7 @@ import {
 } from "@/redux/api/rooms.api";
 import { TMeta, TReduxResponse } from "@/types";
 import { TRoom } from "@/types/room.types";
-import { Pagination, Table } from "antd";
+import { Pagination, Table, TableColumnsType } from "antd";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
 import { PiTrashLight } from "react-icons/pi";
@@ -15,6 +21,7 @@ import { toast } from "sonner";
 import UpdateRoom from "./UpdateRoom";
 import { useState } from "react";
 import RoomDetailsCard from "./RoomDetailsCard";
+import { TSlot } from "@/types/slot.types";
 
 const RoomListTable = () => {
   const [current, setCurrent] = useState(1);
@@ -60,7 +67,7 @@ const RoomListTable = () => {
     });
   };
 
-  const columns = [
+  const columns: TableColumnsType<TRoom> = [
     {
       title: "Name",
       dataIndex: "name",
@@ -75,11 +82,13 @@ const RoomListTable = () => {
       title: "Floor No.",
       dataIndex: "floorNo",
       key: "floorNo",
+      responsive: ["md"],
     },
     {
       title: "Capacity",
       dataIndex: "capacity",
       key: "capacity",
+      responsive: ["md"],
     },
     {
       title: "Price Per Slot",
@@ -91,44 +100,73 @@ const RoomListTable = () => {
       title: "Actions",
       render: (item: TRoom) => {
         return (
-          <div className="flex gap-2">
-            <RoomDetailsCard id={item._id as string}></RoomDetailsCard>
-            <UpdateRoom id={item._id as string}></UpdateRoom>
-            <Button
-              onClick={() => handleDelete(item._id as string)}
-              variant={"destructive"}
-            >
-              Delete
-              <PiTrashLight className="text-lg ml-2"></PiTrashLight>
-            </Button>
-          </div>
+          <>
+            <div className="md:flex hidden gap-2">
+              <RoomDetailsCard id={item._id as string}></RoomDetailsCard>
+              <UpdateRoom id={item._id as string}></UpdateRoom>
+              <Button
+                onClick={() => handleDelete(item._id as string)}
+                variant={"destructive"}
+              >
+                Delete
+                <PiTrashLight className="text-lg ml-2"></PiTrashLight>
+              </Button>
+            </div>
+            <div className="md:hidden block">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="outline-none h-12 px-2 hover:bg-slate-50 items-center flex gap-2">
+                  <Button variant="ghost">...</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="font-medium">
+                  <DropdownMenuItem>
+                    <RoomDetailsCard id={item._id as string}></RoomDetailsCard>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <UpdateRoom id={item._id as string}></UpdateRoom>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Button
+                      onClick={() => handleDelete(item._id as string)}
+                      variant={"destructive"}
+                    >
+                      Delete
+                      <PiTrashLight className="text-lg ml-2"></PiTrashLight>
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </>
         );
       },
     },
   ];
   return (
     <div className="md:p-8">
-      <div className="flex items-center justify-between">
+      <div className="flex p-4 items-center justify-between">
         <SectionHeading mode="dark">All Rooms</SectionHeading>
         <Link to="/admin/create-room">
           <Button>Create a Room</Button>
         </Link>
       </div>
       <div className="flex flex-col gap-4 mt-6">
-        {roomData.length > 0 && (
-          <Table
-            loading={isFetching}
-            dataSource={roomData}
-            columns={columns}
-            pagination={false}
-          />
+        {roomData && (
+          <>
+            <Table
+              loading={isFetching}
+              dataSource={roomData}
+              columns={columns}
+              pagination={false}
+            />
+            <Pagination
+              className="mx-auto my-6"
+              total={meta.totalDocuments}
+              pageSize={meta.limit}
+              current={current}
+              onChange={(value) => setCurrent(value)}
+            ></Pagination>
+          </>
         )}
-        <Pagination
-          total={meta.totalDocuments}
-          pageSize={meta.limit}
-          current={current}
-          onChange={(value) => setCurrent(value)}
-        ></Pagination>
       </div>
     </div>
   );

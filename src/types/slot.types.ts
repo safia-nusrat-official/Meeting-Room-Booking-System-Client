@@ -1,7 +1,8 @@
 export interface TSlot {
-    room: string
-    date: string
-    startTime: string
-    endTime: string
-    isBooked?: boolean
+  room: string | any;
+  date: string;
+  startTime: string;
+  endTime: string;
+  isBooked?: boolean;
+  _id?: string;
 }
