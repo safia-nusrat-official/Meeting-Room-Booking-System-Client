@@ -8,7 +8,7 @@ import {
 import SectionHeading from "@/components/shared/SectionHeading";
 import { useGetSingleRoomQuery } from "@/redux/api/rooms.api";
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { RoomCard } from "@/pages/rooms/RoomCard";
 import CustomForm from "@/components/shared/form/CustomForm";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -26,16 +26,22 @@ import { toast } from "sonner";
 import { TReduxResponse } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { CiCalendar } from "react-icons/ci";
 
 const CreateBooking = () => {
   const { id } = useParams();
   const { data: room, refetch } = useGetSingleRoomQuery(id as string);
   const user = useAppSelector(getUser) as TUser;
   const [createBooking, { isLoading }] = useCreateBookingMutation();
-  const [date, setDate] = useState<Date>(new Date());
+
+  const navigate = useNavigate();
+  const [date, setDate] = useState<Date | null>(null);
   const [slots, setSlots] = useState<string[]>([]);
 
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
+    if (!date || slots.length < 1) {
+      return;
+    }
     console.log(data);
     const booking: TBooking = {
       date: moment(date).format("YYYY-MM-DD"),
@@ -52,15 +58,18 @@ const CreateBooking = () => {
             result.error?.message ||
             "Failed to book room"
         );
-        refetch()
+        refetch();
       } else {
         console.log(result.data);
         toast.success(result.data?.message || "Successfully Booked Room!");
+        refetch();
+        navigate("/user/my-bookings");
       }
     } catch (error) {
       console.log(error);
     }
   };
+  console.log(date);
   return (
     <div className="md:p-12 bg-white relative">
       <div className="md:m-0 m-8 mb-0">
@@ -162,35 +171,40 @@ const CreateBooking = () => {
             <h1 className="font-bold text-slate-800 my-4 text-xl">
               Booking Details
             </h1>
-
-            {/* <FormDateWatch
-              setValue={setDate}
-              label="Pick a Date"
-              name="date"
-            ></FormDateWatch> */}
-
-            <div className="flex md:flex-row flex-col mb-8 gap-4">
+            <div className="flex flex-col mb-8 gap-4">
               <div className="flex flex-col gap-2">
-                <label className="font-medium">Pick a Date</label>
-
+                <div className="flex gap-2 items-center">
+                  <CiCalendar className="text-xl"></CiCalendar>
+                  <label className="font-medium">Pick a Date</label>
+                </div>
                 <Calendar
+                  required
                   mode="single"
-                  selected={date}
-                  onSelect={(day: Date | undefined) => day && setDate(day)}
-                  className="rounded-sm border"
+                  month={date||undefined}
+                  selected={date || undefined}
+                  onSelect={(day: Date | undefined) => {
+                    console.log("Selected date", day);
+                    day && setDate(day);
+                  }}
+                  className="rounded-sm border w-full flex justify-center mb-4"
                 />
               </div>
 
               <AvailableSlots
                 setSlots={setSlots}
                 slots={slots}
-                date={moment(date).format("YYYY-MM-DD")}
+                propDate={date}
                 id={id as string}
                 setDate={setDate}
               ></AvailableSlots>
             </div>
             <Spin spinning={isLoading} fullscreen></Spin>
-            <Button disabled={date===undefined} className="w-full" type="submit">
+
+            <Button
+              disabled={!date || slots.length < 1}
+              className="w-full"
+              type="submit"
+            >
               Confirm Booking
             </Button>
           </CustomForm>

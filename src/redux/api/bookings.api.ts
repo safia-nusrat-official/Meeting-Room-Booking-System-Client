@@ -5,8 +5,8 @@ import { TQueryArgs } from "./rooms.api";
 const bookingApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAllBookings: build.query({
-      query: (args:TQueryArgs[]) => {
-        const params = new URLSearchParams()
+      query: (args: TQueryArgs[]) => {
+        const params = new URLSearchParams();
         if (args && args.length) {
           args.forEach((arg) => {
             params.append(`${arg.key}`, `${arg.value}`);
@@ -15,7 +15,7 @@ const bookingApi = baseApi.injectEndpoints({
         return {
           url: `/bookings`,
           method: "GET",
-          params
+          params,
         };
       },
       providesTags: ["bookings"],
@@ -24,10 +24,16 @@ const bookingApi = baseApi.injectEndpoints({
       query: (id: string) => `/bookings/${id}`,
       providesTags: ["booking"],
     }),
-    
+
     getMyBookings: build.query({
-      query: (email: string) =>
-        `/bookings/my-bookings/${email}?isDeleted=false`,
+      query: (email: string) => {
+        const params = new URLSearchParams();
+        return {
+          url: `/bookings/my-bookings/${email}?isDeleted=false&isConfirmed=unconfirmed&isConfirmed=confirmed`,
+          method: "GET",
+          params,
+        };
+      },
       providesTags: ["my-bookings"],
     }),
 
@@ -40,12 +46,12 @@ const bookingApi = baseApi.injectEndpoints({
       invalidatesTags: ["bookings", "slots", "slot"],
     }),
     updateBooking: build.mutation({
-      query: (data: { booking: TBooking; id: string }) => ({
-        url: `/bookings/${data.id}`,
-        method: "PUT",
-        body: data.booking,
+      query: ({booking, id}: { booking: Pick<TBooking, "isConfirmed"|"paymentMethod">; id: string }) => ({
+        url: `/bookings/${id}`,
+        method: "PATCH",
+        body: booking,
       }),
-      invalidatesTags: ["bookings", "booking"],
+      invalidatesTags: ["bookings", "booking", "my-bookings"],
     }),
     deleteBooking: build.mutation({
       query: (id: string) => ({

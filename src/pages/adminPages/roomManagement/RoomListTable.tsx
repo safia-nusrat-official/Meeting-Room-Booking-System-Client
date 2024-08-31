@@ -21,15 +21,17 @@ import { toast } from "sonner";
 import UpdateRoom from "./UpdateRoom";
 import { useState } from "react";
 import RoomDetailsCard from "./RoomDetailsCard";
-import { TSlot } from "@/types/slot.types";
+import SearchBar from "@/components/shared/SearchBar";
 
 const RoomListTable = () => {
   const [current, setCurrent] = useState(1);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const { data, isLoading, isFetching, refetch } = useGetAllAvailableRoomsQuery(
+  const { data, isLoading, isFetching } = useGetAllAvailableRoomsQuery(
     [
       { key: "limit", value: "5" },
       { key: "page", value: `${current}` },
+      { key: "searchTerm", value: searchTerm },
     ]
   );
   const [deleteRoom] = useDeleteRoomMutation();
@@ -70,8 +72,24 @@ const RoomListTable = () => {
   const columns: TableColumnsType<TRoom> = [
     {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "room",
+      key: "room",
+      render:(room:TRoom)=>{
+        return (
+          <Link to={`/rooms/${room?._id}`} className="flex flex-col gap-2">
+            <img src={room?.roomImages[0]} className="w-24 rounded-sm" />
+            <div className="">
+              <p className="text-slate-500 font-medium text-xs">
+                Room No. {room?.roomNo}
+              </p>
+              <p className="text-lg font-medium">{room?.name}</p>
+              <p className="text-slate-500 text-xs">
+                $ {room?.pricePerSlot} per slot
+              </p>
+            </div>
+          </Link>
+        );
+      }
     },
     {
       title: "Room No.",
@@ -101,7 +119,7 @@ const RoomListTable = () => {
       render: (item: TRoom) => {
         return (
           <>
-            <div className="md:flex hidden gap-2">
+            <div className="md:flex md:flex-col hidden gap-2">
               <RoomDetailsCard id={item._id as string}></RoomDetailsCard>
               <UpdateRoom id={item._id as string}></UpdateRoom>
               <Button
@@ -150,6 +168,8 @@ const RoomListTable = () => {
         </Link>
       </div>
       <div className="flex flex-col gap-4 mt-6">
+      <SearchBar setSearchTerm={setSearchTerm}></SearchBar>
+
         {roomData && (
           <>
             <Table

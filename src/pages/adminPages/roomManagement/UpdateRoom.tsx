@@ -67,7 +67,6 @@ const UpdateRoom = ({ id }: { id: string }) => {
       } else if (res?.data?.sucess) {
         console.log(res.data);
         setOpen(false);
-        refetch();
         toast.success("Room Data Updated Successfully");
       }
     } catch (error) {
@@ -129,8 +128,11 @@ const UpdateRoom = ({ id }: { id: string }) => {
               <FormInput
                 type="number"
                 label="Rating"
+                step={0.1}
                 name="rating"
                 required={false}
+                min={1}
+                max={5}
                 defaultValue={roomData?.rating}
               ></FormInput>
             </div>

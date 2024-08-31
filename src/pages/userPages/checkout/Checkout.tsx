@@ -1,3 +1,4 @@
+import { TfiMoney } from "react-icons/tfi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Breadcrumb,
@@ -27,42 +28,80 @@ import {
 import stripeLogo from "../../../assets/icons/stripe-logo.png";
 import paypalLogo from "../../../assets/icons/paypal-logo.png";
 
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   useGetASingleBookingQuery,
   useUpdateBookingMutation,
 } from "@/redux/api/bookings.api";
-import { TBooking } from "@/types/booking.types";
+
 import moment from "moment";
 import { TSlot } from "@/types/slot.types";
-import { Col, Divider, Input, Rate, Row, Skeleton } from "antd";
-import SectionHeading from "@/components/shared/SectionHeading";
-import { TUser } from "@/types/user.types";
+import { Col, Divider, Rate, Row, Skeleton, Spin } from "antd";
+
 import { TRoom } from "@/types/room.types";
-import { CiCalendar } from "react-icons/ci";
+import { CiCalendar, CiViewTimeline } from "react-icons/ci";
 import { GoClock } from "react-icons/go";
-import { AiOutlineUser } from "react-icons/ai";
-import FormInput from "@/components/shared/form/FormInput";
-import StripePayment from "./StripPayment";
+
+import StripePayment from "./StripePayment";
+import PayPalPayment from "./PayPalPayment";
+import { IoCheckmark, IoChevronBackOutline } from "react-icons/io5";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { TReduxResponse } from "@/types";
+import { TBooking } from "@/types/booking.types";
 
 export default function Checkout() {
   const { id } = useParams();
-  const [paymentMethod, setPaymentMethod] = useState("stripe");
 
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("stripe");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+  const navigate = useNavigate()
   const { data, isLoading } = useGetASingleBookingQuery(id as string);
   const [updateBooking, { isLoading: updateLoading }] =
     useUpdateBookingMutation();
+
   const [bookingDetails, setBookingDetails] = useState<any>();
 
-  const handleConfirmBooking = async (data: any) => {
-    setIsConfirmationOpen(true);
+  const handleConfirmBooking = async () => {
+    console.log("Booking called");
+    console.log(paymentSuccess)
+
+    // if (!paymentSuccess) {
+    //   return;
+    // }
+
+    const updatedBooking: TBooking = {
+      ...bookingDetails,
+      isConfirmed: "confirmed",
+      paymentMethod: "stripe",
+    };
+
+    try {
+      const result = (await updateBooking({
+        id: bookingDetails._id,
+        booking: updatedBooking,
+      })) as TReduxResponse<any>;
+      console.log(result);
+
+      if (result.error) {
+        console.log(result.error);
+        toast.error(result.error?.message || result.error?.data?.message);
+      } else if (result.data) {
+        console.log(result.data);
+        toast.success(result.data?.message || result.data?.data?.message || result?.message);
+        setBookingSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to confirm booking...");
+    }
   };
 
   const bookingSummary = bookingDetails && (
     <div className="flex  font-semibold flex-col gap-2 text-sm">
-      <div className="flex gap-2">
+      <Link to={`/rooms/${bookingDetails?.room?._id}`} className="flex gap-2">
         <img
           src={bookingDetails?.room?.roomImages[0]}
           className="w-24 rounded-sm"
@@ -77,10 +116,27 @@ export default function Checkout() {
             {(bookingDetails?.room as TRoom)?.rating}
           </span>
         </div>
-      </div>
+      </Link>
 
       <Divider className="bg-slate-200 my-2"></Divider>
 
+      <div className="flex justify-between">
+        <span className="flex gap-2 items-center">
+          <TfiMoney className="text-xl"></TfiMoney>
+          Price Per Slot
+        </span>
+        <span className="text-slate-500 ">
+          $ {bookingDetails?.room.pricePerSlot}
+        </span>
+      </div>
+
+      <div className="flex justify-between">
+        <span className="flex gap-2 items-center">
+          <CiViewTimeline className="text-xl"></CiViewTimeline>
+          Total Slots
+        </span>
+        <span className="text-slate-500 ">{bookingDetails.slots?.length}</span>
+      </div>
       <div className="flex justify-between">
         <span className="flex gap-2 items-center">
           <CiCalendar className="text-xl"></CiCalendar>
@@ -93,7 +149,7 @@ export default function Checkout() {
 
       <div className="flex justify-between">
         <span className="flex gap-2 items-center">
-          <BiDollar className="text-xl"></BiDollar>
+          <TfiMoney className="text-xl"></TfiMoney>
           Total Price
         </span>
         <span className="text-slate-500 ">
@@ -101,6 +157,7 @@ export default function Checkout() {
         </span>
       </div>
 
+      <Spin spinning={updateLoading} fullscreen></Spin>
       <Divider className="bg-slate-200 my-2"></Divider>
 
       <div className="flex flex-col gap-2">
@@ -110,7 +167,9 @@ export default function Checkout() {
             bookingDetails.slots.map((item: TSlot, index: number) => (
               <div
                 className={`${
-                  index !== 1 && "border-b-[1px]"
+                  index !== 1 &&
+                  bookingDetails?.slots?.length > 1 &&
+                  "border-b-[1px]"
                 } hover:text-slate-500  text-slate-500 hover:bg-slate-100 flex items-center gap-2 p-4`}
               >
                 <GoClock className="text-xl"></GoClock>
@@ -132,9 +191,12 @@ export default function Checkout() {
   );
 
   useEffect(() => {
-    console.log(data?.data);
     setBookingDetails(data?.data);
   }, [data]);
+
+  if((bookingDetails as TBooking).isConfirmed==="confirmed"){
+    return <Navigate to="/users/my-bookings"></Navigate>
+  }
 
   return (
     <section className="">
@@ -165,12 +227,23 @@ export default function Checkout() {
 
       <div className="grid md:px-8 p-0 gap-4 grid-cols-1 md:grid-cols-5">
         <Card className="md:col-span-3 col-span-1 shadow-none rounded-sm">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold">Payment Details</CardTitle>
-            <CardDescription>
-              Choose a payment method to confirm your booking
-            </CardDescription>
-          </CardHeader>
+          <div className="flex items-start pt-6">
+            <Link
+              to="/user/my-bookings"
+              className="text-xl text-slate-500 ml-4"
+            >
+              <IoChevronBackOutline></IoChevronBackOutline>
+            </Link>
+            <CardHeader className="pl-2 pt-0">
+              <CardTitle className="text-xl font-bold">
+                Payment Details
+              </CardTitle>
+              <CardDescription>
+                Choose a payment method to confirm your booking
+              </CardDescription>
+            </CardHeader>
+          </div>
+
           <CardContent>
             {bookingDetails && (
               <>
@@ -218,6 +291,7 @@ export default function Checkout() {
                 >
                   <TabsList className="md:p-0 gap-4 w-full bg-transparent justify-between h-fit">
                     <TabsTrigger
+                      disabled={isProcessing && paymentMethod === "stripe"}
                       value="stripe"
                       className="data-[state=active]:shadow-none data-[state=active]:border-primaryColor border-slate-300 border-[1px]"
                     >
@@ -227,6 +301,7 @@ export default function Checkout() {
                     </TabsTrigger>
 
                     <TabsTrigger
+                      disabled={isProcessing && paymentMethod === "paypal"}
                       value="paypal"
                       className="data-[state=active]:shadow-none data-[state=active]:border-primaryColor border-slate-300 border-[1px]"
                     >
@@ -237,11 +312,15 @@ export default function Checkout() {
                   </TabsList>
                   <TabsContent value="stripe">
                     <StripePayment
+                      handleConfirmBooking={handleConfirmBooking}
                       totalAmount={bookingDetails.totalAmount as number}
+                      isProcessing={isProcessing}
+                      setPaymentSuccess={setPaymentSuccess}
+                      setIsProcessing={setIsProcessing}
                     ></StripePayment>
                   </TabsContent>
                   <TabsContent value="paypal">
-                    {paymentMethod} form here
+                    <PayPalPayment></PayPalPayment>
                   </TabsContent>
                 </Tabs>
               </>
@@ -251,8 +330,6 @@ export default function Checkout() {
         </Card>
 
         <div className="md:col-span-2 col-span-1 flex flex-col gap-4">
-          {/* user details */}
-
           {/* booking details */}
           <Card className="shadow-none rounded-sm">
             <CardHeader>
@@ -277,6 +354,71 @@ export default function Checkout() {
           </Card>
         </div>
       </div>
+
+      {/* success */}
+
+      {bookingDetails && (
+        <Dialog open={bookingSuccess} onOpenChange={setBookingSuccess}>
+          <DialogContent className="flex justify-center flex-col items-center text-center">
+            <div className="p-4 rounded-full w-fit text-green-700 text-4xl bg-green-300">
+              <IoCheckmark></IoCheckmark>
+            </div>
+            <DialogHeader>
+              <DialogTitle>Booking Confirmed</DialogTitle>
+              <DialogDescription>Thank you for your booking!</DialogDescription>
+            </DialogHeader>
+            <div className="">
+              <div className="flex my-4 py-4 border-y-[1px] justify-between items-start">
+                <div className="flex text-left gap-2">
+                  <img
+                    src={bookingDetails?.room?.roomImages[0]}
+                    className="w-24 rounded-sm"
+                  />
+                  <div className="">
+                    <p className="text-slate-500 text-xs">
+                      Room No. {(bookingDetails?.room as TRoom)?.roomNo}
+                    </p>
+                    <p className="text-lg">
+                      {(bookingDetails?.room as TRoom)?.name}
+                    </p>
+                    <span className="text-slate-500 flex items-center">
+                      <Rate className="scale-75" count={1} value={1}></Rate>{" "}
+                      {(bookingDetails?.room as TRoom)?.rating}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="flex text-right gap-2 items-center font-medium">
+                    <GoClock className="text-xl"></GoClock>
+                    <span>Booked Time Slots</span>
+                  </div>
+                  {bookingDetails?.slots?.length > 0 &&
+                    bookingDetails.slots.map((item: TSlot, index: number) => (
+                      <div className="text-slate-400 text-sm">
+                        {moment(item?.startTime, "HH:mm").format("hh:mm A")} -{" "}
+                        {moment(item?.endTime, "HH:mm").format("hh:mm A")}
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              <p>
+                You paid
+                <span className="font-medium">
+                  ${bookingDetails.totalAmount}
+                </span>
+                . A receipt copy was sent to
+                <span className="font-bold">{bookingDetails.user.email}</span>
+              </p>
+            </div>
+            <Link to="/user/my-bookings">
+              <Button variant="link" className="text-primaryColor underline">
+                See My Bookings
+              </Button>
+            </Link>
+          </DialogContent>
+        </Dialog>
+      )}
     </section>
   );
 }

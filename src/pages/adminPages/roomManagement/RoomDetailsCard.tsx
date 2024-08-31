@@ -27,7 +27,7 @@ import { LuArrowUpDown } from "react-icons/lu";
 import { IoIosPeople } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import { roomFloorNumbersMap } from "@/pages/rooms/RoomDetails";
-import CustomSlider from "@/components/shared/customSlider";
+import CustomSlider from "@/components/shared/CustomSlider";
 
 const RoomDetailsCard = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
@@ -45,7 +45,7 @@ const RoomDetailsCard = ({ id }: { id: string }) => {
 
   return (
     <>
-      <Button variant="link" onClick={() => setOpen(true)}>
+      <Button variant="secondary" className="underline" onClick={() => setOpen(true)}>
         See Details
       </Button>
       <Modal

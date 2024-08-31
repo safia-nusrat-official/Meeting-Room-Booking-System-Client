@@ -17,7 +17,7 @@ const SectionHeading = ({
     <h2
       data-aos={`${animateFrom && `fade-${animateFrom}`}`}
       data-aos-delay="500"
-      className={`font-extrabold text-3xl md:text-5xl md:mt-0 lg:text-6xl md:mb-0 mb-4  ${
+      className={`font-extrabold text-3xl md:text-5xl cursor-pointer md:mt-0 lg:text-6xl md:mb-0 mb-4  ${
         mode === "light" ? "text-[#fefefe]" : "text-slate-800"
       } 
         ${

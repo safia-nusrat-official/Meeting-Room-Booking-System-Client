@@ -23,18 +23,21 @@ import { TRoom } from "@/types/room.types";
 import { ColumnsType } from "antd/es/table";
 import moment from "moment";
 import UpdateSlot from "./UpdateSlot";
+import SearchBar from "@/components/shared/SearchBar";
 
 const SlotListTable = () => {
   const [current, setCurrent] = useState(1);
+  const [searchTerm, setSearchTerm]=useState("")
+
   const { data, isLoading, isFetching } = useGetAllSlotsQuery([
     { key: "limit", value: "7" },
     { key: "page", value: `${current}` },
-    { key: "groupBy", value: "rooms" },
+    { key: "searchTerm", value: `${searchTerm}` },
+    // { key: "groupBy", value: "rooms" },
   ]);
   const [deleteSlot] = useDeleteSlotMutation();
   const slotData: TSlot[] =
     data && data?.data.map((slot: TSlot) => ({ ...slot }));
-
   const meta: TMeta = data && data?.meta;
 
   const handleDelete = async (id: string) => {
@@ -105,44 +108,43 @@ const SlotListTable = () => {
         return `${moment(item).format("DD/MM/YY")}`;
       },
     },
-    // {
-    //   title: "Start Time",
-    //   dataIndex: "startTime",
-    //   key: "startTime",
-    // },
-    // {
-    //   title: "End Time",
-    //   dataIndex: "endTime",
-    //   key: "endTime",
-    // },
-    // {
-    //   title: "Booked Status",
-    //   dataIndex: "isBooked",
-    //   key: "isBooked",
-    //   render: (item) => {
-    //     return <Tag color={item ? "blue" : "red"}>{`${item}`}</Tag>;
-    //   },
-    // },
     {
-      title: "Slots",
-      dataIndex: "slots",
-      key: "slots",
-      render: (slots: TSlot[]) => {
-        return (
-          <div className="flex flex-col gap-4">
-            {slots.map((slot) => (
-              <Link
-                to={`/slots-list`}
-                className="font-medium border-[1px] bg-slate-100 p-2 rounded-sm whitespace-nowrap text-primaryColor flex flex-col"
-              >
-                <span>{moment(slot.startTime, "HH:mm").format("hh:mm a")}</span>
-                <span>{moment(slot.endTime, "HH:mm").format("hh:mm a")}</span>
-              </Link>
-            ))}
-          </div>
-        );
+      title: "Start Time",
+      dataIndex: "startTime",
+      key: "startTime",
+    },
+    {
+      title: "End Time",
+      dataIndex: "endTime",
+      key: "endTime",
+    },
+    {
+      title: "Booked Status",
+      dataIndex: "isBooked",
+      key: "isBooked",
+      render: (item) => {
+        return <Tag color={item ? "blue" : "red"}>{`${item}`}</Tag>;
       },
     },
+    // {   title: "Slots",
+    //   dataIndex: "slots",
+    //   key: "slots",
+    //   render: (slots: TSlot[]) => {
+    //     return (
+    //       <div className="flex flex-col gap-4">
+    //         {slots.map((slot) => (
+    //           <Link
+    //             to={`/slots-list`}
+    //             className="font-medium border-[1px] bg-slate-100 p-2 rounded-sm whitespace-nowrap text-primaryColor flex flex-col"
+    //           >
+    //             <span>{moment(slot.startTime, "HH:mm").format("hh:mm a")}</span>
+    //             <span>{moment(slot.endTime, "HH:mm").format("hh:mm a")}</span>
+    //           </Link>
+    //         ))}
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       title: "Actions",
       render: (item: TSlot) => {
@@ -195,7 +197,9 @@ const SlotListTable = () => {
           <Button>Create a Slot</Button>
         </Link>
       </div>
+
       <div className="flex flex-col gap-4 mt-6">
+        <SearchBar setSearchTerm={setSearchTerm}></SearchBar>
         <Table
           size="small"
           className="md:hidden block"

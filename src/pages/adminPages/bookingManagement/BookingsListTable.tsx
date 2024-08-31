@@ -8,7 +8,7 @@ import SectionHeading from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { TMeta, TReduxResponse } from "@/types";
 import { TBooking, TBookingStatus } from "@/types/booking.types";
-import { Pagination, Table, Tag } from "antd";
+import { Pagination, Rate, Table, Tag } from "antd";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
 import { PiTrashLight } from "react-icons/pi";
@@ -36,7 +36,7 @@ const BookingListsTable = () => {
     data && data?.data.map((booking: TBooking) => ({ ...booking }));
 
   const meta: TMeta = data && data?.meta;
-  console.log(bookingData)
+  console.log(bookingData);
 
   const handleDelete = async (id: string) => {
     confirm({
@@ -70,10 +70,19 @@ const BookingListsTable = () => {
       title: "Room",
       dataIndex: "room",
       key: "roomName",
-      render: (item: TRoom) => {
+      render: (room: TRoom) => {
         return (
-          <Link to={`/rooms/${item?._id}`}>
-            <Button variant={"link"}>{item?.name}</Button>
+          <Link to={`/rooms/${room?._id}`} className="flex flex-col gap-2">
+            <img src={room?.roomImages[0]} className="w-24 rounded-sm" />
+            <div className="">
+              <p className="text-slate-500 font-medium text-xs">
+                Room No. {room.roomNo}
+              </p>
+              <p className="text-lg font-medium">{room.name}</p>
+              <p className="text-slate-500 text-xs">
+                $ {room.pricePerSlot} per slot
+              </p>
+            </div>
           </Link>
         );
       },
@@ -83,7 +92,12 @@ const BookingListsTable = () => {
       title: "User",
       dataIndex: "user",
       key: "user",
-      render: (item: TUser) => <Link to="/admin/all-users">{item?.name}</Link>,
+      render: (item: TUser) => (
+        <Link className="flex flex-col break-words" to="/admin/all-users">
+          <span className="font-medium">{item?.name}</span>
+          {/* <span className="text-slate-400">{item?.email}</span> */}
+        </Link>
+      ),
       responsive: ["md"],
     },
     {
@@ -154,6 +168,7 @@ const BookingListsTable = () => {
                 <Button
                   onClick={() => handleDelete(item._id as string)}
                   variant={"destructive"}
+                  disabled={item.isConfirmed !== "canceled"}
                 >
                   Delete
                   <PiTrashLight className="text-lg ml-2"></PiTrashLight>

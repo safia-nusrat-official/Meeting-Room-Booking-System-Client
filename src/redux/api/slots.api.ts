@@ -1,3 +1,4 @@
+import { PiAlignRightSimple } from "react-icons/pi";
 import { TSlot } from "../../types/slot.types";
 import { baseApi } from "./baseApi";
 import { TQueryArgs } from "./rooms.api";
@@ -25,7 +26,7 @@ const SlotApi = baseApi.injectEndpoints({
         if (args.length) {
           args.forEach((arg) => params.append(`${arg.key}`, `${arg.value}`));
         }
-
+        console.log(args);
         return {
           url: `/slots`,
           method: "GET",
@@ -37,20 +38,31 @@ const SlotApi = baseApi.injectEndpoints({
     getSlotsOfARoom: build.query({
       query: ({
         id,
-        isBooked,
+        isBooked=false,
         args,
       }: {
         id: string;
         args?: TQueryArgs[];
-        isBooked?: string | boolean;
+        isBooked?: boolean;
       }) => {
         const params = new URLSearchParams();
 
         params.append("room", id);
-        isBooked && params.append("isBooked", `${isBooked}`);
-        
-        if(args && args.filter(item=>item.key==="date").length && !(args.filter(item=>item.key==="date")[0].value)){
-          args = args.filter(item=>item.key!=="date")
+        params.append("isBooked", `${isBooked}`)
+
+        if (
+          args &&
+          args.filter((item) => item.key === "date").length &&
+          !args.filter((item) => item.key === "date")[0].value
+        ) {
+          args = args.filter((item) => item.key !== "date");
+        }
+        if (
+          args &&
+          args.filter((item) => item.key === "groupBy").length &&
+          !args.filter((item) => item.key === "groupBy")[0].value
+        ) {
+          args = args.filter((item) => item.key !== "groupBy");
         }
 
         if (args && args.length) {
@@ -58,7 +70,7 @@ const SlotApi = baseApi.injectEndpoints({
             params.append(`${arg.key}`, `${arg.value}`);
           });
         }
-        
+
         return {
           url: `/slots/availability`,
           method: "GET",

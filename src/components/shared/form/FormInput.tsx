@@ -6,6 +6,9 @@ const FormInput = ({
   type = "text",
   name,
   label,
+  min=1,
+  step=1,
+  max,
   placeholder = `Enter ${label}`,
   defaultValue,
   required = true,
@@ -16,6 +19,9 @@ const FormInput = ({
   placeholder?: string;
   label: string;
   name: string;
+  min?: number;
+  step?: number;
+  max?: number;
   type?: "text" | "password" | "number";
   disabled?: boolean;
   required?: boolean;
@@ -42,6 +48,9 @@ const FormInput = ({
             >
               {type !== "password" ? (
                 <Input
+                min={min}
+                max={max}
+                step={step||1}
                 disabled={disabled}
                   {...field}
                   placeholder={placeholder}
