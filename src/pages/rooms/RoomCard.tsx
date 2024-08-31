@@ -161,7 +161,7 @@ export const RoomCard = ({
             <p className="text-2xl font-bold">
               $199{" "}
               <span className="text-sm font-normal text-muted-foreground">
-                per night
+                per slot
               </span>
             </p>
           </div>

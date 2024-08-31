@@ -40,7 +40,7 @@ const AvailableSlots = ({
         <label>Available Time Slots</label>
 
         {
-          <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-4">
             {date &&
               slotData &&
               slotData.map((slot) => (
@@ -89,7 +89,7 @@ const SlotCard = ({
   return (
     <label
       key={_id}
-      className="flex flex-col items-center justify-between rounded-md border-[1px] border-slate-200 bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primaryColor [&:has([data-state=checked])]:bg-blue-50 [&:has([data-state=checked])]:text-primaryColor"
+      className="flex flex-col font-medium items-center justify-between rounded-md border-[1px] border-slate-200 bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primaryColor [&:has([data-state=checked])]:bg-blue-50 [&:has([data-state=checked])]:text-primaryColor"
     >
       <Checkbox
         style={{

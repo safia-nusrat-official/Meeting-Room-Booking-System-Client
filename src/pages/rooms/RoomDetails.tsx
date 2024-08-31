@@ -248,7 +248,7 @@ const RoomDetails = () => {
               <CardFooter>
                 <Link
                   className="mt-6 w-full"
-                  to={`/create-booking/${room._id}`}
+                  to={`/user/create-booking/${room._id}`}
                 >
                   <Button className="rounded-sm w-full">Book Now</Button>
                 </Link>

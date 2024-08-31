@@ -29,7 +29,7 @@ import { Calendar } from "@/components/ui/calendar";
 
 const CreateBooking = () => {
   const { id } = useParams();
-  const { data: room } = useGetSingleRoomQuery(id as string);
+  const { data: room, refetch } = useGetSingleRoomQuery(id as string);
   const user = useAppSelector(getUser) as TUser;
   const [createBooking, { isLoading }] = useCreateBookingMutation();
   const [date, setDate] = useState<Date>(new Date());
@@ -38,7 +38,7 @@ const CreateBooking = () => {
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
     const booking: TBooking = {
-      date: moment().format("YYYY-MM-DD"),
+      date: moment(date).format("YYYY-MM-DD"),
       room: id as string,
       user: user._id as string,
       slots,
@@ -52,6 +52,7 @@ const CreateBooking = () => {
             result.error?.message ||
             "Failed to book room"
         );
+        refetch()
       } else {
         console.log(result.data);
         toast.success(result.data?.message || "Successfully Booked Room!");
@@ -168,7 +169,7 @@ const CreateBooking = () => {
               name="date"
             ></FormDateWatch> */}
 
-            <div className="grid md:grid-cols-2 grid-cols-1 mb-8 gap-4">
+            <div className="flex md:flex-row flex-col mb-8 gap-4">
               <div className="flex flex-col gap-2">
                 <label className="font-medium">Pick a Date</label>
 
@@ -189,7 +190,7 @@ const CreateBooking = () => {
               ></AvailableSlots>
             </div>
             <Spin spinning={isLoading} fullscreen></Spin>
-            <Button className="w-full" type="submit">
+            <Button disabled={date===undefined} className="w-full" type="submit">
               Confirm Booking
             </Button>
           </CustomForm>

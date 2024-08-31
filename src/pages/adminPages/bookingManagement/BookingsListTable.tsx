@@ -36,6 +36,7 @@ const BookingListsTable = () => {
     data && data?.data.map((booking: TBooking) => ({ ...booking }));
 
   const meta: TMeta = data && data?.meta;
+  console.log(bookingData)
 
   const handleDelete = async (id: string) => {
     confirm({
@@ -82,7 +83,7 @@ const BookingListsTable = () => {
       title: "User",
       dataIndex: "user",
       key: "user",
-      render: (item: TUser) => item?.name,
+      render: (item: TUser) => <Link to="/admin/all-users">{item?.name}</Link>,
       responsive: ["md"],
     },
     {
@@ -100,10 +101,14 @@ const BookingListsTable = () => {
       render: (slots: TSlot[]) => {
         console.log(slots);
         return (
-          <div>
+          <div className="flex flex-col gap-4">
             {slots.map((slot) => (
-              <Link to={`/slots-list`}>
-                {slot.startTime} - {slot.endTime}
+              <Link
+                to={`/slots-list`}
+                className="font-medium border-[1px] bg-slate-100 p-2 rounded-sm whitespace-nowrap text-primaryColor flex flex-col"
+              >
+                <span>{moment(slot.startTime, "HH:mm").format("hh:mm a")}</span>
+                <span>{moment(slot.endTime, "HH:mm").format("hh:mm a")}</span>
               </Link>
             ))}
           </div>
@@ -114,7 +119,9 @@ const BookingListsTable = () => {
       title: "Total Amount",
       dataIndex: "totalAmount",
       key: "totalAmount",
-      render: (price: string) => <p>$ {price}</p>,
+      render: (price: string) => (
+        <p className="font-medium text-slate-500">$ {price}</p>
+      ),
     },
     {
       title: "Status",
@@ -141,13 +148,17 @@ const BookingListsTable = () => {
           <>
             <div className="hidden md:flex gap-2">
               {/* <UpdateBooking id={item._id as string}></UpdateBooking> */}
-              <Button
-                onClick={() => handleDelete(item._id as string)}
-                variant={"destructive"}
-              >
-                Delete
-                <PiTrashLight className="text-lg ml-2"></PiTrashLight>
-              </Button>
+              {item.isDeleted ? (
+                <Tag color="red">Deleted</Tag>
+              ) : (
+                <Button
+                  onClick={() => handleDelete(item._id as string)}
+                  variant={"destructive"}
+                >
+                  Delete
+                  <PiTrashLight className="text-lg ml-2"></PiTrashLight>
+                </Button>
+              )}
             </div>
             <div className="md:hidden block">
               <DropdownMenu>
@@ -176,12 +187,9 @@ const BookingListsTable = () => {
     },
   ];
   return (
-    <div className="md:p-8">
-      <div className="flex md:p-0 px-4 pb-0 pt-6 w-full items-center justify-between">
+    <div className="">
+      <div className="flex md:p-8 px-4 pb-0 pt-6 w-full items-center justify-between">
         <SectionHeading mode="dark">All bookings</SectionHeading>
-        <Link to="/admin/create-booking">
-          <Button>Create a booking</Button>
-        </Link>
       </div>
       <div className="flex flex-col gap-4 mt-6">
         <Table

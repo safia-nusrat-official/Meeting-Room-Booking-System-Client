@@ -10,12 +10,14 @@ const FormInput = ({
   defaultValue,
   required = true,
   validate,
+  disabled=false
 }: {
   defaultValue?: string | number;
   placeholder?: string;
   label: string;
   name: string;
   type?: "text" | "password" | "number";
+  disabled?: boolean;
   required?: boolean;
   validate?:
     | Validate<any, FieldValues>
@@ -40,6 +42,7 @@ const FormInput = ({
             >
               {type !== "password" ? (
                 <Input
+                disabled={disabled}
                   {...field}
                   placeholder={placeholder}
                   size="large"

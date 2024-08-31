@@ -23,17 +23,20 @@ import {
   useGetMyBookingsQuery,
 } from "@/redux/api/bookings.api";
 import { TSlot } from "@/types/slot.types";
-
+import { useAppSelector } from "@/redux/hooks";
+import { getUser } from "@/redux/features/authSlice";
+import { TUser } from "@/types/user.types";
 
 const MyBookings = () => {
   const [current, setCurrent] = useState(1);
-
-  const { data, isLoading, isFetching } = useGetMyBookingsQuery(null);
+  const user = useAppSelector(getUser) as TUser;
+  const { data, isLoading, isFetching } = useGetMyBookingsQuery(user.email);
 
   const [deletebooking] = useDeleteBookingMutation();
   const bookingData: TBooking[] =
     data && data?.data.map((booking: TBooking) => ({ ...booking }));
 
+  console.log(bookingData);
   const meta: TMeta = data && data?.meta;
 
   const handleDelete = async (id: string) => {
@@ -90,12 +93,14 @@ const MyBookings = () => {
       dataIndex: "slots",
       key: "slots",
       render: (slots: TSlot[]) => {
-        console.log(slots);
         return (
-          <div>
+          <div className="flex flex-col gap-4">
             {slots.map((slot) => (
-              <Link to={`/slots-list`}>
-                {slot.startTime} - {slot.endTime}
+              <Link
+                to={`/slots-list`}
+                className="font-medium border-[1px] bg-slate-100 p-2 rounded-sm whitespace-nowrap text-primaryColor flex flex-col"
+              >
+                <span>{moment(slot.startTime, "HH:mm").format("hh:mm a")}</span><span>{moment(slot.endTime, "HH:mm").format("hh:mm a")}</span>
               </Link>
             ))}
           </div>
@@ -106,7 +111,7 @@ const MyBookings = () => {
       title: "Total Amount",
       dataIndex: "totalAmount",
       key: "totalAmount",
-      render: (price: string) => <p>$ {price}</p>,
+      render: (price: string) => <p className="text-slate-500 font-medium">$ {price}</p>,
     },
     {
       title: "Status",
@@ -131,12 +136,12 @@ const MyBookings = () => {
       render: (item: TBooking) => {
         return (
           <>
-            <Link to={`/user/checkout/${item._id as string}`} className="hidden md:flex gap-2">
+            <Link
+              to={`/user/checkout/${item._id as string}`}
+              className="hidden md:flex gap-2"
+            >
               {/* <UpdateBooking id={item._id as string}></UpdateBooking> */}
-              <Button
-                variant={"secondary"}
-                className="border-[1px]"
-              >
+              <Button variant={"secondary"} className="border-[1px]">
                 Proceed To Payment
               </Button>
             </Link>
@@ -169,10 +174,7 @@ const MyBookings = () => {
   return (
     <div className="md:p-8">
       <div className="flex md:p-0 px-4 pb-0 pt-6 w-full items-center justify-between">
-        <SectionHeading mode="dark">All bookings</SectionHeading>
-        <Link to="/admin/create-booking">
-          <Button>Create a booking</Button>
-        </Link>
+        <SectionHeading mode="dark">My bookings</SectionHeading>
       </div>
       <div className="flex flex-col gap-4 mt-6">
         <Table
@@ -204,8 +206,6 @@ const MyBookings = () => {
       </div>
     </div>
   );
+};
 
-}
-
-export default MyBookings
-
+export default MyBookings;
