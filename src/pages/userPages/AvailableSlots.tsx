@@ -100,12 +100,18 @@ const AvailableSlots = ({
                   }}
                 ></Skeleton.Button>
               ))}
-            {slotData && slotData.length < 1 && (
-              <div className="border-[1px] flex flex-col gap-8 col-span-2 p-8 border-slate-300 rounded-sm">
+              
+            {date && slotData && slotData.length < 1 && (
+              <div className="border-[1px] w-full text-center flex flex-col gap-8 col-span-2 p-8 border-slate-300 rounded-sm">
                 No Slot Available on {moment(date).format("DD MMM")}
                 <Button variant="link" onClick={() => setDate(null)}>
                   See on available dates?
                 </Button>
+              </div>
+            )}
+            {!date && slotData && slotData.length < 1 && (
+              <div className="border-[1px] font-medium text-slate-500 text-center w-full flex flex-col gap-8 col-span-2 p-8 border-slate-300 rounded-sm">
+                No Slots Created Yet for this room
               </div>
             )}
           </div>

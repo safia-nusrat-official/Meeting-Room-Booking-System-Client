@@ -72,23 +72,10 @@ const RoomListTable = () => {
   const columns: TableColumnsType<TRoom> = [
     {
       title: "Name",
-      dataIndex: "room",
-      key: "room",
-      render:(room:TRoom)=>{
-        return (
-          <Link to={`/rooms/${room?._id}`} className="flex flex-col gap-2">
-            <img src={room?.roomImages[0]} className="w-24 rounded-sm" />
-            <div className="">
-              <p className="text-slate-500 font-medium text-xs">
-                Room No. {room?.roomNo}
-              </p>
-              <p className="text-lg font-medium">{room?.name}</p>
-              <p className="text-slate-500 text-xs">
-                $ {room?.pricePerSlot} per slot
-              </p>
-            </div>
-          </Link>
-        );
+      dataIndex: "name",
+      key: "name",
+      render:(name:string)=>{
+        return <p className="font-medium">{name}</p>
       }
     },
     {
@@ -119,7 +106,7 @@ const RoomListTable = () => {
       render: (item: TRoom) => {
         return (
           <>
-            <div className="md:flex md:flex-col hidden gap-2">
+            <div className="md:flex hidden gap-2">
               <RoomDetailsCard id={item._id as string}></RoomDetailsCard>
               <UpdateRoom id={item._id as string}></UpdateRoom>
               <Button

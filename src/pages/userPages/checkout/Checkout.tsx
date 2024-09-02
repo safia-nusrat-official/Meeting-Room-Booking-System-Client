@@ -7,13 +7,11 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { BiDollar } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -36,7 +34,7 @@ import {
 
 import moment from "moment";
 import { TSlot } from "@/types/slot.types";
-import { Col, Divider, Rate, Row, Skeleton, Spin } from "antd";
+import { Col, Divider, Modal, Rate, Row, Skeleton, Spin } from "antd";
 
 import { TRoom } from "@/types/room.types";
 import { CiCalendar, CiViewTimeline } from "react-icons/ci";
@@ -57,7 +55,6 @@ export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const navigate = useNavigate()
   const { data, isLoading } = useGetASingleBookingQuery(id as string);
   const [updateBooking, { isLoading: updateLoading }] =
     useUpdateBookingMutation();
@@ -66,7 +63,7 @@ export default function Checkout() {
 
   const handleConfirmBooking = async () => {
     console.log("Booking called");
-    console.log(paymentSuccess)
+    console.log(paymentSuccess);
 
     // if (!paymentSuccess) {
     //   return;
@@ -90,7 +87,9 @@ export default function Checkout() {
         toast.error(result.error?.message || result.error?.data?.message);
       } else if (result.data) {
         console.log(result.data);
-        toast.success(result.data?.message || result.data?.data?.message || result?.message);
+        toast.success(
+          result.data?.message || result.data?.data?.message || result?.message
+        );
         setBookingSuccess(true);
       }
     } catch (error) {
@@ -194,10 +193,6 @@ export default function Checkout() {
     setBookingDetails(data?.data);
   }, [data]);
 
-  if((bookingDetails as TBooking).isConfirmed==="confirmed"){
-    return <Navigate to="/users/my-bookings"></Navigate>
-  }
-
   return (
     <section className="">
       <Breadcrumb className="p-8">
@@ -226,6 +221,7 @@ export default function Checkout() {
       </Breadcrumb>
 
       <div className="grid md:px-8 p-0 gap-4 grid-cols-1 md:grid-cols-5">
+        {/* payment details */}
         <Card className="md:col-span-3 col-span-1 shadow-none rounded-sm">
           <div className="flex items-start pt-6">
             <Link
@@ -245,6 +241,7 @@ export default function Checkout() {
           </div>
 
           <CardContent>
+            {/* user details */}
             {bookingDetails && (
               <>
                 <div className="gap-4 mb-8 flex flex-col">
@@ -284,6 +281,7 @@ export default function Checkout() {
                   </Row>
                 </div>
 
+                {/* payment details */}
                 <Tabs
                   onValueChange={(value: string) => setPaymentMethod(value)}
                   defaultValue={paymentMethod}
@@ -320,7 +318,14 @@ export default function Checkout() {
                     ></StripePayment>
                   </TabsContent>
                   <TabsContent value="paypal">
-                    <PayPalPayment></PayPalPayment>
+                    <PayPalPayment
+                      bookingId={bookingDetails._id as string}
+                      totalAmount={bookingDetails.totalAmount as number}
+                      handleConfirmBooking={handleConfirmBooking}
+                      isProcessing={isProcessing}
+                      setPaymentSuccess={setPaymentSuccess}
+                      setIsProcessing={setIsProcessing}
+                    ></PayPalPayment>
                   </TabsContent>
                 </Tabs>
               </>
@@ -358,8 +363,8 @@ export default function Checkout() {
       {/* success */}
 
       {bookingDetails && (
-        <Dialog open={bookingSuccess} onOpenChange={setBookingSuccess}>
-          <DialogContent className="flex justify-center flex-col items-center text-center">
+        <Modal open={bookingSuccess}>
+          <div className="flex justify-center flex-col items-center text-center">
             <div className="p-4 rounded-full w-fit text-green-700 text-4xl bg-green-300">
               <IoCheckmark></IoCheckmark>
             </div>
@@ -367,6 +372,7 @@ export default function Checkout() {
               <DialogTitle>Booking Confirmed</DialogTitle>
               <DialogDescription>Thank you for your booking!</DialogDescription>
             </DialogHeader>
+
             <div className="">
               <div className="flex my-4 py-4 border-y-[1px] justify-between items-start">
                 <div className="flex text-left gap-2">
@@ -416,8 +422,9 @@ export default function Checkout() {
                 See My Bookings
               </Button>
             </Link>
-          </DialogContent>
-        </Dialog>
+
+          </div>
+        </Modal>
       )}
     </section>
   );

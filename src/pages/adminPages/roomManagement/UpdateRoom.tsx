@@ -12,7 +12,7 @@ import { TReduxResponse } from "@/types";
 import { TRoom } from "@/types/room.types";
 import { handleNonPrimitiveUpdates } from "@/utility/roomUtils/updateRooms.utils";
 import { Button, Modal } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { SlPencil } from "react-icons/sl";
 import { toast } from "sonner";
@@ -24,8 +24,8 @@ const UpdateRoom = ({ id }: { id: string }) => {
   });
   const roomData: TRoom = (!isLoading && data?.data) || null;
 
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
-
+  const [imageUrls, setImageUrls] = useState<string[]>(roomData?.roomImages||[]);
+  
   const [updateRoom, { isLoading: UpdateLoading, isSuccess, isError }] =
     useUpdateRoomMutation();
 
@@ -35,18 +35,22 @@ const UpdateRoom = ({ id }: { id: string }) => {
 
   const handleUpdate: SubmitHandler<FieldValues> = async (updatedData: any) => {
     console.log(updatedData)
-
+    if(imageUrls.length<1){
+      toast.error("Atleast add 1 image for room!")
+      return
+    }
+    
     const updatedAmenities = handleNonPrimitiveUpdates(
       roomData?.amenities,
       updatedData?.amenities as string[]
     );
-    const updatedImages = handleNonPrimitiveUpdates(
-      roomData?.roomImages,
-      imageUrls
-    );
+    // const updatedImages = handleNonPrimitiveUpdates(
+    //   roomData?.roomImages,
+    //   imageUrls
+    // );
 
     const room: TRoom = {
-      roomImages: updatedImages,
+      roomImages: imageUrls,
       rating: Number(updatedData.rating || roomData?.rating),
       amenities: updatedAmenities || roomData?.amenities,
       capacity: Number(updatedData.capacity || roomData?.capacity),
@@ -81,6 +85,9 @@ const UpdateRoom = ({ id }: { id: string }) => {
           uid: `${roomData._id}${index + 1}`,
         }))
       : [];
+
+  useEffect(() => roomData?.roomImages && setImageUrls(roomData?.roomImages), [])
+  console.log("ImgUrls in Update room", imageUrls)
 
   return (
     <>

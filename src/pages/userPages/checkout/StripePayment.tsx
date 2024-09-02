@@ -15,7 +15,7 @@ import {
 import React, { FormEvent, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 
-import { useGetClientSecretQuery } from "@/redux/api/payment.api";
+import { useGetStripeClientSecretQuery } from "@/redux/api/payment.api";
 import { Button, Skeleton, Spin } from "antd";
 import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
@@ -43,16 +43,12 @@ const StripeCheckoutForm = ({
   const [key, setKey] = useState(0);
 
   const handleSubmit = async (e: FormEvent) => {
-    // Block native form submission.
     e.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
       return;
     }
     setIsProcessing(true);
-    // Use your card Element with other Stripe.js APIs
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -119,7 +115,7 @@ const StripePayment = ({
   setPaymentSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { data, isLoading } = useGetClientSecretQuery(totalAmount);
+  const { data, isLoading } = useGetStripeClientSecretQuery(totalAmount);
   const options = data && {
     clientSecret: data?.clientSecret,
     appearance: {
@@ -151,9 +147,14 @@ const StripePayment = ({
               ></StripeCheckoutForm>
             </Elements>
           )}
-          {isLoading && !data && (
+          {isLoading && (
             <Skeleton className="w-full" active></Skeleton>
           )}
+          {
+             !data && (
+              <Skeleton className="w-full" active></Skeleton>
+            )
+          }
         </CardContent>
       </CardHeader>
     </Card>

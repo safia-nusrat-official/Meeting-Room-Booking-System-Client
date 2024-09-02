@@ -18,7 +18,6 @@ import { getUser } from "@/redux/features/authSlice";
 import { TUser } from "@/types/user.types";
 import { Col, Row, Spin } from "antd";
 import AvailableSlots from "../AvailableSlots";
-import FormDateWatch from "@/components/shared/form/FormDateWatch";
 import { TBooking } from "@/types/booking.types";
 import moment from "moment";
 import { useCreateBookingMutation } from "@/redux/api/bookings.api";

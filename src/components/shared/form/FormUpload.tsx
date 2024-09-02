@@ -30,10 +30,17 @@ const FormUpload = ({
   useEffect(() => {
     (isSuccess || isError) && setFileList([]);
 
-    if (defaultFileList.length) {
+    if (defaultFileList) {
       setImageUrl(defaultFileList.map((file) => file.url as string));
     }
-    fileList && setImageUrl(fileList.map((file) => file.url as string));
+
+    if (fileList) {
+      setImageUrl(fileList.map((file) => file.url as string));
+    }
+    
+    console.log("File List image removed", fileList);
+    console.log("Every time images when file updates", imgUrl);
+
   }, [isSuccess, isError, fileList]);
 
   const handleUpload = async (options: any) => {
@@ -76,6 +83,7 @@ const FormUpload = ({
 
   const onRemove = (file: UploadFile<any>) => {
     setFileList(fileList.filter((prev) => prev.uid !== file.uid));
+    console.log("File List image removed in side onRemove", fileList);
   };
 
   return (
@@ -105,9 +113,7 @@ const FormUpload = ({
               <div className="flex flex-col text-xs items-center font-bold">
                 <PiUploadSimpleLight className="text-2xl font-bold" />
                 <p>
-                  {fileList.length > 4
-                    ? "Max Upload Limit 4"
-                    : "Upload Image"}
+                  {fileList.length > 4 ? "Max Upload Limit 4" : "Upload Image"}
                 </p>
               </div>
             )}

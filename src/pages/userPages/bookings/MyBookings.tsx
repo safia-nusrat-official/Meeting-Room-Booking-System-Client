@@ -173,7 +173,7 @@ const MyBookings = () => {
               </Button>
               <Link
                 to={
-                  item.isConfirmed === "confirmed" ?
+                  item.isConfirmed !== "confirmed" ?
                   `/user/checkout/${item._id as string}`:""
                 }
                 className="hidden md:flex gap-2"

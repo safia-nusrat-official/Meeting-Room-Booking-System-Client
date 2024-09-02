@@ -1,5 +1,5 @@
 import CreateRoom from "@/pages/adminPages/roomManagement/CreateRoom";
-import AdminDashboard from "../pages/adminPages/AdminDashboard";
+import AdminDashboard from "../pages/adminPages/dashboard/AdminDashboard";
 import ProtectedRoute from "../pages/ProtectedRoute";
 import CreateSlot from "@/pages/adminPages/slotsManagement/CreateSlot";
 import RoomListTable from "@/pages/adminPages/roomManagement/RoomListTable";

@@ -1,5 +1,5 @@
 import CreateRoom from "@/pages/adminPages/roomManagement/CreateRoom";
-import AdminDashboard from "../pages/adminPages/AdminDashboard";
+import AdminDashboard from "../pages/adminPages/dashboard/AdminDashboard";
 import ProtectedRoute from "../pages/ProtectedRoute";
 import CreateSlot from "@/pages/adminPages/slotsManagement/CreateSlot";
 import RoomListTable from "@/pages/adminPages/roomManagement/RoomListTable";
@@ -35,7 +35,7 @@ export const adminPaths = [
     ),
   },
   {
-    name:"Manage Rooms",
+    name: "Manage Rooms",
     path: "rooms-list",
     element: (
       <ProtectedRoute>
@@ -44,7 +44,7 @@ export const adminPaths = [
     ),
   },
   {
-    name:"Manage Bookings",
+    name: "Manage Bookings",
     path: "bookings-list",
     element: (
       <ProtectedRoute>
@@ -53,7 +53,7 @@ export const adminPaths = [
     ),
   },
   {
-    name:"Manage Slots",
+    name: "Manage Slots",
     path: "slots-list",
     element: (
       <ProtectedRoute>
@@ -62,7 +62,7 @@ export const adminPaths = [
     ),
   },
   {
-    name:"Manage Users",
+    name: "Manage Users",
     path: "all-users",
     element: (
       <ProtectedRoute>
