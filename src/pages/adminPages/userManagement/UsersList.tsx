@@ -1,33 +1,21 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import SectionHeading from "@/components/shared/SectionHeading";
-import { Button } from "@/components/ui/button";
 import { TMeta, TReduxResponse } from "@/types";
-import { TSlot } from "@/types/slot.types";
 import { Pagination, Table, Tag } from "antd";
-import confirm from "antd/es/modal/confirm";
-import { CiCircleAlert } from "react-icons/ci";
-import { PiTrashLight } from "react-icons/pi";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
 import { useState } from "react";
 import { TUser } from "@/types/user.types";
 import { ColumnsType } from "antd/es/table";
-import moment from "moment";
 import { useGetAllUsersQuery } from "@/redux/api/user.api";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { AvatarImage } from "@radix-ui/react-avatar";
 
 const UsersList = () => {
   const [current, setCurrent] = useState(1);
   const { data, isLoading, isFetching } = useGetAllUsersQuery([
-    { key: "limit", value: "7" },
+    { key: "limit", value: "5" },
     { key: "page", value: `${current}` },
   ]);
-  const userData: TSlot[] =
-    data && data?.data.map((slot: TSlot) => ({ ...slot }));
+  const userData: TUser[] =
+    data && data?.data.map((user: TUser) => ({ ...user }));
 
   const meta: TMeta = data && data?.meta;
 
@@ -60,16 +48,24 @@ const UsersList = () => {
   //   });
   // };
 
-  const columns: ColumnsType<TSlot> = [
+  const columns: ColumnsType<TUser> = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title:"User Name & Email",
+      render: (user: TUser) => {
+        return (
+          <div className="flex gap-2">
+            <Avatar>
+              <AvatarImage src={user.profileImage}></AvatarImage>
+              <AvatarFallback className="font-medium">{user.name[0]}{user.name[user.name.length-1]}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-medium ">{user.name}</p>
+              <p>{user.email}</p>
+            </div>
+          </div>
+        );
+      },
+
     },
     {
       title: "Phone",
@@ -87,7 +83,7 @@ const UsersList = () => {
       key: "role",
       render: (role) => {
         return (
-          <Tag color={role === "admin" ? "red" : "processing"}>{`${role}`}</Tag>
+          <Tag className="cursor-pointer" color={role === "admin" ? "red" : "processing"}>{`${role}`}</Tag>
         );
       },
     },
@@ -158,25 +154,27 @@ const UsersList = () => {
                 padding: "4px",
               }}
               bordered
-              loading={isFetching}
+              loading={isLoading || isFetching}
               dataSource={userData}
               columns={columns}
               pagination={false}
             />
             <Table
               className="hidden md:block"
-              loading={isFetching}
+              loading={isLoading || isFetching}
               dataSource={userData}
               columns={columns}
               pagination={false}
             />
-            <Pagination
-              className="mx-auto my-6"
-              total={meta?.totalDocuments}
-              pageSize={meta?.limit}
-              current={current}
-              onChange={(value) => setCurrent(value)}
-            ></Pagination>
+            {meta.totalDocuments > meta.limit && (
+              <Pagination
+                className="mx-auto my-6"
+                total={meta?.totalDocuments}
+                pageSize={meta?.limit}
+                current={current}
+                onChange={(value) => setCurrent(value)}
+              ></Pagination>
+            )}
           </>
         )}
       </div>

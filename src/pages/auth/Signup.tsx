@@ -1,12 +1,8 @@
+import { HiOutlineUpload } from "react-icons/hi";
 import { ReactNode, useState } from "react";
 import { TReduxResponse } from "../../types/index";
 
-import {
-  Controller,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import {
   Card,
   CardContent,
@@ -25,13 +21,15 @@ import { logout } from "@/redux/features/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import CustomForm from "@/components/shared/form/CustomForm";
 import FormInput from "@/components/shared/form/FormInput";
-import { Button } from "antd";
+import { Button, ConfigProvider, Form, Upload } from "antd";
 import FormInputWatch from "@/components/shared/form/FormInputWatch";
 
 export default function Signup() {
   const [signup, { isLoading }] = useSignupMutation();
   const dispatch = useAppDispatch();
   const [password, setPassword] = useState("");
+  const [file, setFile] = useState<any>();
+
   const navigate = useNavigate();
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData: TUser = {
@@ -42,16 +40,25 @@ export default function Signup() {
       password: data.password,
       role: "user",
     };
+    console.log(userData);
+
+    const formData = new FormData();
+
+    formData.append("profileImage", data.profileImage.fileList[0].originFileObj);
+    formData.append("data", JSON.stringify(userData));
+
     try {
-      const result = (await signup(userData)) as TReduxResponse<any>;
+      const result = (await signup(formData)) as TReduxResponse<any>;
       console.log(result);
 
       if (result?.error) {
         console.log(result?.message || result?.error?.message);
+        setFile([]);
         toast.error(result?.error?.data?.message || result?.error?.message);
       } else {
         const user = result?.data?.data;
         console.log(user);
+        setFile([]);
         toast.success(`Account created Successfully!`);
         dispatch(logout());
         navigate("/login");
@@ -64,14 +71,55 @@ export default function Signup() {
   return (
     <section className="relative bg-white items-start py-12 flex flex-col-reverse md:flex-row-reverse">
       <Card className="w-full border-0 border-l-[1px] md:mr-16  max-w-md shadow-none rounded-none">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">Signup</CardTitle>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl  font-bold">Signup</CardTitle>
           <CardDescription>
             Fill up the information below to create an account{" "}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <CustomForm onSubmit={handleSubmit}>
+            <ConfigProvider
+              theme={{
+                components: {
+                  Upload: {
+                    colorBorder: "#a2a2a2",
+                  },
+                },
+              }}
+            >
+              <Controller
+                name="profileImage"
+                rules={{
+                  required: "Profile Image is required.",
+                }}
+                render={({
+                  field: { value, onChange, ...field },
+                  fieldState,
+                }) => (
+                  <Form.Item
+                    className="mt-4 self-center"
+                    label="Upload a Profile Photo"
+                    validateStatus={fieldState.error ? "error" : ""}
+                    help={fieldState.error ? fieldState.error?.message : ""}
+                  >
+                    <Upload
+                      maxCount={1}
+                      onChange={onChange}
+                      accept="image/*"
+                      fileList={file}
+                      showUploadList={true}
+                      listType="picture-circle"
+                      beforeUpload={()=>false}
+                    >
+                      <button className="text-slate-700 text-4xl">
+                        <HiOutlineUpload />
+                      </button>
+                    </Upload>
+                  </Form.Item>
+                )}
+              />
+            </ConfigProvider>
             <FormInput name="name" label="Your Name"></FormInput>
             <FormInput name="email" label="Your Email"></FormInput>
             <FormInput name="address" label="Your Address"></FormInput>
@@ -107,7 +155,7 @@ export default function Signup() {
             </Button>
           </CustomForm>
         </CardContent>
-        <CardFooter className="flex justify-center">
+        <CardFooter className="flex gap-2 justify-center">
           <p className="text-sm text-muted-foreground">
             Already have an account?
             <Link

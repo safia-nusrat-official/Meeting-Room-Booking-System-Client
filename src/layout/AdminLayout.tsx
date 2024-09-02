@@ -8,6 +8,7 @@ import { generateSideBarLinks } from "@/utility/routeUtils/generateSidebarLinks"
 import { Avatar, Button, Divider, Layout, Menu } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
+import { useEffect, useState } from "react";
 import { CiLogout } from "react-icons/ci";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
@@ -31,6 +32,23 @@ const AdminLayout = () => {
     key: "home",
     label: <NavLink to="/">Back to Home</NavLink>,
   });
+
+  
+  const [selectedKeys, setSelectedKeys] = useState("/");
+  const [collapsed, setCollapsed] = useState(true);
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setSelectedKeys("home");
+    } else if (
+      sideBarItems.find((item) => item.key === location.pathname.slice(1))
+    ) {
+      setSelectedKeys(location.pathname.slice(1));
+    } else {
+      setSelectedKeys("");
+    }
+  }, [location.pathname]);
+
   return (
     <Layout>
       <Sider
@@ -64,7 +82,7 @@ const AdminLayout = () => {
           }}
         />
 
-        <div className="md:px-8 md:mt-80">
+        <div className="mx-8 mt-6">
           <Button
             onClick={handleLogout}
             className="rounded-sm py-[1.25rem] w-full"
@@ -74,6 +92,35 @@ const AdminLayout = () => {
         </div>
       </Sider>
       <Layout>
+        <Sider
+          className="md:hidden font-Untitled-Sans block z-50 max-w-[320px] w-[320px]"
+          collapsible
+          collapsed={collapsed}
+          trigger={null}
+          breakpoint="lg"
+          collapsedWidth="0"
+          width="100%"
+          onCollapse={setCollapsed}
+          style={{
+            position: "fixed",
+            height: "100vh",
+            top: "65px",
+            width: "100% !important",
+            paddingTop: "1rem",
+          }}
+        >
+          <Menu
+            onClick={() => setCollapsed(!collapsed)}
+            theme="dark"
+            mode="inline"
+            selectedKeys={[selectedKeys]}
+            items={sideBarItems}
+            style={{
+              paddingLeft: "14px",
+              paddingRight: "14px",
+            }}
+          />
+        </Sider>
         <Content
           style={{ height: "100vh", position: "relative" }}
           className="md:ml-[250px] ml-0"

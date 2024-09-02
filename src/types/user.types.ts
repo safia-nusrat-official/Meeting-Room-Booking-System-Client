@@ -4,6 +4,7 @@ export interface TUser {
   password: string;
   phone: string;
   address: string;
+  profileImage?:string;
   role: "admin" | "user";
   _id?:string // mongoDB ID
 }

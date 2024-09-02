@@ -11,10 +11,10 @@ const authApi = baseApi.injectEndpoints({
         })
     }),
     signup:build.mutation({
-        query:(data:TUser)=>({
+        query:(formData:FormData)=>({
             url:`/auth/signup`,
             method:"POST",
-            body:data
+            body:formData
         })
     }),
     logout:build.query({

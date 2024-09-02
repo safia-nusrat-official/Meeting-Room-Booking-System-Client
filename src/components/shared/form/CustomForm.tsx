@@ -10,26 +10,27 @@ import {
 const CustomForm = ({
   children,
   onSubmit,
-  resetForm=true,
-  defaultValues
+
+  resetForm = true,
+  defaultValues,
 }: {
-  resetForm?:boolean
+  resetForm?: boolean;
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
-  defaultValues?:any
+  defaultValues?: any;
 }) => {
   const methods = useForm();
 
-  const submit:SubmitHandler<FieldValues> = (data) => {
-    onSubmit(data)
-    if(resetForm){
-      methods.reset()
+  const submit: SubmitHandler<FieldValues> = (data) => {
+    onSubmit(data);
+    if (resetForm) {
+      methods.reset();
     }
-  }
+  };
   return (
     <FormProvider {...methods}>
       <Form
-      defaultValue={defaultValues}
+        defaultValue={defaultValues}
         layout="vertical"
         className="font-inter flex flex-col"
         onFinish={methods.handleSubmit(submit)}

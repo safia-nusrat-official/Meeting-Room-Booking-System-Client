@@ -5,7 +5,7 @@ import CreateSlot from "@/pages/adminPages/slotsManagement/CreateSlot";
 import RoomListTable from "@/pages/adminPages/roomManagement/RoomListTable";
 import BookingListsTable from "@/pages/adminPages/bookingManagement/BookingsListTable";
 import SlotListTable from "@/pages/adminPages/slotsManagement/SlotListTable";
-import UsersList from "@/pages/adminPages/UsersList";
+import UsersList from "@/pages/adminPages/userManagement/UsersList";
 
 export const adminPaths = [
   {

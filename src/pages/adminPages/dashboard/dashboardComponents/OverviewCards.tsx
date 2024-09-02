@@ -1,14 +1,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetDashboardDataQuery } from "@/redux/api/dashboard.api";
+import { CiClock1, CiClock2, CiTimer } from "react-icons/ci";
 
 const OverviewCards = () => {
   const { data, isLoading } = useGetDashboardDataQuery([]);
-  console.log(data)
+  console.log(data);
+  const { totalBookings, totalRooms, totalSlots, totalUsers } = (data &&
+    data?.data) || {
+    totalBookings: 0,
+    totalRooms: 0,
+    totalSlots: 0,
+    totalUsers: 0,
+  };
+
   return (
     <div className="grid gap-4 md:grid-cols-2 col-span-4 lg:grid-cols-4">
       <Card className="shadow-none rounded-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+          <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -23,8 +32,9 @@ const OverviewCards = () => {
           </svg>
         </CardHeader>
         <CardContent>
-          
-          <div className="text-2xl font-bold">$45,231.89</div>
+          <div className="text-2xl font-bold">{totalBookings}</div>
+
+          {/* recent bookings today */}
           <p className="text-xs text-muted-foreground">
             +20.1% from last month
           </p>
@@ -32,7 +42,7 @@ const OverviewCards = () => {
       </Card>
       <Card className="shadow-none rounded-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
+          <CardTitle className="text-sm font-medium">Total Users</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -49,15 +59,16 @@ const OverviewCards = () => {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+2350</div>
+          <div className="text-2xl font-bold">{totalUsers}</div>
           <p className="text-xs text-muted-foreground">
+            {/* recent signups */}
             +180.1% from last month
           </p>
         </CardContent>
       </Card>
       <Card className="shadow-none rounded-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Sales</CardTitle>
+          <CardTitle className="text-sm font-medium">Total Rooms</CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -73,28 +84,19 @@ const OverviewCards = () => {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+12,234</div>
+          <div className="text-2xl font-bold">{totalRooms}</div>
+          {/*  */}
           <p className="text-xs text-muted-foreground">+19% from last month</p>
         </CardContent>
       </Card>
       <Card className="shadow-none rounded-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-          </svg>
+          <CardTitle className="text-sm font-medium">Total Slots</CardTitle>
+          <CiClock2 className="text-lg"></CiClock2>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+573</div>
+          <div className="text-2xl font-bold">{totalSlots}</div>
+          {/* total booked */}
           <p className="text-xs text-muted-foreground">+201 since last hour</p>
         </CardContent>
       </Card>

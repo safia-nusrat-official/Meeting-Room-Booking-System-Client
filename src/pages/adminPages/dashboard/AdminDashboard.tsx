@@ -17,15 +17,22 @@ import moment from "moment";
 import { useAppSelector } from "@/redux/hooks";
 import { getUser } from "@/redux/features/authSlice";
 import { TUser } from "@/types/user.types";
+import { QuickAccess } from "./dashboardComponents/QuickAccess";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const AdminDashboard = () => {
   const user = useAppSelector(getUser) as TUser;
   return (
     <section className="md:p-10 bg-slate-100">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+        <QuickAccess></QuickAccess>
 
         <div className="flex flex-col items-end font-bold">
+          <Avatar>
+            <AvatarImage src={user.profileImage}></AvatarImage>
+            <AvatarFallback></AvatarFallback>
+          </Avatar>
+
           <span className="text-xl">Welcome back {user.name}!</span>
           <span className="font-medium">
           {moment().format("Do MMMM YYYY, dddd")}            
