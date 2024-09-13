@@ -70,8 +70,8 @@ const CreateBooking = () => {
   };
   console.log(date);
   return (
-    <div className="md:p-12 bg-white relative">
-      <div className="md:m-0 m-8 mb-0">
+    <div className="md:p-12 pb-12 bg-white relative">
+      <div className="md:m-0 mx-8 pt-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -97,18 +97,17 @@ const CreateBooking = () => {
         <SectionHeading mode="dark">Book Rooms</SectionHeading>
       </div>
       <div className="flex items-start md:flex-row-reverse flex-col-reverse gap-8">
-        <div className="md:m-0 mx-8 flex-1">
+        <div className="md:m-0  mx-8 md:flex-1 flex-0">
           <CustomForm onSubmit={handleSubmit}>
             <h1 className="font-bold text-slate-800  my-4 text-xl">
               User Details
             </h1>
-            <Row gutter={8}>
-              <Col
-                lg={{
+            <Row gutter={8} >
+              <Col className="w-full" lg={{
                   span: 12,
                 }}
                 sm={{
-                  span: 24,
+                  span: 20,
                 }}
               >
                 <FormInput
@@ -118,12 +117,12 @@ const CreateBooking = () => {
                   defaultValue={user.name}
                 ></FormInput>
               </Col>
-              <Col
+              <Col className="w-full" 
                 lg={{
                   span: 12,
                 }}
                 sm={{
-                  span: 24,
+                  span: 28,
                 }}
               >
                 <FormInput
@@ -135,7 +134,7 @@ const CreateBooking = () => {
               </Col>
             </Row>
             <Row gutter={8}>
-              <Col
+              <Col className="w-full" 
                 lg={{
                   span: 12,
                 }}
@@ -150,7 +149,7 @@ const CreateBooking = () => {
                   defaultValue={user.phone}
                 ></FormInput>
               </Col>
-              <Col
+              <Col className="w-full" 
                 lg={{
                   span: 12,
                 }}
@@ -208,7 +207,7 @@ const CreateBooking = () => {
             </Button>
           </CustomForm>
         </div>
-        <div className="flex-1 relative md:sticky top-0 md:top-12">
+        <div className="md:flex-1 flex-0 relative md:sticky top-0 md:top-12">
           {room && <RoomCard size="lg" room={room?.data}></RoomCard>}
         </div>
       </div>

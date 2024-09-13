@@ -15,16 +15,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 import stripeLogo from "../../../assets/icons/stripe-logo.png";
-import paypalLogo from "../../../assets/icons/paypal-logo.png";
+import paypalLogo from "../../../assets/images/paypal.png";
 
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import {
@@ -58,7 +51,7 @@ export default function Checkout() {
   const { data, isLoading } = useGetASingleBookingQuery(id as string);
   const [updateBooking, { isLoading: updateLoading }] =
     useUpdateBookingMutation();
-
+  const navigate = useNavigate();
   const [bookingDetails, setBookingDetails] = useState<any>();
 
   const handleConfirmBooking = async () => {
@@ -72,7 +65,7 @@ export default function Checkout() {
     const updatedBooking: TBooking = {
       ...bookingDetails,
       isConfirmed: "confirmed",
-      paymentMethod: "stripe",
+      paymentMethod,
     };
 
     try {
@@ -99,7 +92,7 @@ export default function Checkout() {
   };
 
   const bookingSummary = bookingDetails && (
-    <div className="flex  font-semibold flex-col gap-2 text-sm">
+    <div className="flex font-semibold flex-col gap-2 text-sm">
       <Link to={`/rooms/${bookingDetails?.room?._id}`} className="flex gap-2">
         <img
           src={bookingDetails?.room?.roomImages[0]}
@@ -169,10 +162,10 @@ export default function Checkout() {
                   index !== 1 &&
                   bookingDetails?.slots?.length > 1 &&
                   "border-b-[1px]"
-                } hover:text-slate-500  text-slate-500 hover:bg-slate-100 flex items-center gap-2 p-4`}
+                } hover:text-slate-500  text-slate-500 hover:bg-slate-100 flex items-start gap-2 justify-center py-4`}
               >
                 <GoClock className="text-xl"></GoClock>
-                <span className="flex gap-2">
+                <span className="flex  whitespace-nowrap gap-2">
                   <span>From</span>
                   <span className="text-slate-900">
                     {moment(item?.startTime, "HH:mm").format("hh:mm A")}
@@ -194,8 +187,8 @@ export default function Checkout() {
   }, [data]);
 
   return (
-    <section className="">
-      <Breadcrumb className="p-8">
+    <section className="bg-white">
+      <Breadcrumb className="px-8 md:py-6 py-2">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink>
@@ -246,13 +239,17 @@ export default function Checkout() {
               <>
                 <div className="gap-4 mb-8 flex flex-col">
                   <Row gutter={12}>
-                    <Col className="" span={12}>
+                    <Col
+                      className="w-full mb-2"
+                      lg={{ span: 12 }}
+                      sm={{ span: 24 }}
+                    >
                       <label className="text-slate-800 font-medium">Name</label>
                       <p className="border-[1px] rounded-sm mt-2 p-2 border-slate-300 text-slate-600">
                         {bookingDetails?.user?.name}
                       </p>
                     </Col>
-                    <Col className="" span={12}>
+                    <Col className="w-full" lg={{ span: 12 }} sm={{ span: 24 }}>
                       <label className="text-slate-800 font-medium">
                         Email
                       </label>
@@ -262,15 +259,15 @@ export default function Checkout() {
                     </Col>
                   </Row>
                   <Row gutter={12}>
-                    <Col className="" span={12}>
+                    <Col className="w-full" lg={{ span: 12 }} sm={{ span: 24 }}>
                       <label className="text-slate-800 font-medium">
                         Address
                       </label>
-                      <p className="border-[1px] rounded-sm mt-2 p-2 border-slate-300 text-slate-600">
+                      <p className="border-[1px] rounded-sm my-2 p-2 border-slate-300 text-slate-600">
                         {bookingDetails?.user?.address}
                       </p>
                     </Col>
-                    <Col className="" span={12}>
+                    <Col className="w-full" lg={{ span: 12 }} sm={{ span: 24 }}>
                       <label className="text-slate-800 font-medium">
                         Phone
                       </label>
@@ -287,24 +284,27 @@ export default function Checkout() {
                   defaultValue={paymentMethod}
                   className="w-full"
                 >
-                  <TabsList className="md:p-0 gap-4 w-full bg-transparent justify-between h-fit">
+                  <TabsList className="md:p-0 gap-4 w-full grid bg-transparent grid-cols-2 h-fit">
                     <TabsTrigger
                       disabled={isProcessing && paymentMethod === "stripe"}
                       value="stripe"
                       className="data-[state=active]:shadow-none data-[state=active]:border-primaryColor border-slate-300 border-[1px]"
                     >
-                      <div className="px-4">
-                        <img src={stripeLogo} className="w-12 md:w-40"></img>
+                      <div className="px-4 h-full">
+                        <img src={stripeLogo} className="md:w-40 "></img>
                       </div>
                     </TabsTrigger>
 
                     <TabsTrigger
                       disabled={isProcessing && paymentMethod === "paypal"}
                       value="paypal"
-                      className="data-[state=active]:shadow-none data-[state=active]:border-primaryColor border-slate-300 border-[1px]"
+                      className="data-[state=active]:shadow-none data-[state=active]:border-primaryColor border-slate-300 border-[1px] md:max-h-20 max-h-10"
                     >
-                      <div className="px-0 md:px-16">
-                        <img src={paypalLogo} className="w-8 md:w-20"></img>
+                      <div className="">
+                        <img
+                          src={paypalLogo}
+                          className="object-contain h-full"
+                        ></img>
                       </div>
                     </TabsTrigger>
                   </TabsList>
@@ -363,18 +363,25 @@ export default function Checkout() {
       {/* success */}
 
       {bookingDetails && (
-        <Modal open={bookingSuccess}>
+        <Modal
+          onCancel={() => {
+            console.log("close clicked");
+            navigate("/user/my-bookings");
+          }}
+          footer={null}
+          open={bookingSuccess}
+        >
           <div className="flex justify-center flex-col items-center text-center">
             <div className="p-4 rounded-full w-fit text-green-700 text-4xl bg-green-300">
               <IoCheckmark></IoCheckmark>
             </div>
-            <DialogHeader>
-              <DialogTitle>Booking Confirmed</DialogTitle>
-              <DialogDescription>Thank you for your booking!</DialogDescription>
-            </DialogHeader>
+            <h1 className="font-extrabold text-4xl mt-4">Booking Confirmed</h1>
+            <h1 className="font-medium text-xl text-slate-500">
+              Thank you for booking!
+            </h1>
 
-            <div className="">
-              <div className="flex my-4 py-4 border-y-[1px] justify-between items-start">
+            <div>
+              <div className="flex flex-wrap gap-4 my-4 py-4 border-y-[1px] justify-between md:items-start">
                 <div className="flex text-left gap-2">
                   <img
                     src={bookingDetails?.room?.roomImages[0]}
@@ -394,12 +401,12 @@ export default function Checkout() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="flex text-right gap-2 items-center font-medium">
+                  <div className="flex text-right gap-2 items-center whitespace-nowrap font-medium">
                     <GoClock className="text-xl"></GoClock>
                     <span>Booked Time Slots</span>
                   </div>
                   {bookingDetails?.slots?.length > 0 &&
-                    bookingDetails.slots.map((item: TSlot, index: number) => (
+                    bookingDetails.slots.map((item: TSlot) => (
                       <div className="text-slate-400 text-sm">
                         {moment(item?.startTime, "HH:mm").format("hh:mm A")} -{" "}
                         {moment(item?.endTime, "HH:mm").format("hh:mm A")}
@@ -410,19 +417,22 @@ export default function Checkout() {
 
               <p>
                 You paid
-                <span className="font-medium">
+                <span className="font-bold ml-[4px]">
                   ${bookingDetails.totalAmount}
                 </span>
                 . A receipt copy was sent to
-                <span className="font-bold">{bookingDetails.user.email}</span>
+                <span className="font-bold mx-[4px]">
+                  {" "}
+                  {bookingDetails.user.email}
+                </span>
               </p>
             </div>
+
             <Link to="/user/my-bookings">
               <Button variant="link" className="text-primaryColor underline">
                 See My Bookings
               </Button>
             </Link>
-
           </div>
         </Modal>
       )}

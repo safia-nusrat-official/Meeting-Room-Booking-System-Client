@@ -6,7 +6,7 @@ import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 
 import { Navigation, FreeMode, Thumbs, Pagination } from "swiper/modules";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Skeleton } from "antd";
 import Swiper from "swiper";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
@@ -21,7 +21,7 @@ const CustomSlider = ({
   const thumbsSwiper = useRef<Swiper | null>(null);
   const prevRef = useRef<any | null>(null);
   const nextRef = useRef<any | null>(null);
-
+  
   return (
     <div className="relative img-container mb-4">
       <div className="flex px-4 z-20 justify-between items-center absolute w-full h-1/2 top-0 left-0">
@@ -51,8 +51,8 @@ const CustomSlider = ({
         className="room-swiper bg-white rounded-md overflow-hidden"
       >
         {images.length > 0 &&
-          images.map((roomImage) => (
-            <SwiperSlide>
+          images.map((roomImage, index) => (
+            <SwiperSlide key={index+1}>
               <img src={roomImage} alt="" />
             </SwiperSlide>
           ))}
@@ -76,8 +76,8 @@ const CustomSlider = ({
         className="thumbSwiper mt-4"
       >
         {images.length > 0 &&
-          images.map((roomImage) => (
-            <SwiperSlide>
+          images.map((roomImage, index) => (
+            <SwiperSlide key={index+1}>
               <img
                 src={roomImage}
                 alt=""

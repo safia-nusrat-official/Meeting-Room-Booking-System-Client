@@ -1,17 +1,10 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { TMeta, TReduxResponse } from "@/types";
 import { TBooking, TBookingStatus } from "@/types/booking.types";
-import { Pagination, Rate, Table, Tag } from "antd";
+import { Pagination, Table, Tag } from "antd";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
-import { PiTrashLight } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -19,7 +12,6 @@ import { TRoom } from "@/types/room.types";
 import { ColumnsType } from "antd/es/table";
 import moment from "moment";
 import {
-  useDeleteBookingMutation,
   useGetMyBookingsQuery,
   useUpdateBookingMutation,
 } from "@/redux/api/bookings.api";
@@ -27,7 +19,6 @@ import { TSlot } from "@/types/slot.types";
 import { useAppSelector } from "@/redux/hooks";
 import { getUser } from "@/redux/features/authSlice";
 import { TUser } from "@/types/user.types";
-
 
 const MyBookings = () => {
   const [current, setCurrent] = useState(1);
@@ -85,18 +76,18 @@ const MyBookings = () => {
     {
       title: "Room",
       dataIndex: "room",
-      key: "roomName",
       render: (room: TRoom) => {
         return (
-          <Link to={`/rooms/${room?._id}`} className="flex gap-2">
+          <Link to={`/rooms/${room?._id}`} className="flex flex-col gap-2">
             <img src={room?.roomImages[0]} className="w-24 rounded-sm" />
-            <div className="font-medium">
-              <p className="text-slate-500 text-xs">Room No. {room.roomNo}</p>
-              <p className="text-lg">{room.name}</p>
-              <span className="text-slate-500 flex items-center">
-                <Rate className="scale-75" count={1} value={1}></Rate>{" "}
-                {room.rating}
-              </span>
+            <div className="">
+              <p className="text-slate-500 whitespace-nowrap text-xs">
+                Room No. {room.roomNo}
+              </p>
+              <p className="font-semibold">{room.name}</p>
+              <p className="text-slate-500 whitespace-nowrap text-xs">
+                $ {room.pricePerSlot} per slot
+              </p>
             </div>
           </Link>
         );
@@ -104,54 +95,115 @@ const MyBookings = () => {
       responsive: ["md"],
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (item: string) => {
-        return `${moment(item).format("DD/MM/YY")}`;
+      className: "md:hidden table-cell",
+      title: "Room & Amount",
+      render: (booking: any) => {
+        return (
+          <div className="font-medium flex flex-col">
+            <img src={booking?.room?.roomImages[0]} className="w-full mb-2 rounded-sm" />
+
+            <p className="text-slate-500 text-xs">
+              Room No. {booking.room?.roomNo}
+            </p>
+            <p className="text-sm">{booking.room?.name}</p>
+          </div>
+        );
       },
     },
     {
+      title: "Booking Details",
+      render: (booking: TBooking) => {
+        return (
+          <div className="flex text-xs flex-col gap-4 text-slate-500">
+            <p className="whitespace-nowrap ">
+              Total Price:
+              <span className="text-zinc-800 ml-[2px] font-semibold">
+                $ {booking.totalAmount}
+              </span>
+            </p>
+            <p className="">
+              Booked Date: <br />
+              <span className="ml-[2px] text-zinc-800 font-semibold">
+                {moment(booking.date).format("Do MMM YYYY")}
+              </span>
+            </p>
+          </div>
+        );
+      },
+    },
+    
+    {
       title: "Booked Slots",
       dataIndex: "slots",
+      className: "",
       key: "slots",
       render: (slots: TSlot[]) => {
         return (
           <div className="flex flex-col gap-4">
             {slots.map((slot) => (
-              <Link
-                to={`/slots-list`}
-                className="font-medium border-[1px] bg-slate-100 p-2 rounded-sm whitespace-nowrap text-primaryColor flex flex-col"
-              >
+              <div className="font-medium border-[1px] bg-slate-100 p-2 rounded-sm whitespace-nowrap text-primaryColor flex flex-col">
                 <span>{moment(slot.startTime, "HH:mm").format("hh:mm a")}</span>
                 <span>{moment(slot.endTime, "HH:mm").format("hh:mm a")}</span>
-              </Link>
+              </div>
             ))}
           </div>
         );
       },
     },
     {
-      title: "Total Amount",
-      dataIndex: "totalAmount",
-      key: "totalAmount",
-      render: (price: string) => (
-        <p className="text-slate-500 font-medium">$ {price}</p>
-      ),
+      title: "Payment Details",
+      render: (booking: TBooking) => {
+        return booking.paymentDate ? (
+          <div className="flex text-center text-zinc-500 flex-col gap-2">
+            <p className="text-xs whitespace-nowrap mt-4">
+              Payment Method: <br />
+              <Tag
+                className="font-medium mt-[2px]"
+                color={booking.paymentMethod === "stripe" ? "purple" : "blue"}
+              >
+                {booking.paymentMethod}
+              </Tag>
+            </p>
+
+            <p className="text-xs mt-4">
+              Payment Date: <br />
+              <span className="ml-[2px] text-zinc-800 font-semibold">
+                {moment(booking.paymentDate).format("DD MMM YYYY")}
+              </span>
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <Tag
+              className="w-full text-center md:hidden block font-medium"
+              color={
+                booking.isConfirmed === "confirmed"
+                  ? "blue"
+                  : booking.isConfirmed === "canceled"
+                  ? "red"
+                  : "orange"
+              }
+            >{`${booking.isConfirmed}`}</Tag>
+            <Tag className="font-medium">Not Yet Paid</Tag>
+          </div>
+        );
+      },
     },
     {
       title: "Status",
+      className: "md:table-cell hidden",
       dataIndex: "isConfirmed",
       key: "_id",
       render: (item: TBookingStatus) => {
         return (
           <Tag
+            className="font-medium"
             color={
               item === "confirmed"
-                ? "blue"
+                ? "green"
                 : item === "canceled"
                 ? "red"
-                : "yellow"
+                : "orange"
             }
           >{`${item}`}</Tag>
         );
@@ -162,47 +214,59 @@ const MyBookings = () => {
       render: (item: TBooking) => {
         return (
           <>
-            <div className="flex flex-col gap-2">
+            <div className="md:table-cell hidden gap-2">
               <Button
                 disabled={item.isConfirmed === "confirmed"}
                 variant="destructive"
                 onClick={() => handleStatusUpdate(item._id as string)}
-                className="border-[1px]"
+                className="border-[1px] w-full"
               >
                 Cancel Booking
               </Button>
               <Link
                 to={
-                  item.isConfirmed !== "confirmed" ?
-                  `/user/checkout/${item._id as string}`:""
+                  item.isConfirmed !== "confirmed"
+                    ? `/user/checkout/${item._id as string}`
+                    : ""
                 }
-                className="hidden md:flex gap-2"
+                className="w-full gap-2"
               >
-                <Button disabled={item.isConfirmed === "confirmed"} variant={"secondary"} className="border-[1px]">
+                <Button
+                  disabled={item.isConfirmed === "confirmed"}
+                  variant={"secondary"}
+                  className="border-[1px] w-full mt-4"
+                >
                   Proceed To Payment
                 </Button>
               </Link>
             </div>
-            <div className="md:hidden block">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="outline-none h-12 px-2 hover:bg-slate-50 items-center flex gap-2">
-                  <Button variant="ghost">...</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="font-medium">
-                  <DropdownMenuItem>
-                    {/* <UpdateBooking id={item._id as string}></UpdateBooking> */}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Button
-                      onClick={() => handleStatusUpdate(item._id as string)}
-                      variant={"destructive"}
-                    >
-                      Cancel Booking
-                      <PiTrashLight className="text-lg ml-2"></PiTrashLight>
-                    </Button>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+            <div className="table-cell md:hidden">
+              <Button
+                disabled={item.isConfirmed === "confirmed"}
+                variant="destructive"
+                onClick={() => handleStatusUpdate(item._id as string)}
+                className="border-[1px] mt-2 w-full"
+                size={"sm"}
+              >
+                Cancel
+              </Button>
+              <Link
+                to={
+                  item.isConfirmed !== "confirmed"
+                    ? `/user/checkout/${item._id as string}`
+                    : ""
+                }
+                className="w-full gap-2"
+              >
+                <Button
+                  disabled={item.isConfirmed === "confirmed"}
+                  variant={"default"}
+                  size={"sm"}
+                  className="border-[1px] w-full mt-2 whitespace-break-spaces"
+                >
+                  Pay
+                </Button>
+              </Link>
             </div>
           </>
         );
@@ -210,8 +274,8 @@ const MyBookings = () => {
     },
   ];
   return (
-    <div className="md:p-8">
-      <div className="md:p-0 px-4 pb-0 pt-6 w-full">
+    <div className="">
+      <div className="md:p-8 px-4 pb-0 pt-6 w-full">
         <SectionHeading mode="dark">My bookings</SectionHeading>
         <p className="mt-6 text-slate-500">
           Proceed to payment to confirm your booking status
@@ -224,6 +288,7 @@ const MyBookings = () => {
           style={{
             padding: "4px",
           }}
+          scroll={{ x: true }}
           bordered
           loading={isLoading || isFetching}
           dataSource={bookingData}

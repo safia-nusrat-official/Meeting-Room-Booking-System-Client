@@ -28,7 +28,7 @@ export const RoomCard = ({
   const { roomImages, name, pricePerSlot, _id, capacity, floorNo, rating } =
     room;
   return size === "md" ? (
-    <Card className="w-full max-w-sm border-0 rounded-sm overflow-hidden">
+    <Card className="w-full max-w-sm shadow-none border-[1px] border-slate-300 rounded-sm overflow-hidden">
       <img
         src={roomImages[0]}
         alt={name}
@@ -147,9 +147,9 @@ export const RoomCard = ({
                   : `${room.capacity} person`}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <Rate defaultValue={room.rating} allowHalf disabled />
+            <div className="flex font-medium items-center gap-2">
               <span>{room.rating}</span>
+              <Rate defaultValue={room.rating} allowHalf disabled />
             </div>
           </div>
           <div className="mt-4 space-y-2">

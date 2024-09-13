@@ -30,9 +30,9 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["user"],
     }),
-    
+
     updateUser: build.mutation({
-      query: ({id, formData}:{id:string, formData:FormData}) => ({
+      query: ({ id, formData }: { id: string; formData: FormData }) => ({
         url: `/users/${id}`,
         method: "PATCH",
         body: formData,
@@ -42,10 +42,18 @@ const userApi = baseApi.injectEndpoints({
 
     deleteUser: build.mutation({
       query: (id: string) => ({
-        url: `/Users/${id}`,
+        url: `/users/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["users", "user", "slots"],
+      invalidatesTags: ["users", "user"],
+    }),
+    changeRoleOfUser: build.mutation({
+      query: ({ role, id }: { role:string; id: string }) => ({
+        url: `/users/change-role/${id}`,
+        method: "PATCH",
+        body: { role },
+      }),
+      invalidatesTags: ["users", "user"],
     }),
   }),
 });
@@ -54,5 +62,6 @@ export const {
   useGetAllUsersQuery,
   useDeleteUserMutation,
   useGetSingleUserQuery,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useChangeRoleOfUserMutation
 } = userApi;

@@ -43,7 +43,7 @@ const bookingApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["bookings", "slots", "slot"],
+      invalidatesTags: ["bookings","my-bookings", "booking", "slots", "slot"],
     }),
     updateBooking: build.mutation({
       query: ({booking, id}: { booking: Pick<TBooking, "isConfirmed"|"paymentMethod">; id: string }) => ({

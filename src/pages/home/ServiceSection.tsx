@@ -7,6 +7,7 @@ import customerSupportAnimationData from "../../assets/animations/customerSuppor
 import LottieAnimation from "@/lib/LottieAnimation";
 import { GoCheckbox } from "react-icons/go";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const ServiceSection = () => {
   return (
@@ -171,9 +172,9 @@ const ServiceSection = () => {
             </p>
           </li>
         </ul>
-        <Button className="mt-12 text-white py-[1.5rem] hover:border-slate-800 hover:border-2 hover:bg-transparent font-bold hover:text-slate-800 bg-slate-800 rounded-none">
+        <Link to="/rooms"><Button className="mt-12 text-white py-[1.5rem] hover:border-slate-800 hover:border-2 hover:bg-transparent font-bold hover:text-slate-800 bg-slate-800 rounded-none">
           See More
-        </Button>
+        </Button></Link>
       </div>
     </section>
   );

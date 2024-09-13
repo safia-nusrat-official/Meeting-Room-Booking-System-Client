@@ -63,7 +63,7 @@ const Rooms = () => {
 
   return (
     <div className="md:p-12 relative bg-white p-8 md:grid-cols-4 gap-6 grid">
-      <div className="flex relative md:sticky h-screen left-0 top-[8rem] flex-col md:col-span-1 col-span-4 ">
+      <div className="flex relative md:sticky md:h-screen left-0 md:top-[8rem] flex-col md:col-span-1 col-span-4 ">
         <SearchBar setSearchTerm={setSearchTerm}></SearchBar>
         <ConfigProvider
           theme={{
@@ -169,12 +169,12 @@ const Rooms = () => {
       </div>
 
       <div className="md:col-span-3 relative md:col-start-2 col-span-4 grid md:grid-cols-3 grid-cols-2 ">
-        <div className="flex items-center text-slate-400 justify-between col-span-3 ">
+        <div className="flex md:flex-row flex-col-reverse md:items-center text-slate-400 justify-between items-start col-span-3">
           {isLoading ? (
             <Skeleton.Node active></Skeleton.Node>
           ) : (
-            <p>
-              Showing {meta.totalDocuments > 1 && "all"} {meta.totalDocuments}{" "}
+            <p className="my-6 md:my-0">
+              Showing {meta.totalDocuments > 1 && "all"} {meta.totalDocuments + " "}
               result
               {meta.totalDocuments > 1 && "s"}
             </p>
@@ -183,26 +183,26 @@ const Rooms = () => {
             theme={{
               components: {
                 Radio: {
-                  colorPrimary: "#C7F9CC",
+                  colorPrimary: "#184E77",
                 },
                 Select: {
-                  colorBorder: "#ff",
-                  colorPrimary: "#ccc",
                   paddingContentVertical: 4,
-                  optionSelectedBg: "#C7F9CC",
+                  optionSelectedBg: "#eee",
                   optionSelectedColor: "#184E77",
+                  
                 },
               },
             }}
           >
-            <div className="flex items-center">
-              <p>Sort By:</p>
+            <div className="flex md:flex-nowrap flex-wrap items-center">
+              <div className="flex w-full md:w-fit justify-between items-center"><p>Sort By:</p>
               <Select
-                className="ml-2 mr-4 border-0"
+                className="md:ml-2 md:mr-4 md:mb-0 mb-4 m-0 border-0"
                 defaultValue={sort}
                 options={sortQueries}
+                popupMatchSelectWidth={false}
                 onChange={(value) => setSort(value)}
-              ></Select>
+              ></Select></div>
 
               <Radio.Group
                 onChange={(value: any) => setSortDirection(value.target.value)}
@@ -214,19 +214,22 @@ const Rooms = () => {
             </div>
           </ConfigProvider>
         </div>
-        <Divider className="col-span-3 my-6"></Divider>
+        <Divider className="col-span-3 mb-4 mt-0 md:my-6"></Divider>
         <div className="grid relative md:col-span-3 col-span-2 md:grid-cols-3 grid-cols-1 gap-4">
           {isFetching && <Spin size="large" fullscreen></Spin>}
           {roomData &&
             roomData.map((room) => (
               <RoomCard key={room._id as string} room={room}></RoomCard>
             ))}
+          {
+            searchTerm && roomData && roomData.length<1 && <div className="p-6">No results</div>
+          }
         </div>
-        {roomData && (
+        {meta && (
           <Pagination
             className="mt-6 mx-auto col-span-3"
-            total={meta.totalDocuments}
-            pageSize={meta.limit}
+            total={meta?.totalDocuments}
+            pageSize={meta?.limit}
             current={current}
             onChange={(value: number) => setCurrent(value)}
           ></Pagination>

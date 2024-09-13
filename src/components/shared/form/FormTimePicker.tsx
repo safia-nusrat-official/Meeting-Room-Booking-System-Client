@@ -4,11 +4,13 @@ import { Controller } from "react-hook-form";
 const FormTimePicker = ({
   name,
   label,
+  defaultValue,
   required,
   clock = "24hr",
 }: {
   label: string;
   required?: boolean;
+  defaultValue?: any;
   name: string;
   clock?: "24hr" | "12hr";
 }) => {
@@ -29,6 +31,7 @@ const FormTimePicker = ({
               <TimePicker
                 needConfirm={false}
                 showNow={false}
+                defaultValue={defaultValue}
                 placeholder={`Enter ${label}`}
                 size="large"
                 style={{ width: "100%" }}

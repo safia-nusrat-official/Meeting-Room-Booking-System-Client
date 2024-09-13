@@ -51,7 +51,7 @@ const getBadgeColor = (status: string) => {
 };
 
 export default function BookingStatus() {
-  const { data, isLoading } = useGetAllBookingsQuery([{key:"limit", value:"all"}]);
+  const { data, isLoading } = useGetAllBookingsQuery([{key:"limit", value:"7"}]);
   const [bookings, setBookings] = useState<TBooking[]>([]);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function BookingStatus() {
   }, [data]);
 
   return (
-    <Card className="w-full col-span-4 max-w-3xl bg-white shadow-none rounded-sm border">
+    <Card className="w-full col-span-4 md:max-w-3xl bg-white shadow-none rounded-sm border">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-xl font-bold text-gray-800">
           Bookings
@@ -77,9 +77,6 @@ export default function BookingStatus() {
                 Booking no.
               </TableHead>
               <TableHead className="text-left font-medium text-gray-600">
-                Payment
-              </TableHead>
-              <TableHead className="text-left font-medium text-gray-600">
                 Status
               </TableHead>
               <TableHead className="text-right font-medium text-gray-600">
@@ -93,21 +90,8 @@ export default function BookingStatus() {
                 key={booking._id}
                 className="bbooking-b bbooking-gray-100"
               >
-                <TableCell className="font-medium text-gray-900">
-                  {booking._id?.substring(1, 12)}
-                </TableCell>
-                <TableCell>
-                  <Badge
-                    className={`${
-                      booking.paymentMethod === "stripe"
-                        ? "bg-green-100 text-green-800 hover:bg-green-200"
-                        : booking.paymentMethod === "paypal"
-                        ? "bg-purple-100 text-purple-800 hover:bg-purple-200"
-                        : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                    } text-xs font-medium cursor-pointer`}
-                  >
-                    {booking.paymentMethod||"Unpaid"}
-                  </Badge>
+                <TableCell className="font-medium text-xs text-gray-900">
+                  {booking.bookingId}
                 </TableCell>
                 <TableCell>
                   <Badge

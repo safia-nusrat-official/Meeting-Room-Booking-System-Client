@@ -10,3 +10,14 @@
 .ant-menu-item-active::after{
     border-bottom-color: #184E77 !important;
 }
+.sidebar-nav .active {
+  color: #fff !important;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 7px;
+}
+.sidebar-nav .active::before {
+  background: #020817 !important;
+  z-index: -1;
+}

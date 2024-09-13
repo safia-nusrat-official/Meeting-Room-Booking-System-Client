@@ -49,7 +49,7 @@ const HeroTitle = () => {
   }, []);
 
   return (
-    <h1 className="font-black text-slate-800 md:text-6xl text-4xl h-fit md:h-[250px]">
+    <h1 className="font-extrabold text-white md:text-6xl text-4xl h-fit md:h-[250px]">
       {displayedText.map((text, index) => (
         <>
           <span className={index === 3 ? "typing-effect" : ""}>{text}</span>

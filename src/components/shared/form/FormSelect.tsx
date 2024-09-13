@@ -10,6 +10,7 @@ const FormSelect = ({
   placeholder = `Select ${label}`,
   defaultValue = [],
   required = true,
+  disabled=false,
   validate,
 }: {
   defaultValue?: string[];
@@ -17,6 +18,7 @@ const FormSelect = ({
   label: string;
   name: string;
   loading?: boolean;
+  disabled?: boolean;
   mode?: "multiple" | "tags" | undefined;
   options: SelectProps["options"];
   required?: boolean;
@@ -25,6 +27,7 @@ const FormSelect = ({
     | Record<string, Validate<any, FieldValues>>
     | undefined;
 }) => {
+
   return (
     <div className="">
       <Controller
@@ -43,6 +46,7 @@ const FormSelect = ({
               <Select
                 mode={mode}
                 size="large"
+                disabled={disabled}
                 loading={loading}
                 placeholder={placeholder}
                 {...field}

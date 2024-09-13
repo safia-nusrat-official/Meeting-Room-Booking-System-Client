@@ -13,7 +13,7 @@ const SlotApi = baseApi.injectEndpoints({
         }
 
         return {
-          url: `/slots/availability`,
+          url: `/slots/availability?isDeleted=false`,
           method: "GET",
           params,
         };
@@ -81,7 +81,7 @@ const SlotApi = baseApi.injectEndpoints({
     }),
 
     getSingleSlot: build.query({
-      query: (id: string) => `/slots/${id}`,
+      query: (id: string) => `/slots/single-slot/${id}`,
       providesTags: ["slot"],
     }),
 
@@ -95,9 +95,9 @@ const SlotApi = baseApi.injectEndpoints({
     }),
 
     updateSlot: build.mutation({
-      query: (data: { slot: TSlot; id: string }) => ({
+      query: (data: { slot: Partial<TSlot>; id: string }) => ({
         url: `/slots/${data.id}`,
-        method: "PUT",
+        method: "PATCH",
         body: data.slot,
       }),
       invalidatesTags: ["slots", "slot"],

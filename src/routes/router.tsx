@@ -12,11 +12,13 @@ import AdminLayout from "@/layout/AdminLayout";
 import ProtectedRoute from "@/pages/ProtectedRoute";
 import RoomDetails from "@/pages/rooms/RoomDetails";
 import { userPaths } from "./user.routes";
+import NotFoundError from "@/pages/NotFoundError";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
+    errorElement:<NotFoundError></NotFoundError>,
     children: [
       {
         path: "/",

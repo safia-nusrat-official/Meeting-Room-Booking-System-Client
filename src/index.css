@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: "Mona Sans", "Helvetica";
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -77,6 +80,38 @@
 @font-face {
   font-family: "Kenao";
   src: url("./assets/font/Kenao.otf");
+}
+@font-face {
+  font-family: "Mona Sans";
+  src: url("./assets/font/Mona/Mona-Sans-Regular.woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Mona Sans";
+  src: url("./assets/font/Mona/Mona-Sans-Medium.woff2");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Mona Sans";
+  src: url("./assets/font/Mona/Mona-Sans-SemiBold.woff2");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Mona Sans";
+  src: url("./assets/font/Mona/Mona-Sans-Bold.woff2");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Mona Sans";
+  src: url("./assets/font/Mona/Mona-Sans-ExtraBold.woff2");
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: "Mona Sans";
+  src: url("./assets/font/Mona/Mona-Sans-Black.woff2");
+  font-weight: 900;
 }
 @layer base {
   :root {

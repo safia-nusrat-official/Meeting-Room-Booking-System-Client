@@ -1,5 +1,6 @@
 import { BiSolidQuoteSingleLeft } from "react-icons/bi";
 import aboutBg from "../../assets/images/aboutBg.jpg";
+import aboutBg2 from "../../assets/images/about-bg.jpg";
 import aboutHeaderBg from "../../assets/images/about-us-header-bg.jpg";
 import team1 from "../../assets/images/team-1.jpg";
 import team2 from "../../assets/images/team-2.jpg";
@@ -39,17 +40,17 @@ const AboutUs = () => {
         className="relative bg-cover bg-fixed bg-center w-full overflow-hidden h-full"
         style={{ backgroundImage: `url('${aboutHeaderBg}')` }}
       >
-        <div className="w-full h-full bg-[#00000060] backdrop-blur-sm relative text-center z-[8] flex flex-col items-center md:p-28 py-10 px-6 justify-center">
+        <div className="w-full h-full bg-[#00000073] backdrop-blur-sm relative text-center z-[8] flex flex-col items-center md:p-28 py-10 px-6 justify-center">
           <h1
             data-aos="fade-right"
             data-aos-animation-duration="9000"
-            className="text-5xl md:text-8xl mx-auto text-[#fff] selection:bg-[#ffffff66] font-semibold"
+            className="text-5xl md:text-8xl mx-auto text-[#fff] selection:bg-[#ffffff66] font-extrabold"
           >
             About Us
           </h1>
           <p
             data-aos="zoom-out"
-            className="text-zinc-100 mt-2 my-4 max-w-[700px] selection:bg-[#ffffff66] "
+            className="text-zinc-100 mt-2 my-4 max-w-[700px] selection:bg-[#ffffff66] text-sm md:text-lg"
           >
             Welcome to KeyWizards! We are your one-stop shop for all things
             mechanical keyboards. Our mission is to bring you the best selection
@@ -61,8 +62,7 @@ const AboutUs = () => {
       </div>
 
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-14 m-8 md:m-20">
-        <article className="flex flex-col justify-between gap-12">
-          <div data-aos="fade-down" data-aos-delay="100">
+      <div data-aos="fade-down" data-aos-delay="100">
             <h3 className="text-3xl font-semibold">Our Story</h3>
             <p className="text-zinc-600 mt-2">
               KeyWizards was founded in 2020 by a group of keyboard enthusiasts
@@ -74,8 +74,9 @@ const AboutUs = () => {
               and customer satisfaction.
             </p>
           </div>
+          <img src={aboutBg} alt="" />
 
-          <div data-aos="fade-down" data-aos-delay="100" className="md:mt-0 mt-8">
+          <div data-aos="fade-down" data-aos-delay="100" className="">
             <h3 className="text-3xl font-semibold">Our Mission and Vision</h3>
             <p className="text-zinc-600 mt-2">
               Our mission at KeyWizards is to provide top-notch mechanical
@@ -87,8 +88,8 @@ const AboutUs = () => {
               our commitment to quality and innovation.
             </p>
           </div>
-        </article>
-        <img src={aboutBg} alt="" />
+          <img src={aboutBg2} alt="" />
+
       </section>
 
       <section className="md:p-20 px-8 py-12 text-center bg-white">
@@ -145,13 +146,10 @@ const AboutUs = () => {
             data-aos="zoom-out"
             data-aos-animation-duration="4000"
           >
-            Every great idea starts with a single dream. KeyWizards was born
-            from a simple belief: that the tools we use every day should inspire
-            us. What started as a search for the perfect keystroke became a
-            mission to bring the joy of mechanical keyboards to everyone.
+           Every successful meeting begins with a single idea. MeetWise was created from a simple belief: that finding the right space should be seamless and efficient. What started as a quest for the perfect meeting room evolved into a mission to connect people with spaces that inspire collaboration and creativity.
           </h3>
           <BiSolidQuoteSingleLeft className="text-6xl md:text-8xl float-right -top-8 lg:-top-28 md:-top-16 left-0 lg:-left-20 md:-left-8 relative rotate-180" />
-          <div className="text-center md:mt-0 mt-12" data-aos="fade-down">
+          <div className="text-center whitespace-nowrap md:mt-0 mt-12" data-aos="fade-down">
             <i>- Ethan Matthews, Founder and CEO</i>
           </div>
         </div>

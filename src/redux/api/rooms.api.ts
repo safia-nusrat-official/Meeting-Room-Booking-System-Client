@@ -36,7 +36,7 @@ const roomApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["rooms"],
+      invalidatesTags: ["rooms", "slots", "slot"],
     }),
     updateRoom: build.mutation({
       query: (data: { room: TRoom; id: string }) => ({

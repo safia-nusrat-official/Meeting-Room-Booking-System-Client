@@ -12,7 +12,7 @@ import {
 } from "@/redux/api/rooms.api";
 import { TMeta, TReduxResponse } from "@/types";
 import { TRoom } from "@/types/room.types";
-import { Pagination, Table, TableColumnsType } from "antd";
+import { Pagination, Rate, Table, TableColumnsType } from "antd";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
 import { PiTrashLight } from "react-icons/pi";
@@ -22,18 +22,19 @@ import UpdateRoom from "./UpdateRoom";
 import { useState } from "react";
 import RoomDetailsCard from "./RoomDetailsCard";
 import SearchBar from "@/components/shared/SearchBar";
+import { IoMdAdd } from "react-icons/io";
+import { IoAddCircle } from "react-icons/io5";
+import { roomFloorNumbersMap } from "@/pages/rooms/RoomDetails";
 
 const RoomListTable = () => {
   const [current, setCurrent] = useState(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const { data, isLoading, isFetching } = useGetAllAvailableRoomsQuery(
-    [
-      { key: "limit", value: "5" },
-      { key: "page", value: `${current}` },
-      { key: "searchTerm", value: searchTerm },
-    ]
-  );
+  const { data, isLoading, isFetching } = useGetAllAvailableRoomsQuery([
+    { key: "limit", value: "5" },
+    { key: "page", value: `${current}` },
+    { key: "searchTerm", value: searchTerm },
+  ]);
   const [deleteRoom] = useDeleteRoomMutation();
   const roomData: TRoom[] =
     !isLoading &&
@@ -71,33 +72,98 @@ const RoomListTable = () => {
 
   const columns: TableColumnsType<TRoom> = [
     {
-      title: "Name",
+      title: "Room",
+      key: "room",
+      render: (room: TRoom) => {
+        return (
+          <Link to={`/rooms/${room?._id}`} className="flex flex-wrap gap-2">
+            {/* <img
+          src={room?.roomImages[0]}
+          className="w-24 rounded-sm"
+        /> */}
+            <div className="">
+              <div className="flex gap-2">
+                <p className="text-slate-500 text-xs">
+                  Room No. {(room as TRoom)?.roomNo},
+                </p>
+                <p className="text-slate-500 text-xs">
+                  {(room as TRoom)?.floorNo}
+                  <sup className="mr-2">
+                    {room.floorNo < 4
+                      ? roomFloorNumbersMap[
+                          room.floorNo as keyof typeof roomFloorNumbersMap
+                        ]
+                      : "th"}
+                  </sup>
+                  Floor
+                </p>
+              </div>
+
+              <p className="text-lg font-medium">{(room as TRoom)?.name}</p>
+
+              <p className="text-slate-900 font-medium">
+                $ {(room as TRoom)?.pricePerSlot} per slot
+              </p>
+              <div className="flex gap-2 items-center my-2 text-slate-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-muted-foreground"
+                >
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                Upto{" "}
+                <p className="text-slate-500">
+                  {(room as TRoom)?.capacity}
+                  {(room as TRoom)?.capacity > 1 ? " people" : " person"}
+                </p>
+              </div>
+
+              <span className="text-slate-500 flex items-center">
+                <Rate className="scale-75" count={1} value={1}></Rate>
+                {(room as TRoom)?.rating}
+              </span>
+            </div>
+          </Link>
+        );
+      },
+      className: "md:hidden table-cell",
+    },
+    {
+      title: "Room Name",
       dataIndex: "name",
       key: "name",
-      render:(name:string)=>{
-        return <p className="font-medium">{name}</p>
-      }
+      className: "md:table-cell font-medium hidden",
     },
     {
       title: "Room No.",
       dataIndex: "roomNo",
       key: "roomNo",
+      className: "md:table-cell hidden",
     },
     {
       title: "Floor No.",
       dataIndex: "floorNo",
       key: "floorNo",
-      responsive: ["md"],
+      className: "md:table-cell hidden",
     },
     {
       title: "Capacity",
       dataIndex: "capacity",
       key: "capacity",
-      responsive: ["md"],
+      className: "md:table-cell hidden",
     },
     {
       title: "Price Per Slot",
       dataIndex: "pricePerSlot",
+      className: "md:table-cell hidden",
       key: "pricePerSlot",
       render: (price: string) => <p>$ {price}</p>,
     },
@@ -106,7 +172,7 @@ const RoomListTable = () => {
       render: (item: TRoom) => {
         return (
           <>
-            <div className="md:flex hidden gap-2">
+            <div className="flex md:flex-row flex-col gap-2">
               <RoomDetailsCard id={item._id as string}></RoomDetailsCard>
               <UpdateRoom id={item._id as string}></UpdateRoom>
               <Button
@@ -117,62 +183,38 @@ const RoomListTable = () => {
                 <PiTrashLight className="text-lg ml-2"></PiTrashLight>
               </Button>
             </div>
-            <div className="md:hidden block">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="outline-none h-12 px-2 hover:bg-slate-50 items-center flex gap-2">
-                  <Button variant="ghost">...</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="font-medium">
-                  <DropdownMenuItem>
-                    <RoomDetailsCard id={item._id as string}></RoomDetailsCard>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <UpdateRoom id={item._id as string}></UpdateRoom>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Button
-                      onClick={() => handleDelete(item._id as string)}
-                      variant={"destructive"}
-                    >
-                      Delete
-                      <PiTrashLight className="text-lg ml-2"></PiTrashLight>
-                    </Button>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
           </>
         );
       },
     },
   ];
   return (
-    <div className="md:p-8">
-      <div className="flex p-4 items-center justify-between">
+    <div className="">
+      <div className="flex md:p-8 p-4 items-center justify-between">
         <SectionHeading mode="dark">All Rooms</SectionHeading>
         <Link to="/admin/create-room">
-          <Button>Create a Room</Button>
+          <Button className="md:block hidden">Create a Room</Button>
+          <IoAddCircle className="block text-primaryColor md:hidden text-4xl"></IoAddCircle>
         </Link>
       </div>
-      <div className="flex flex-col gap-4 mt-6">
-      <SearchBar setSearchTerm={setSearchTerm}></SearchBar>
-
-        {roomData && (
-          <>
-            <Table
-              loading={isFetching}
-              dataSource={roomData}
-              columns={columns}
-              pagination={false}
-            />
-            <Pagination
-              className="mx-auto my-6"
-              total={meta.totalDocuments}
-              pageSize={meta.limit}
-              current={current}
-              onChange={(value) => setCurrent(value)}
-            ></Pagination>
-          </>
+      <div className="flex flex-col gap-4">
+        <div className="md:mx-8 mx-4">
+          <SearchBar setSearchTerm={setSearchTerm}></SearchBar>
+        </div>
+        <Table
+          loading={isFetching}
+          dataSource={roomData}
+          columns={columns}
+          pagination={false}
+        />
+        {meta && (
+          <Pagination
+            className="mx-auto my-6"
+            total={meta.totalDocuments}
+            pageSize={meta.limit}
+            current={current}
+            onChange={(value) => setCurrent(value)}
+          ></Pagination>
         )}
       </div>
     </div>

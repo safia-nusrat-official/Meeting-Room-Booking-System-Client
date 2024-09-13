@@ -3,11 +3,10 @@ import SectionHeading from "@/components/shared/SectionHeading";
 import searchResultsAnimationData from "../../assets/animations/searchResultsAnimation.json";
 import calendarClockAnimationData from "../../assets/animations/calendarClockAnimation.json";
 import LottieAnimation from "@/lib/LottieAnimation";
-import React from "react";
 
 const HowItWorks = () => {
   return (
-    <section className="selection:bg-secondaryColor md:px-20 md:py-12 p-8 overflow-hidden">
+    <section className="selection:bg-secondaryColor bg-white md:px-20 md:py-12 p-8 overflow-hidden">
       <SectionHeading animateFrom="left" mode="dark" center>
         How it works
       </SectionHeading>

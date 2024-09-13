@@ -24,8 +24,10 @@ const UpdateRoom = ({ id }: { id: string }) => {
   });
   const roomData: TRoom = (!isLoading && data?.data) || null;
 
-  const [imageUrls, setImageUrls] = useState<string[]>(roomData?.roomImages||[]);
-  
+  const [imageUrls, setImageUrls] = useState<string[]>(
+    roomData?.roomImages || []
+  );
+
   const [updateRoom, { isLoading: UpdateLoading, isSuccess, isError }] =
     useUpdateRoomMutation();
 
@@ -34,20 +36,16 @@ const UpdateRoom = ({ id }: { id: string }) => {
   };
 
   const handleUpdate: SubmitHandler<FieldValues> = async (updatedData: any) => {
-    console.log(updatedData)
-    if(imageUrls.length<1){
-      toast.error("Atleast add 1 image for room!")
-      return
+    console.log(updatedData);
+    if (imageUrls.length < 1) {
+      toast.error("Atleast add 1 image for room!");
+      return;
     }
-    
+
     const updatedAmenities = handleNonPrimitiveUpdates(
       roomData?.amenities,
       updatedData?.amenities as string[]
     );
-    // const updatedImages = handleNonPrimitiveUpdates(
-    //   roomData?.roomImages,
-    //   imageUrls
-    // );
 
     const room: TRoom = {
       roomImages: imageUrls,
@@ -70,13 +68,13 @@ const UpdateRoom = ({ id }: { id: string }) => {
         toast.error(res.error?.message || res.error?.data.message);
       } else if (res?.data?.sucess) {
         console.log(res.data);
-        setOpen(false);
         toast.success("Room Data Updated Successfully");
       }
     } catch (error) {
       console.log(error);
     }
   };
+  
   const defaultFileList =
     roomData?.roomImages?.length > 0
       ? roomData.roomImages.map((img, index) => ({
@@ -86,8 +84,13 @@ const UpdateRoom = ({ id }: { id: string }) => {
         }))
       : [];
 
-  useEffect(() => roomData?.roomImages && setImageUrls(roomData?.roomImages), [])
-  console.log("ImgUrls in Update room", imageUrls)
+  useEffect(
+    () => {
+      roomData?.roomImages && setImageUrls(roomData?.roomImages)
+      isSuccess && setOpen(false);
+    },
+    [roomData, isSuccess]
+  );
 
   return (
     <>
@@ -96,7 +99,7 @@ const UpdateRoom = ({ id }: { id: string }) => {
         <SlPencil className="text-md ml-2"></SlPencil>
       </Button>
       <Modal
-        className="rounded-none"
+        className="rounded-none max-h-screen overflow-auto"
         onCancel={() => setOpen(false)}
         loading={isLoading}
         title="Update Room Details"
@@ -105,7 +108,7 @@ const UpdateRoom = ({ id }: { id: string }) => {
         confirmLoading={UpdateLoading}
       >
         <CustomForm resetForm={false} onSubmit={handleUpdate}>
-          <div className="grid grid-cols-3 md:gap-2">
+          <div className="grid md:grid-cols-3 grid-cols-1 md:gap-2">
             <div className="md:col-span-2">
               <FormInput
                 label="Room Name"

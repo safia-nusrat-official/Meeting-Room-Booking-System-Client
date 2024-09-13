@@ -2,12 +2,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button as ShadBtn } from "@/components/ui/button";
-import { Layout, Button, Divider, Menu } from "antd";
+import { Layout, Button, Menu } from "antd";
 import "../style/customNav.css";
 import {
   Link,
@@ -22,9 +20,10 @@ import { Footer } from "antd/es/layout/layout";
 import { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { Toaster } from "sonner";
-import { CiCalendar, CiLogout, CiUser } from "react-icons/ci";
+import { CiCalendar, CiLogout } from "react-icons/ci";
 import { PiPresentationChartLight } from "react-icons/pi";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Toaster } from "sonner";
 
 const { Content, Header } = Layout;
 
@@ -127,8 +126,14 @@ const MainLayout = () => {
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger className="outline-none h-12 px-2 hover:bg-slate-50 items-center flex gap-2">
-              {user.name}
-              <CiUser className="text-xl" />
+              <p className="md:block hidden">{user.name}</p>
+              <Avatar className="">
+                <AvatarImage src={user.profileImage}></AvatarImage>
+                <AvatarFallback className="font-medium">
+                  {user.name[0]}
+                  {user.name.split(" ")[1][0]}
+                </AvatarFallback>
+              </Avatar>
             </DropdownMenuTrigger>
             {user.role === "user" ? (
               <DropdownMenuContent className="font-medium">
@@ -182,7 +187,7 @@ const MainLayout = () => {
 
       <Layout style={{ position: "relative" }}>
         <Sider
-          className="md:hidden font-Untitled-Sans block z-50 max-w-[320px] w-[320px]"
+          className="md:hidden sidebar-nav block z-50 max-w-[320px] w-[320px]"
           collapsible
           collapsed={collapsed}
           trigger={null}
@@ -212,14 +217,7 @@ const MainLayout = () => {
         </Sider>
         <Content>
           <Outlet></Outlet>
-          <div className="fixed bottom-0 h-screen right-0">
-            <Toaster
-              richColors={true}
-              duration={2000}
-              visibleToasts={1}
-              position={"bottom-right"}
-            ></Toaster>
-          </div>
+         <Toaster richColors></Toaster>
         </Content>
       </Layout>
 
@@ -272,15 +270,23 @@ const MainLayout = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-between">
-          <Link to="/meeting-rooms">
-            <Button className="mt-6 hover:border-slate-800 hover:border-2 hover:bg-transparent font-bold hover:text-slate-800 bg-white rounded-none">
+        <div className="flex items-end justify-between">
+          <Link to="/meeting-rooms" className="md:block hidden">
+            <Button
+              type="primary"
+              className="mt-6  border-none bg-white hover:border-none hover:bg-muted-foreground font-bold text-slate-800 rounded-none"
+            >
               Book Now
             </Button>
           </Link>
-          <p className="text-center">
+          <p className="text-center md:mt-0 mt-8">
             &copy; {new Date().getFullYear()} KeyWizards. All rights reserved.
           </p>
+
+          <div className="flex"><p className="hover:underline underline-offset-2 text-[#ffffff65] md:mt-0 mt-8">
+            Privacy Policy 
+          </p>
+          <span className="ml-4 hover:underline underline-offset-2 text-[#ffffff65]">Terms & Conditions</span></div>
         </div>
       </Footer>
     </Layout>

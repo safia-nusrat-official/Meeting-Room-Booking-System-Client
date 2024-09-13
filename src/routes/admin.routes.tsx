@@ -6,6 +6,7 @@ import RoomListTable from "@/pages/adminPages/roomManagement/RoomListTable";
 import BookingListsTable from "@/pages/adminPages/bookingManagement/BookingsListTable";
 import SlotListTable from "@/pages/adminPages/slotsManagement/SlotListTable";
 import UsersList from "@/pages/adminPages/userManagement/UsersList";
+import MyProfile from "@/pages/userPages/profile/MyProfile";
 
 export const adminPaths = [
   {
@@ -13,7 +14,7 @@ export const adminPaths = [
     index: true,
     path: "dashboard",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <AdminDashboard></AdminDashboard>
       </ProtectedRoute>
     ),
@@ -21,7 +22,7 @@ export const adminPaths = [
   {
     path: "create-room",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <CreateRoom></CreateRoom>
       </ProtectedRoute>
     ),
@@ -29,7 +30,7 @@ export const adminPaths = [
   {
     path: "create-slot",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <CreateSlot></CreateSlot>
       </ProtectedRoute>
     ),
@@ -38,7 +39,7 @@ export const adminPaths = [
     name: "Manage Rooms",
     path: "rooms-list",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <RoomListTable></RoomListTable>
       </ProtectedRoute>
     ),
@@ -47,7 +48,7 @@ export const adminPaths = [
     name: "Manage Bookings",
     path: "bookings-list",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <BookingListsTable></BookingListsTable>
       </ProtectedRoute>
     ),
@@ -56,7 +57,7 @@ export const adminPaths = [
     name: "Manage Slots",
     path: "slots-list",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <SlotListTable></SlotListTable>
       </ProtectedRoute>
     ),
@@ -65,9 +66,9 @@ export const adminPaths = [
     name: "Manage Users",
     path: "all-users",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <UsersList></UsersList>
       </ProtectedRoute>
     ),
-  },
+  }
 ];

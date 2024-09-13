@@ -5,10 +5,12 @@ import FeaturedRooms from './FeaturedRooms'
 import WhyChoose from './WhyChoose'
 import TestimonialSection from './Testimonials'
 import HowItWorks from './HowItWorks'
+import BackToTopBtn from '@/components/shared/BackToTopBtn'
 
 const Home = () => {
   return (
     <section className=''>
+      <BackToTopBtn></BackToTopBtn>
       <HeroSection></HeroSection>
       <ServiceSection></ServiceSection>
       <FeaturedRooms></FeaturedRooms>

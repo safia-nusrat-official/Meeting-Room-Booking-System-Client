@@ -6,6 +6,7 @@ export interface TUser {
   address: string;
   profileImage?:string;
   role: "admin" | "user";
+  isDeleted?:boolean;
   _id?:string // mongoDB ID
 }
 export interface TLoginData {

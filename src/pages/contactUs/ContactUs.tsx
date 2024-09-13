@@ -42,10 +42,10 @@ const ContactUs = () => {
             data-aos="zoom-out"
             className="text-zinc-100 mt-2 my-4 max-w-[700px] selection:bg-[#ffffff66] "
           >
-            At KeyWizards, your satisfaction is our top priority. Whether you
-            have a question about our products, need assistance with an order,
-            or simply want to share your feedback, we’re here to help. Our team
-            is dedicated to providing you with the best possible experience, and
+            At MeetWise, your satisfaction is our top priority. Whether you have
+            a question about our products, need assistance with an order, or
+            simply want to share your feedback, we’re here to help. Our team is
+            dedicated to providing you with the best possible experience, and
             we’re just a message away.
           </p>
         </div>
@@ -59,7 +59,7 @@ const ContactUs = () => {
           Get in Touch
         </h3>
         <p
-          className="text-lg mb-4 text-center text-custom-primary font-normal max-w-[36rem] mt-2 mx-auto text-slate-600"
+          className="text-sm md:text-lg mb-4 text-center text-custom-primary font-normal max-w-[36rem] mt-2 mx-auto text-slate-600"
           data-aos="fade-right"
         >
           Reach out through the form below, call us, or connect via our social
@@ -95,11 +95,22 @@ const ContactUs = () => {
           <div
             data-aos="zoom-out"
             data-aos-animation-duration="5000"
-            className="md:order-2 z-[2] order-1"
+            className="md:order-2 md:block hidden z-[2] order-1"
           >
             <LottieAnimation
               width={400}
               height={400}
+              animationData={customerSupport}
+            ></LottieAnimation>
+          </div>
+          <div
+            data-aos="zoom-out"
+            data-aos-animation-duration="5000"
+            className="md:order-2 z-[2] md:hidden block order-1"
+          >
+            <LottieAnimation
+              width={300}
+              height={300}
               animationData={customerSupport}
             ></LottieAnimation>
           </div>
@@ -131,7 +142,7 @@ const ContactUs = () => {
               MeetWise Head Quarters
               <br />
               1234 Office Street, Suite 567 <br />
-              Burnham, South California, 242442
+              Burnham, South California
               <br />
               USA
             </p>
@@ -151,7 +162,7 @@ const ContactUs = () => {
             <h1
               data-aos="fade-right"
               data-aos-animation-duration="9000"
-              className="text-8xl mx-auto text-[#fff] selection:bg-[#ffffff66] font-semibold"
+              className="text-6xl md:text-8xl mx-auto text-[#fff] selection:bg-[#ffffff66] font-extrabold"
             >
               Visit Us
             </h1>
@@ -170,7 +181,7 @@ const ContactUs = () => {
               data-aos="zoom-in"
               className="flex gap-2 items-start md:items-center font-[500]"
             >
-              <FaLocationDot className="text-4xl md:text-xl" /> KeyWizards
+              <FaLocationDot className="text-4xl md:text-xl" /> MeetWise
               Headquarters 1234 Mechanical Lane, Typing City, TC 56789
             </li>
             <li
@@ -185,13 +196,25 @@ const ContactUs = () => {
       </section>
 
       <section className="md:p-20 p-8 md:gap-14 grid gap-4 lg:grid-cols-2 grid-cols-1">
-        <div className="">
-          <LottieAnimation width={450} height={400} animationData={FAQs}></LottieAnimation>
+        <div className="md:block hidden">
+          <LottieAnimation
+            width={450}
+            height={400}
+            animationData={FAQs}
+          ></LottieAnimation>
+        </div>
+
+        <div className="block md:hidden">
+          <LottieAnimation
+            width={250}
+            height={250}
+            animationData={FAQs}
+          ></LottieAnimation>
         </div>
 
         <div className="flex flex-col">
           <h3
-            className="text-4xl mb-4 text-custom-primary font-semibold"
+            className="text-4xl mb-4 text-custom-primary font-bold"
             data-aos="fade-left"
           >
             Frequently Asked Questions
@@ -200,47 +223,63 @@ const ContactUs = () => {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-left">
-              How can I book a meeting room with MeetWise?              </AccordionTrigger>
+                How can I book a meeting room with MeetWise?{" "}
+              </AccordionTrigger>
               <AccordionContent>
-              You can book a meeting room through our website or app. Simply choose your preferred location, select the room and time slot, and confirm your booking
+                You can book a meeting room through our website or app. Simply
+                choose your preferred location, select the room and time slot,
+                and confirm your booking
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger className="text-left">
-              Can I modify or cancel my booking?
+                Can I modify or cancel my booking?
               </AccordionTrigger>
               <AccordionContent>
-              Yes, you can modify or cancel your booking up to 24 hours before the scheduled time. Just log in to your account and go to 'My Bookings' to make changes.
+                Yes, you can modify or cancel your booking up to 24 hours before
+                the scheduled time. Just log in to your account and go to 'My
+                Bookings' to make changes.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-left">
-              What payment methods do you accept?
+                What payment methods do you accept?
               </AccordionTrigger>
-              <AccordionContent>We accept all major credit and debit cards, including Visa, MasterCard, and American Express. You can also pay via PayPal and Stripe
+              <AccordionContent>
+                We accept all major credit and debit cards, including Visa,
+                MasterCard, and American Express. You can also pay via PayPal
+                and Stripe
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-4">
               <AccordionTrigger className="text-left">
-              What amenities are included with the meeting rooms?
+                What amenities are included with the meeting rooms?
               </AccordionTrigger>
               <AccordionContent>
-              Our meeting rooms come equipped with high-speed Wi-Fi, projectors, whiteboards, conference call facilities, and comfortable seating. Additional amenities are available upon request.
+                Our meeting rooms come equipped with high-speed Wi-Fi,
+                projectors, whiteboards, conference call facilities, and
+                comfortable seating. Additional amenities are available upon
+                request.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-5">
               <AccordionTrigger className="text-left">
-              How do I know if a room is available for booking?
+                How do I know if a room is available for booking?
               </AccordionTrigger>
-              <AccordionContent>Availability is displayed in real-time on our website and app. You can check the calendar for each room to find available time slots.
+              <AccordionContent>
+                Availability is displayed in real-time on our website and app.
+                You can check the calendar for each room to find available time
+                slots.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-6">
               <AccordionTrigger className="text-left">
-              What should I do if I encounter a problem during my booking?
+                What should I do if I encounter a problem during my booking?
               </AccordionTrigger>
               <AccordionContent>
-              If you face any issues during booking, please contact our customer support team via email at support@meetwise.com or call us at +1 (123) 456-7890.
+                If you face any issues during booking, please contact our
+                customer support team via email at support@meetwise.com or call
+                us at +1 (123) 456-7890.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -249,15 +288,14 @@ const ContactUs = () => {
 
       <section className="md:p-20 p-8  bg-white">
         <h3
-          className="text-4xl mb-4 text-custom-primary font-semibold"
+          className="text-4xl mb-4 text-primaryColor font-bold"
           data-aos="fade-left"
-          data-aos-delay={400}
         >
           Stay Connected
         </h3>
 
         <div className="flex lg:flex-row flex-col justify-between gap-0 md:gap-14 mb-6">
-          <div data-aos="fade-left" data-aos-delay={500}>
+          <div data-aos="fade-left">
             <h4 className="text-xl text-zinc-800 font-medium">
               Follow Us On Socials
             </h4>
@@ -314,17 +352,20 @@ const ContactUs = () => {
 
         <div className="flex md:flex-row flex-col justify-between gap-4 md:gap-14 mb-6">
           <div data-aos="fade-left" data-aos-delay={400}>
-            <h4 className="text-xl text-zinc-800 font-medium">
+            <h4 className="text-xl text-zinc-800 font-semibold">
               Subscribe to Our Newsletter
             </h4>
             <p className=" md:w-[400px] mt-2 text-zinc-500">
-              Stay connected with MeetWise! Subscribe to our newsletter to receive the latest updates, exclusive offers, and valuable tips on optimizing your meeting spaces. Get all the insights you need, delivered straight to your inbox.
+              Stay connected with MeetWise! Subscribe to our newsletter to
+              receive the latest updates, exclusive offers, and valuable tips on
+              optimizing your meeting spaces. Get all the insights you need,
+              delivered straight to your inbox.
             </p>
           </div>
           <div
             data-aos="fade-left"
             data-aos-delay={400}
-            className="flex md:mt-0 mt-4 md:flex-row flex-col w-full md:gap-0 gap-4 max-w-sm items-center space-x-2"
+            className="flex md:mt-0 mt-4 md:flex-row flex-col w-full md:gap-0 gap-4 max-w-sm md:items-center items-stretch"
           >
             <Input type="email" placeholder="Email" />
             <Button type="submit">Subscribe</Button>
@@ -351,104 +392,111 @@ const ContactUs = () => {
             data-aos-delay="100"
             className="text-zinc-100 mt-2 my-4 max-w-[700px] selection:bg-[#ffffff66] "
           >
-           Your feedback is invaluable to us. Whether it’s a suggestion to enhance our services or a comment on your experience with MeetWise, we want to hear from you. Share your thoughts by emailing us at feedback@meetwise.com.
+            Your feedback is invaluable to us. Whether it’s a suggestion to
+            enhance our services or a comment on your experience with MeetWise,
+            we want to hear from you. Share your thoughts by emailing us at
+            feedback@meetwise.com.
           </p>
         </div>
       </section>
 
-      <section className="md:p-20 p-8 text-center">
-        <h3
-          className="text-4xl mb-2 text-custom-primary font-semibold"
-          data-aos="zoom-out"
-          data-aos-delay={500}
-        >
-          Contact Form
-        </h3>
-        <p
-          data-aos="fade-up"
-          data-aos-delay={500}
-          className="md:w-[400px] mx-auto mb-8 text-zinc-500"
-        >
-          Can’t find what you’re looking for? Fill out the contact form below,
-          and we’ll get back to you as soon as possible
-        </p>
+      <section className="md:p-20 p-0 text-center">
+        <div className="p-8 pb-0 md:p-0">
+          <h3
+            className="text-4xl mb-2 text-custom-primary font-bold"
+            data-aos="zoom-out"
+            data-aos-delay={500}
+          >
+            Contact Form
+          </h3>
+          <p
+            data-aos="fade-up"
+            data-aos-delay={500}
+            className="md:w-[400px] mx-auto mb-8 text-zinc-500"
+          >
+            Can’t find what you’re looking for? Fill out the contact form below,
+            and we’ll get back to you as soon as possible
+          </p>
+        </div>
 
-        <form
-          onSubmit={(e: FormEvent) => {
-            e.preventDefault();
-            toast.message("Your message has been sent");
-            const form = e.currentTarget as HTMLFormElement;
+        <div data-aos="fade-up" data-aos-delay={500}>
+          <form
+            onSubmit={(e: FormEvent) => {
+              e.preventDefault();
+              toast.message("Your message has been sent");
+              const form = e.currentTarget as HTMLFormElement;
 
-            form.reset();
-          }}
-          className="border-[1px] gap-6 grid md:grid-cols-2 grid-cols-1 bg-white border-zinc-300 p-6 md:p-8 rounded-md"
-        >
-          <div className="col-span-2 grid md gap-2 text-left ">
-            <label
-              htmlFor="title"
-              className="text-zinc-700 font-medium after:content-['*'] after:text-red-500 after:ml-0.5"
-            >
-              Name
-            </label>
-            <Input
-              id="title"
-              type="text"
-              className={`w-full`}
-              placeholder="Enter your name"
-              required
-            />
-          </div>
-          <div className="grid gap-2 text-left md:col-span-1 col-span-2">
-            <label
-              htmlFor="title"
-              className="text-zinc-700 font-medium after:content-['*'] after:text-red-500 after:ml-0.5"
-            >
-              Email
-            </label>
-            <Input
-              id="title"
-              type="text"
-              className={`w-full`}
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div className="grid gap-2 col-span-2 text-left">
-            <label
-              htmlFor="title"
-              className="text-zinc-700 font-medium after:content-['*'] after:text-red-500 after:ml-0.5"
-            >
-              Subject
-            </label>
-            <Input
-              id="title"
-              type="text"
-              className={` w-full`}
-              placeholder="Enter your email"
-              required
-            />
-          </div>
+              form.reset();
+            }}
+            className="border-[1px] gap-6 grid md:grid-cols-2 grid-cols-1 bg-white border-zinc-300 p-6 md:p-8 rounded-none md:rounded-md"
+          >
+            <div className="col-span-2 grid md gap-2 text-left ">
+              <label
+                htmlFor="title"
+                className="text-zinc-700 font-medium after:content-['*'] after:text-red-500 after:ml-0.5"
+              >
+                Name
+              </label>
+              <Input
+                id="title"
+                type="text"
+                className={`w-full`}
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+            <div className="grid gap-2 text-left md:col-span-1 col-span-2">
+              <label
+                htmlFor="title"
+                className="text-zinc-700 font-medium after:content-['*'] after:text-red-500 after:ml-0.5"
+              >
+                Email
+              </label>
+              <Input
+                id="title"
+                type="text"
+                className={`w-full`}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div className="grid gap-2 col-span-2 text-left">
+              <label
+                htmlFor="title"
+                className="text-zinc-700 font-medium after:content-['*'] after:text-red-500 after:ml-0.5"
+              >
+                Subject
+              </label>
+              <Input
+                id="title"
+                type="text"
+                className={` w-full`}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
 
-          <div className="grid gap-2 col-span-2 text-left">
-            <label
-              htmlFor="description"
-              className="text-zinc-700 after:content-['*'] after:text-red-500 after:ml-0.5 font-medium"
-            >
-              Message
-            </label>
-            <Textarea
-              id="description"
-              rows={10}
-              placeholder="Enter your message here"
-              required
-              className="min-h-32"
-            />
-          </div>
+            <div className="grid gap-2 col-span-2 text-left">
+              <label
+                htmlFor="description"
+                className="text-zinc-700 after:content-['*'] after:text-red-500 after:ml-0.5 font-medium"
+              >
+                Message
+              </label>
+              <Textarea
+                id="description"
+                rows={10}
+                placeholder="Enter your message here"
+                required
+                className="min-h-32"
+              />
+            </div>
 
-          <Button type="submit" className="col-span-2 mt-4">
-            Send Message
-          </Button>
-        </form>
+            <Button type="submit" className="col-span-2 mt-4">
+              Send Message
+            </Button>
+          </form>
+        </div>
       </section>
     </section>
   );

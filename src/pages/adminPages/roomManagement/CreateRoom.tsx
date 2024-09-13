@@ -1,3 +1,10 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import CustomForm from "@/components/shared/form/CustomForm";
 import FormInput from "@/components/shared/form/FormInput";
 import FormSelect from "@/components/shared/form/FormSelect";
@@ -11,7 +18,6 @@ import { TRoom } from "@/types/room.types";
 import { Button, ConfigProvider } from "antd";
 import { useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { IoChevronBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -34,7 +40,6 @@ const CreateRoom = () => {
     };
     try {
       const res = (await createRoom(room)) as TReduxResponse<any>;
-      console.log(res);
       setImageUrls([]);
       if (res.error) {
         console.log(res.error);
@@ -53,14 +58,33 @@ const CreateRoom = () => {
   };
 
   return (
-    <div className="p-8 bg-white">
-      <div className="flex mb-8 justify-start">
-        <Link to="/admin/rooms-list" className="text-4xl text-slate-500 mr-6">
-          <IoChevronBackOutline></IoChevronBackOutline>
-        </Link>
+    <div className="p-6 md:p-8 bg-white">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink>
+              <Link to="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink>
+              <Link to="/admin/rooms-list">Rooms</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbLink>
+              <Link to="/admin/create-room">Create Room</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="flex mt-2 mb-4 justify-start">
         <SectionHeading mode="dark">Create a Room</SectionHeading>
       </div>
-      <CustomForm resetForm={isSuccess} onSubmit={handleSubmit}>
+      <CustomForm onSubmit={handleSubmit}>
         <ConfigProvider
           theme={{
             token: {
@@ -81,7 +105,7 @@ const CreateRoom = () => {
             },
           }}
         >
-          <div className="grid grid-cols-3 md:gap-6">
+          <div className="grid md:grid-cols-3 grid-cols-1 md:gap-6">
             <div className="md:col-span-2">
               <FormInput label="Room Name" name="name"></FormInput>
             </div>
@@ -140,7 +164,12 @@ const CreateRoom = () => {
               ></FormSelect>
             </div>
             <div className="md:col-span-1">
-              <FormInput type="number" label="Rating" name="rating"></FormInput>
+              <FormInput
+                step={0.1}
+                type="number"
+                label="Rating"
+                name="rating"
+              ></FormInput>
             </div>
           </div>
           <Button

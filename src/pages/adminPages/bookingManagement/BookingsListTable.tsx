@@ -8,7 +8,7 @@ import SectionHeading from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { TMeta, TReduxResponse } from "@/types";
 import { TBooking, TBookingStatus } from "@/types/booking.types";
-import { Pagination, Rate, Table, Tag } from "antd";
+import { ConfigProvider, Pagination, Rate, Table, Tag } from "antd";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
 import { PiTrashLight } from "react-icons/pi";
@@ -75,11 +75,11 @@ const BookingListsTable = () => {
           <Link to={`/rooms/${room?._id}`} className="flex flex-col gap-2">
             <img src={room?.roomImages[0]} className="w-24 rounded-sm" />
             <div className="">
-              <p className="text-slate-500 font-medium text-xs">
+              <p className="text-slate-500 whitespace-nowrap text-xs">
                 Room No. {room.roomNo}
               </p>
-              <p className="text-lg font-medium">{room.name}</p>
-              <p className="text-slate-500 text-xs">
+              <p className="font-semibold">{room.name}</p>
+              <p className="text-slate-500 whitespace-nowrap text-xs">
                 $ {room.pricePerSlot} per slot
               </p>
             </div>
@@ -95,17 +95,32 @@ const BookingListsTable = () => {
       render: (item: TUser) => (
         <Link className="flex flex-col break-words" to="/admin/all-users">
           <span className="font-medium">{item?.name}</span>
-          {/* <span className="text-slate-400">{item?.email}</span> */}
+          <span className="text-xs text-zinc-500 text-ellipsis overflow-hidden truncate max-w-28">
+            {item?.email}
+          </span>
         </Link>
       ),
       responsive: ["md"],
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (item: string) => {
-        return `${moment(item).format("DD/MM/YY")}`;
+      title: "Booking Details",
+      render: (booking: TBooking) => {
+        return (
+          <div className="flex text-xs flex-col gap-4 text-slate-500">
+            <p className="whitespace-nowrap ">
+              Total Price:
+              <span className="text-zinc-800 ml-[2px] font-semibold">
+                $ {booking.totalAmount}
+              </span>
+            </p>
+            <p className="">
+              Booked Date: <br />
+              <span className="ml-[2px] text-zinc-800 font-semibold">
+                {moment(booking.date).format("Do MMM YYYY")}
+              </span>
+            </p>
+          </div>
+        );
       },
     },
     {
@@ -113,9 +128,8 @@ const BookingListsTable = () => {
       dataIndex: "slots",
       key: "slots",
       render: (slots: TSlot[]) => {
-        console.log(slots);
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex text-xs w-fit flex-col gap-4">
             {slots.map((slot) => (
               <Link
                 to={`/slots-list`}
@@ -129,13 +143,40 @@ const BookingListsTable = () => {
         );
       },
     },
+    // {
+    //   title: "Total Amount",
+    //   dataIndex: "totalAmount",
+    //   key: "totalAmount",
+    //   render: (price: string) => (
+    //     <p className="font-medium text-slate-500">$ {price}</p>
+    //   ),
+    // },
     {
-      title: "Total Amount",
-      dataIndex: "totalAmount",
-      key: "totalAmount",
-      render: (price: string) => (
-        <p className="font-medium text-slate-500">$ {price}</p>
-      ),
+      title: "Payment Details",
+      render: (booking: TBooking) => {
+        return booking.paymentDate ? (
+          <div className="flex text-center text-zinc-500 flex-col gap-2">
+            <p className="text-xs whitespace-nowrap mt-4">
+              Payment Method: <br />
+              <Tag
+                className="font-medium mt-[2px]"
+                color={booking.paymentMethod === "stripe" ? "purple" : "blue"}
+              >
+                {booking.paymentMethod}
+              </Tag>
+            </p>
+
+            <p className="text-xs mt-4">
+              Payment Date: <br />
+              <span className="ml-[2px] text-zinc-800 font-semibold">
+                {moment(booking.paymentDate).format("DD MMM YYYY")}
+              </span>
+            </p>
+          </div>
+        ) : (
+          <Tag className="font-medium">Not Yet Paid</Tag>
+        );
+      },
     },
     {
       title: "Status",
@@ -144,9 +185,10 @@ const BookingListsTable = () => {
       render: (item: TBookingStatus) => {
         return (
           <Tag
+            className="font-medium"
             color={
               item === "confirmed"
-                ? "blue"
+                ? "green"
                 : item === "canceled"
                 ? "red"
                 : "yellow"
@@ -219,13 +261,23 @@ const BookingListsTable = () => {
           columns={columns}
           pagination={false}
         />
-        <Table
-          className="hidden md:block"
-          loading={isLoading || isFetching}
-          dataSource={bookingData}
-          columns={columns}
-          pagination={false}
-        />
+        <ConfigProvider
+          theme={{
+            components: {
+              Table: {
+                cellPaddingInline: 12,
+              },
+            },
+          }}
+        >
+          <Table
+            className="hidden md:block"
+            loading={isLoading || isFetching}
+            dataSource={bookingData}
+            columns={columns}
+            pagination={false}
+          />
+        </ConfigProvider>
         <Pagination
           className="mx-auto my-6"
           total={meta?.totalDocuments}

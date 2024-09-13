@@ -37,10 +37,8 @@ const FormUpload = ({
     if (fileList) {
       setImageUrl(fileList.map((file) => file.url as string));
     }
+    console.log(fileList)
     
-    console.log("File List image removed", fileList);
-    console.log("Every time images when file updates", imgUrl);
-
   }, [isSuccess, isError, fileList]);
 
   const handleUpload = async (options: any) => {

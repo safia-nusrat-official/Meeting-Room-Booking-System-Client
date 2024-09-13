@@ -66,7 +66,7 @@ const RoomDetails = () => {
 
   return (
     <section className="md:p-12 selection:bg-secondaryColor/45">
-      <Breadcrumb className="md:m-0 mx-auto">
+      <Breadcrumb className="md:m-0 p-4 md:p-0">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink>
@@ -96,17 +96,17 @@ const RoomDetails = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="grid gap-6 mt-6 md:grid-cols-2 grid-cols-1">
-        <div className="relative img-container">
-          <div className="flex px-4 z-20 justify-between items-center absolute w-full h-1/2 top-0 left-0">
+      <div className="grid gap-6 md:mt-6 mt-0 md:grid-cols-2 grid-cols-1">
+        <div className="relative md:p-0 p-4  img-container">
+          <div className="flex px-8 md:px-4 z-[15] justify-between items-center absolute w-full h-2/3 md:h-1/2 top-0 left-0">
             <button
-              className="bg-white rounded-full p-2 text-slate-500 text-xl"
+              className="bg-white border shadow-sm rounded-full p-2 text-slate-500 text-xl"
               ref={prevRef}
             >
               <IoChevronBack></IoChevronBack>
             </button>
             <button
-              className="bg-white rounded-full p-2 text-slate-500 text-xl"
+              className="bg-white border shadow-sm rounded-full p-2 text-slate-500 text-xl"
               ref={nextRef}
             >
               <IoChevronForward></IoChevronForward>

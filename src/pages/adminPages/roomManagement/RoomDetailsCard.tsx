@@ -56,7 +56,7 @@ const RoomDetailsCard = ({ id }: { id: string }) => {
         open={open}
         footer={null}
       >
-        <div className="">
+        <div className="max-h-screen overflow-auto">
           {room && room.roomImages && (
             <CustomSlider
               isLoading={isLoading}
@@ -87,7 +87,7 @@ const RoomDetailsCard = ({ id }: { id: string }) => {
                 </CardHeader>
 
                 <CardContent>
-                  <div className="flex justify-between font-medium mb-4 text-slate-800 gap-2">
+                  <div className="flex flex-wrap justify-between font-medium mb-4 text-slate-800 gap-2">
                     <p className="flex gap-2 items-center ">
                       <IoKeyOutline className="text-xl"></IoKeyOutline> Room No.{" "}
                       {room.roomNo}

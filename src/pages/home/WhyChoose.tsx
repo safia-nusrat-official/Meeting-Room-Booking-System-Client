@@ -11,7 +11,7 @@ const WhyChoose = () => {
         Why Choose Us
       </SectionHeading>
       <p data-aos="zoom-out"  className="mt-4 mb-8 mx-auto text-center text-bodyText font-medium">Empowering Your Meetings with Seamless Efficiency</p>
-      <div className="grid mt-8 text-primaryColor grid-cols-4 gap-8">
+      <div className="grid mt-8 grid-cols-1 text-primaryColor md:grid-cols-4 gap-8">
         <div className="flex flex-col" data-aos="fade-up">
           <img width={50} src={booking} />
           <span className="mt-4 my-2 font-semibold">
