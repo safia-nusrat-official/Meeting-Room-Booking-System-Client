@@ -6,7 +6,7 @@ import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 
 import { Navigation, FreeMode, Thumbs, Pagination } from "swiper/modules";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Skeleton } from "antd";
 import Swiper from "swiper";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";

@@ -1,4 +1,4 @@
-import { Button, Form, Spin, Upload, UploadFile } from "antd";
+import { Form, Spin, Upload, UploadFile } from "antd";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { PiUploadSimpleLight } from "react-icons/pi";
@@ -11,13 +11,12 @@ const FormUpload = ({
   label,
   isSuccess,
   isError,
-  imgUrl,
+  
   defaultFileList = [],
   required = true,
 }: {
   name: string;
   label: string;
-  imgUrl: string[];
   isSuccess: boolean;
   isError: boolean;
   defaultFileList?: UploadFile<any>[];
@@ -37,7 +36,6 @@ const FormUpload = ({
     if (fileList) {
       setImageUrl(fileList.map((file) => file.url as string));
     }
-    console.log(fileList)
     
   }, [isSuccess, isError, fileList]);
 
@@ -57,7 +55,6 @@ const FormUpload = ({
       const result = await response.json();
 
       if (result?.success) {
-        console.log(result.data);
         const imageURl = result.data.url;
         onSuccess(result);
         setLoading(false);
@@ -70,7 +67,6 @@ const FormUpload = ({
           },
         ]);
       } else {
-        console.log(result, result?.error);
         onError(new Error(result?.error?.message || "Image Upload Failed"));
       }
     } catch (error) {
@@ -81,7 +77,6 @@ const FormUpload = ({
 
   const onRemove = (file: UploadFile<any>) => {
     setFileList(fileList.filter((prev) => prev.uid !== file.uid));
-    console.log("File List image removed in side onRemove", fileList);
   };
 
   return (

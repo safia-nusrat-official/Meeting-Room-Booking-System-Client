@@ -1,4 +1,3 @@
-import React from 'react'
 import HeroSection from './heroSection/HeroSection'
 import ServiceSection from './ServiceSection'
 import FeaturedRooms from './FeaturedRooms'

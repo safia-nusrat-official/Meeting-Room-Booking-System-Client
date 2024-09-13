@@ -59,12 +59,10 @@ const StripeCheckoutForm = ({
     if (error) {
       setIsProcessing(false);
 
-      console.log("[error]", error);
       toast.error(error.message as string);
       setPaymentSuccess(false);
     } else if (paymentIntent.status === "succeeded") {
       setIsProcessing(false);
-      console.log(paymentIntent);
       setKey((prev) => prev + 1);
       setPaymentSuccess(true);
       handleConfirmBooking();

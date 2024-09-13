@@ -36,7 +36,6 @@ const paymentApi = baseApi.injectEndpoints({
 
     confirmPayPalPayment: build.mutation({
       query: (PayPalOrderId: any) => {
-        console.log("Order id recieved in rtk mutation", PayPalOrderId);
         return {
           url: `/payments/capture-paypal-order`,
           method: "POST",

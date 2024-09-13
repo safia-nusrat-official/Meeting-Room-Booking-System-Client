@@ -109,7 +109,6 @@ const MainLayout = () => {
           </Link>
         </div>
         <Menu
-          onSelect={(k) => console.log(k)}
           className="hidden md:flex md:pl-20 nav-menu"
           mode="horizontal"
           selectedKeys={[selectedKeys]}

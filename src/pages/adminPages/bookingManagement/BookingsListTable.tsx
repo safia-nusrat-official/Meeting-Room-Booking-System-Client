@@ -8,7 +8,7 @@ import SectionHeading from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { TMeta, TReduxResponse } from "@/types";
 import { TBooking, TBookingStatus } from "@/types/booking.types";
-import { ConfigProvider, Pagination, Rate, Table, Tag } from "antd";
+import { ConfigProvider, Pagination, Table, Tag } from "antd";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
 import { PiTrashLight } from "react-icons/pi";
@@ -36,7 +36,6 @@ const BookingListsTable = () => {
     data && data?.data.map((booking: TBooking) => ({ ...booking }));
 
   const meta: TMeta = data && data?.meta;
-  console.log(bookingData);
 
   const handleDelete = async (id: string) => {
     confirm({
@@ -51,10 +50,8 @@ const BookingListsTable = () => {
         try {
           const res = (await deletebooking(id)) as TReduxResponse<any>;
           if (res.data) {
-            console.log(res.data);
             toast.success("booking Deleted Successfully!");
           } else {
-            console.log(res.error?.message || res.error?.data?.message);
             toast.error(res.error?.message || "booking Delete Failed.");
           }
         } catch (error) {

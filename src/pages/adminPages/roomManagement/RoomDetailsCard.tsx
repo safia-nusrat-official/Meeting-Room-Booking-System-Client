@@ -2,27 +2,21 @@ import { useGetSingleRoomQuery } from "@/redux/api/rooms.api";
 import { Modal } from "antd";
 
 import { TRoom } from "@/types/room.types";
-import { Link } from "react-router-dom";
-import { Swiper as SwiperComponent, SwiperSlide } from "swiper/react";
-
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 
-import { Navigation, FreeMode, Thumbs, Pagination } from "swiper/modules";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Rate, Skeleton } from "antd";
-import Swiper from "swiper";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { IoChevronBack, IoChevronForward, IoKeyOutline } from "react-icons/io5";
+import { IoKeyOutline } from "react-icons/io5";
 import { LuArrowUpDown } from "react-icons/lu";
 import { IoIosPeople } from "react-icons/io";
 import { Button } from "@/components/ui/button";
@@ -31,7 +25,7 @@ import CustomSlider from "@/components/shared/CustomSlider";
 
 const RoomDetailsCard = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
-  const { data, isLoading, refetch } = useGetSingleRoomQuery(id, {
+  const { data, isLoading } = useGetSingleRoomQuery(id, {
     skip: !open,
   });
 

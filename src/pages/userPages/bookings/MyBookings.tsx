@@ -31,7 +31,6 @@ const MyBookings = () => {
   const bookingData: TBooking[] =
     data && data?.data.map((booking: TBooking) => ({ ...booking }));
 
-  console.log(bookingData);
   const meta: TMeta = data && data?.meta;
 
   const handleStatusUpdate = async (id: string) => {
@@ -53,11 +52,9 @@ const MyBookings = () => {
           })) as TReduxResponse<any>;
 
           if (res.data?.data) {
-            console.log(res.data);
             toast.success("Booking cancled Successfully!");
             refetch();
           } else {
-            console.log(res.error?.message || res.error?.data?.message);
             toast.error(
               res.error?.message ||
                 res.error?.data?.message ||

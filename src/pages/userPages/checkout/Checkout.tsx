@@ -19,7 +19,7 @@ import {
 import stripeLogo from "../../../assets/icons/stripe-logo.png";
 import paypalLogo from "../../../assets/images/paypal.png";
 
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useGetASingleBookingQuery,
   useUpdateBookingMutation,
@@ -55,12 +55,6 @@ export default function Checkout() {
   const [bookingDetails, setBookingDetails] = useState<any>();
 
   const handleConfirmBooking = async () => {
-    console.log("Booking called");
-    console.log(paymentSuccess);
-
-    // if (!paymentSuccess) {
-    //   return;
-    // }
 
     const updatedBooking: TBooking = {
       ...bookingDetails,
@@ -73,13 +67,11 @@ export default function Checkout() {
         id: bookingDetails._id,
         booking: updatedBooking,
       })) as TReduxResponse<any>;
-      console.log(result);
 
       if (result.error) {
         console.log(result.error);
         toast.error(result.error?.message || result.error?.data?.message);
       } else if (result.data) {
-        console.log(result.data);
         toast.success(
           result.data?.message || result.data?.data?.message || result?.message
         );
@@ -322,7 +314,6 @@ export default function Checkout() {
                       bookingId={bookingDetails._id as string}
                       totalAmount={bookingDetails.totalAmount as number}
                       handleConfirmBooking={handleConfirmBooking}
-                      isProcessing={isProcessing}
                       setPaymentSuccess={setPaymentSuccess}
                       setIsProcessing={setIsProcessing}
                     ></PayPalPayment>
@@ -365,7 +356,6 @@ export default function Checkout() {
       {bookingDetails && (
         <Modal
           onCancel={() => {
-            console.log("close clicked");
             navigate("/user/my-bookings");
           }}
           footer={null}

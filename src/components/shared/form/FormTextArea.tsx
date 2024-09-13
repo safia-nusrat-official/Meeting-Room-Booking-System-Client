@@ -1,5 +1,4 @@
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Form, Input } from "antd";
+import { Form } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Controller, FieldValues, Validate } from "react-hook-form";
 

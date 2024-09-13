@@ -66,7 +66,6 @@ const month = [
 ];
 
 export const RevenueGraph = (revenueData: any) => {
-  console.log(revenueData);
   const data =
     revenueData?.revenueData &&
     revenueData.revenueData.map((item: any) => ({
@@ -74,7 +73,6 @@ export const RevenueGraph = (revenueData: any) => {
       total: item?.totalRevenue,
     }));
 
-  console.log(data);
   
   return (
     <ResponsiveContainer width="100%" height={350}>

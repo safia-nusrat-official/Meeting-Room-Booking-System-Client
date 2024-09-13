@@ -1,7 +1,6 @@
-import { MdAdminPanelSettings } from "react-icons/md";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { TMeta, TReduxResponse } from "@/types";
-import { Pagination, Select, Spin, Table, Tag } from "antd";
+import { Pagination, Select, Spin, Table } from "antd";
 import { useState } from "react";
 import { TUser } from "@/types/user.types";
 import { ColumnsType } from "antd/es/table";
@@ -18,8 +17,7 @@ import { CardDescription } from "@/components/ui/card";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
 import { toast } from "sonner";
-import { useAppSelector } from "@/redux/hooks";
-import { getUser } from "@/redux/features/authSlice";
+
 
 const UsersList = () => {
   const [current, setCurrent] = useState(1);
@@ -44,12 +42,9 @@ const UsersList = () => {
   }) => {
     try {
       const res = (await changeRole({ role, id })) as TReduxResponse<any>;
-      console.log(res);
       if (res.data) {
-        console.log(res.data);
         toast.success("User Role Changed Successfully!");
       } else {
-        console.log(res.error?.message || res.error?.data?.message);
         toast.error(res.error?.message || "User Role change Failed.");
       }
     } catch (error) {
@@ -193,10 +188,8 @@ const UsersList = () => {
         try {
           const res = (await deleteUser(id)) as TReduxResponse<any>;
           if (res.data) {
-            console.log(res.data);
             toast.success("User Deleted Successfully!");
           } else {
-            console.log(res.error?.message || res.error?.data?.message);
             toast.error(res.error?.message || "User Delete Failed.");
           }
         } catch (error) {

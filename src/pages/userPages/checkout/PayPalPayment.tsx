@@ -9,7 +9,6 @@ import {
   useConfirmPayPalPaymentMutation,
   useCreatePayPalOrderMutation,
 } from "@/redux/api/payment.api";
-import { TReduxResponse } from "@/types";
 import {
   PayPalScriptProvider,
   PayPalButtons,
@@ -20,7 +19,6 @@ import { toast } from "sonner";
 
 const PayPalPayment = ({
   totalAmount,
-  isProcessing,
   setPaymentSuccess,
   setIsProcessing,
   handleConfirmBooking,
@@ -28,7 +26,6 @@ const PayPalPayment = ({
 }: {
   totalAmount: number;
   handleConfirmBooking: any;
-  isProcessing: boolean;
   bookingId: string;
   setPaymentSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,7 +52,6 @@ const PayPalPayment = ({
               bookingId={bookingId}
               totalAmount={totalAmount}
               handleConfirmBooking={handleConfirmBooking}
-              isProcessing={isProcessing}
               setPaymentSuccess={setPaymentSuccess}
               setIsProcessing={setIsProcessing}
             ></PayPalButtonsWrapper>
@@ -70,7 +66,6 @@ export default PayPalPayment;
 
 const PayPalButtonsWrapper = ({
   totalAmount,
-  isProcessing,
   setPaymentSuccess,
   setIsProcessing,
   handleConfirmBooking,
@@ -78,17 +73,17 @@ const PayPalButtonsWrapper = ({
 }: {
   totalAmount: number;
   handleConfirmBooking: any;
-  isProcessing: boolean;
   bookingId: string;
   setPaymentSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [{ isPending }] = usePayPalScriptReducer();
   const [createPayPalOrder] = useCreatePayPalOrderMutation();
-  const [confirmPayPalOrder, { isLoading: paymentConfirmationLoading }] =
+  const [confirmPayPalOrder] =
     useConfirmPayPalPaymentMutation();
 
   const createOrder = async (data: any) => {
+    console.log(data)
     try {
       const res = await createPayPalOrder({
         totalAmount,
@@ -96,10 +91,7 @@ const PayPalButtonsWrapper = ({
         paymentMethod: "paypal",
       }).unwrap();
 
-      console.log(res);
       const id = res.data?.id; // paypalOrderId
-
-      console.log("What paypalOrderId createOrder() generated", id);
       return id;
     } catch (error) {
       console.log(error);
@@ -109,11 +101,11 @@ const PayPalButtonsWrapper = ({
 
   // what happens when user approves the payment and transaction is finalized
   const onApprove = async (paypalOrder: any) => {
-    console.log("What on approved recieved from create order", paypalOrder)
+    setIsProcessing(true)
     try {
       const transaction = await confirmPayPalOrder(paypalOrder.orderID).unwrap();
-      console.log(transaction);
 
+      setIsProcessing(false)
       if(transaction?.data?.status==="COMPLETED"||transaction.statusCode===201){
         toast.success("Payment Through PayPal Successful")
         setPaymentSuccess(true)

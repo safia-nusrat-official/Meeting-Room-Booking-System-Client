@@ -6,7 +6,6 @@ import RoomListTable from "@/pages/adminPages/roomManagement/RoomListTable";
 import BookingListsTable from "@/pages/adminPages/bookingManagement/BookingsListTable";
 import SlotListTable from "@/pages/adminPages/slotsManagement/SlotListTable";
 import UsersList from "@/pages/adminPages/userManagement/UsersList";
-import MyProfile from "@/pages/userPages/profile/MyProfile";
 
 export const adminPaths = [
   {

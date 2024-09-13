@@ -14,44 +14,8 @@ import { useGetAllBookingsQuery } from "@/redux/api/bookings.api";
 import { useEffect, useState } from "react";
 import { TBooking } from "@/types/booking.types";
 
-const orders = [
-  { id: "1005", payment: "Paid", fulfillment: "Delivering", amount: "$154.60" },
-  { id: "1004", payment: "Paid", fulfillment: "Unfulfilled", amount: "$93.49" },
-  {
-    id: "1003",
-    payment: "Refunded",
-    fulfillment: "Cancelled",
-    amount: "$39.00",
-  },
-  {
-    id: "1002",
-    payment: "Unpaid",
-    fulfillment: "Unfulfilled",
-    amount: "$438.90",
-  },
-];
-
-const getBadgeColor = (status: string) => {
-  switch (status.toLowerCase()) {
-    case "paid":
-      return;
-    case "refunded":
-      return "bg-gray-100 text-gray-800 hover:bg-gray-200";
-    case "unpaid":
-      return "bg-yellow-100 text-yellow-800 hover:bg-yellow-200";
-    case "delivering":
-      return "";
-    case "unfulfilled":
-      return "";
-    case "cancelled":
-      return "";
-    default:
-      return;
-  }
-};
-
 export default function BookingStatus() {
-  const { data, isLoading } = useGetAllBookingsQuery([{key:"limit", value:"7"}]);
+  const { data } = useGetAllBookingsQuery([{key:"limit", value:"7"}]);
   const [bookings, setBookings] = useState<TBooking[]>([]);
 
   useEffect(() => {

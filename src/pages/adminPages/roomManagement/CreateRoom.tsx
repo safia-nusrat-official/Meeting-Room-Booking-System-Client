@@ -49,7 +49,6 @@ const CreateRoom = () => {
             "Failed to create room"
         );
       } else {
-        console.log(res.data);
         toast.success(res.data?.message || "Successfully Created Room");
       }
     } catch (error) {
@@ -129,7 +128,6 @@ const CreateRoom = () => {
                 label="Room Images"
                 isSuccess={isSuccess}
                 isError={isError}
-                imgUrl={imageUrls}
                 setImageUrl={setImageUrls}
               ></FormUpload>
             </div>

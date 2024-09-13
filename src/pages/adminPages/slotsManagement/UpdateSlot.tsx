@@ -14,7 +14,7 @@ import { Button, ConfigProvider, Modal, SelectProps } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { SlPencil, SlSocialTumblr } from "react-icons/sl";
+import { SlPencil } from "react-icons/sl";
 import { toast } from "sonner";
 
 const UpdateSlot = ({
@@ -43,7 +43,7 @@ const UpdateSlot = ({
 
   const slotData: TSlot = data && data?.data;
 
-  const [updateSlot, { isLoading: UpdateLoading, isSuccess, isError }] =
+  const [updateSlot, { isLoading: UpdateLoading }] =
     useUpdateSlotMutation();
 
   const showModal = () => {
@@ -51,7 +51,6 @@ const UpdateSlot = ({
   };
 
   const handleUpdate: SubmitHandler<FieldValues> = async (data: any) => {
-    console.log(data);
 
     const slot: TSlot = {
       date: data.date
@@ -66,15 +65,12 @@ const UpdateSlot = ({
       room: data.room ? data.room : slotData.room,
     };
 
-    console.log(slot);
     try {
       const res = (await updateSlot({ id, slot })) as TReduxResponse<any>;
-      console.log(res);
       if (res.error) {
         console.log(res.error?.message);
         toast.error(res.error?.message || res.error?.data.message);
       } else {
-        console.log(res.data);
         refetch();
         toast.success("Slot Data Updated Successfully");
         setOpen(false);

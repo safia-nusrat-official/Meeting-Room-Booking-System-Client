@@ -7,7 +7,7 @@ const HeroTitle = () => {
   const typingSpeed = 100;
 
   const [displayedText, setDisplayedText] = useState(["", "", "", ""]);
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [, setCurrentLineIndex] = useState(0);
 
   useEffect(() => {
     const typeLine = (lineIndex: number, text: string, callback: any) => {

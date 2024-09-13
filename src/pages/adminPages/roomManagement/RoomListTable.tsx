@@ -1,9 +1,3 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +16,6 @@ import UpdateRoom from "./UpdateRoom";
 import { useState } from "react";
 import RoomDetailsCard from "./RoomDetailsCard";
 import SearchBar from "@/components/shared/SearchBar";
-import { IoMdAdd } from "react-icons/io";
 import { IoAddCircle } from "react-icons/io5";
 import { roomFloorNumbersMap } from "@/pages/rooms/RoomDetails";
 
@@ -55,11 +48,9 @@ const RoomListTable = () => {
       async onOk() {
         try {
           const res = (await deleteRoom(id)) as TReduxResponse<any>;
-          if (res.data) {
-            console.log(res.data);
+          if (res.data) {w
             toast.success("Room Deleted Successfully!");
           } else {
-            console.log(res.error?.message || res.error?.data?.message);
             toast.success(res.error?.message || "Room Created Successfully!");
           }
         } catch (error) {

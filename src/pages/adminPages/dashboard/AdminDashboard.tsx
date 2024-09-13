@@ -26,8 +26,6 @@ const AdminDashboard = () => {
   const { data, isLoading } = useGetDashboardDataQuery([]);
   const dashboardData = !isLoading && data?.data;
 
-  console.log(dashboardData);
-
   return (
     <section className="md:p-10 p-4 bg-slate-100">
       <div className="flex flex-wrap items-center justify-between space-y-2">

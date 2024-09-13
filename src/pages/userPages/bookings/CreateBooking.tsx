@@ -7,11 +7,11 @@ import {
 } from "@/components/ui/breadcrumb";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { useGetSingleRoomQuery } from "@/redux/api/rooms.api";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RoomCard } from "@/pages/rooms/RoomCard";
 import CustomForm from "@/components/shared/form/CustomForm";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/shared/form/FormInput";
 import { useAppSelector } from "@/redux/hooks";
 import { getUser } from "@/redux/features/authSlice";
@@ -41,7 +41,7 @@ const CreateBooking = () => {
     if (!date || slots.length < 1) {
       return;
     }
-    console.log(data);
+
     const booking: TBooking = {
       date: moment(date).format("YYYY-MM-DD"),
       room: id as string,
@@ -59,7 +59,6 @@ const CreateBooking = () => {
         );
         refetch();
       } else {
-        console.log(result.data);
         toast.success(result.data?.message || "Successfully Booked Room!");
         refetch();
         navigate("/user/my-bookings");
@@ -68,7 +67,7 @@ const CreateBooking = () => {
       console.log(error);
     }
   };
-  console.log(date);
+
   return (
     <div className="md:p-12 pb-12 bg-white relative">
       <div className="md:m-0 mx-8 pt-6">
@@ -180,10 +179,7 @@ const CreateBooking = () => {
                   mode="single"
                   month={date||undefined}
                   selected={date || undefined}
-                  onSelect={(day: Date | undefined) => {
-                    console.log("Selected date", day);
-                    day && setDate(day);
-                  }}
+                  onSelect={(day: Date | undefined) => day && setDate(day)}
                   className="rounded-sm border w-full flex justify-center mb-4"
                 />
               </div>

@@ -1,4 +1,3 @@
-import { ReactNode, useState } from "react";
 import { TReduxResponse } from "../../types/index";
 
 import {
@@ -35,10 +34,8 @@ export default function Login() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const result = (await login(data as TLoginData)) as TReduxResponse<any>;
-      console.log(result);
 
       if (result?.error) {
-        console.log(result?.message || result?.error?.message);
         toast.error(result?.error?.data?.message || result?.error?.message);
       } else {
         const token = result?.data?.data?.accessToken;

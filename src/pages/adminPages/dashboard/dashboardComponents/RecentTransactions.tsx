@@ -2,7 +2,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "antd";
 
 export const RecentTransactions = (data: any) => {
-  console.log(data);
 
   return (
     <div className="space-y-8">

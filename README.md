@@ -1,50 +1,112 @@
-# React + TypeScript + Vite
+![MeetWise](./public/logo.png)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# MeetWise 💻
 
-Currently, two official plugins are available:
+MeetWise is a robust meeting room booking system designed to streamline the process of reserving rooms in an organization. With an intuitive user interface, secure authentication, and comprehensive admin capabilities, MeetWise makes managing meeting spaces simple and efficient.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+[![Live Preview Link](https://img.shields.io/badge/Live_Preview_Link-blue)](https://meeting-room-booking-system-client.vercel.app/)
+[![Live Server Link](https://img.shields.io/badge/Live_Server_Link-red)](https://meeting-room-booking-system-phi.vercel.app/)
+[![Server Repository Link](https://img.shields.io/badge/Server_Repository_Link-yellow)](https://github.com/safia-nusrat-official/meeting-room-booking-system)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+## Table of Contents 📝
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- [**Features**](#features)
+- [**Getting Started**](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+- [**Usage**](#usage)
+- [**API Documentation**](#api-documentation)
+- [**Technologies Used**](#technologies-used)
+- [**Contact**](#contact)
+  
+## Features
+
+- Authentication: Secure login and registration for all users.
+- Profile Update: Users can update profile details thro
+- Easy Room Browsing: Effortlessly navigate through a wide range of rooms with smooth filtering and sorting options.
+- Smooth Room Booking: Add, remove, and manage items in your cart with ease, ensuring a seamless shopping experience.
+- Detailed Room Pages: View comprehensive details, high-quality images, and specifications for each rooms.
+- Fast Search: Quickly find products using our optimized search functionality.
+- Secure Transactions: Complete bookings with secure payment methods (Stripe and PayPal).
+- Custom Room Features: Add custom descriptions, ratings, and multiple images for each room.
+- Booking Management: View, cancel, or modify existing bookings.
+- Comprehensive Dashboard: Administrative control panel to manage, create, update, and delete products.
+- Transactional Emails: Receive confirmation emails with transaction details when a booking is confirmed.
+- Booking Approval: Confirm or cancel room bookings.
+- Room Management: Add, update, or delete meeting rooms with ease.
+- Slot Management: Add, update, or delete slots with ease.
+- User Management: Manage user roles, including admin privileges.
+- Reports & Analytics: Access detailed analytics for bookings and user activity.
+- Multi-Image Uploading: Admins can upload multiple images for each room through ImgBB.
+- User Profile Image Upload: Users can upload and manage their profile pictures via Cloudinary.
+- Responsive Design: Fully functional on both mobile and desktop devices for a consistent experience across platforms.
+
+
+
+## Getting Started 🚀
+### Prerequisites 📋
+Before you begin, please ensure you have the following dependencies installed:
+```bash
+Node.js (v20.11.0 or later)
+npm (v20.11.0 or later)
+```
+### Installation 🛠️
+1. Clone the repository:
+ ```bash
+ git clone https://github.com/safia-nusrat-official/mechanical-keyboard-ecommerce-client.git
+ ```
+2. Move to *mechanical-keyboard-ecommerce-client* :
+```bash
+cd mechanical-keyboard-ecommerce-client
+```
+3. Install the depecdencies:
+```bash
+ npm install
+ ```
+
+_n.b: Make sure to read the server repository readme to install and configure the backend beforehand if you want to run the frontend on local server!_
+
+### Configuration ⚙️
+1. In the root directory of your project, create a .env.local file and add the following configuration variables:
+```env
+VITE_IMGBB_API=4bfb6e15a3a0f1ed16af04cbe55b04b9
+VITE_STRIPE_PK=pk_test_51OX1c0EwhDuP55qLqSOaLz8t6G4L2qGcTJ40gEyOo3UskSR9FTE0wmEVNTEUStxeoC72qpg8IrNIwSuEsMbQObAi00M2UHTsZ1
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+## Usage 📖
+```bash
+npm run start
+# or
+yarn start
 ```
+
+The application should now be running on http://localhost:5173 or http://localhost:5174
+
+
+## API Documentation 🌐
+The API Documentation can be found in the [Server Side Repository](https://github.com/safia-nusrat-official/mechanical-keyboard-ecommerce-server)
+
+
+## Technologies Used 💻
+- Web-framework: **[Express.Js](https://expressjs.com/)**
+- Programming Language: **[Typescript](https://www.typescriptlang.org/)**
+- Formatters: **[ESLint](https://eslint.org/)**, **[Prettier](https://prettier.io/)**
+- Authentication: **[JWT (JSON WEB TOKEN)](https://jwt.io/)**
+- Payment Gateway: **[Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/bd/home)**
+- Library used: **[React](https://react.dev/)**
+- State Mangament via: **[Redux](https://redux.js.org/)**
+- Build Tool: **[Vite](https://vitejs.dev/)**
+- CSS Framework:**[Tailwind CSS](https://tailwindcss.com/)**
+- Component Library: **[ShadCN](https://ui.shadcn.com/)**
+- React UI library:**[Ant-Design](https://ant.design/)**
+- Image Storage: **[ImgBB](https://imgbb.com/)** for room images, **[Cloudinary](https://cloudinary.com/)** for user profile images
+- Email Service: **[NodeMailer](https://nodemailer.com/)**
+- Others:**[AOS](https://michalsnik.github.io/), [sonner](https://sonner.emilkowal.ski/), [moment](https://momentjs.com/)**
+  
+## Contact 📞
+For any enquires or issues related installation, please reach out to us at _safia.nusrat.official@gmail.com_. We welcome yor feedback and are here to guide you through your troubles and clean up any confusions. Thank you 😊!
+
+_[Safia Nusrat](https://github.com/safia-nusrat-official)_

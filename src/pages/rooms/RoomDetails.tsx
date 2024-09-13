@@ -20,7 +20,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Navigation, FreeMode, Thumbs, Pagination } from "swiper/modules";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Rate, Skeleton } from "antd";
 import Swiper from "swiper";
 import {

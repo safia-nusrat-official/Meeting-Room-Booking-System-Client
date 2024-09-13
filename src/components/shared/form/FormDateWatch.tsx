@@ -20,7 +20,6 @@ const FormDateWatch = ({
     name,
   });
   useEffect(() => {
-    console.log(inputValue)
     
     if(setValue && inputValue){
       setValue(moment(inputValue?.$d).format("YYYY-MM-DD"))

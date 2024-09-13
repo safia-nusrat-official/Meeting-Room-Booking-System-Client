@@ -1,5 +1,5 @@
 import { HiOutlineUpload } from "react-icons/hi";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { TReduxResponse } from "../../types/index";
 
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
@@ -40,24 +40,23 @@ export default function Signup() {
       password: data.password,
       role: "user",
     };
-    console.log(userData);
 
     const formData = new FormData();
 
-    formData.append("profileImage", data.profileImage.fileList[0].originFileObj);
+    formData.append(
+      "profileImage",
+      data.profileImage.fileList[0].originFileObj
+    );
     formData.append("data", JSON.stringify(userData));
 
     try {
       const result = (await signup(formData)) as TReduxResponse<any>;
-      console.log(result);
 
       if (result?.error) {
-        console.log(result?.message || result?.error?.message);
         setFile([]);
         toast.error(result?.error?.data?.message || result?.error?.message);
       } else {
         const user = result?.data?.data;
-        console.log(user);
         setFile([]);
         toast.success(`Account created Successfully!`);
         dispatch(logout());
@@ -104,13 +103,14 @@ export default function Signup() {
                     help={fieldState.error ? fieldState.error?.message : ""}
                   >
                     <Upload
+                      {...field}
                       maxCount={1}
                       onChange={onChange}
                       accept="image/*"
                       fileList={file}
                       showUploadList={true}
                       listType="picture-circle"
-                      beforeUpload={()=>false}
+                      beforeUpload={() => false}
                     >
                       <button className="text-slate-700 text-4xl">
                         <HiOutlineUpload />

@@ -1,5 +1,4 @@
 import SectionHeading from "@/components/shared/SectionHeading";
-import React, { useEffect, useState } from "react";
 import sectionBg from "../../assets/images/loginBg.jpg";
 import { useGetAllAvailableRoomsQuery } from "@/redux/api/rooms.api";
 import { TRoom } from "@/types/room.types";
@@ -13,7 +12,6 @@ const FeaturedRooms = () => {
   ]);
   const roomData = (!isLoading && data?.data && data.data) || [];
 
-  console.log(data);
   return (
     <section
       className="bg-fixed relative bg-no-repeat bg-cover"

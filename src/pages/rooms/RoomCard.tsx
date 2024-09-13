@@ -13,7 +13,7 @@ import { CiUser } from "react-icons/ci";
 import { LuArrowUpDown } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { roomFloorNumbersMap } from "./RoomDetails";
-import { Rate, Skeleton } from "antd";
+import { Rate } from "antd";
 import { IoChevronForward, IoKeyOutline } from "react-icons/io5";
 import { IoIosPeople } from "react-icons/io";
 import CustomSlider from "@/components/shared/CustomSlider";
@@ -35,7 +35,7 @@ export const RoomCard = ({
         className="w-full h-48 object-cover"
       />
       <CardHeader className="px-6 pb-0 pt-4">
-        <CardTitle className="font-semibold text-2xl">{name}</CardTitle>
+        <CardTitle className="font-semibold truncate  text-2xl">{name}</CardTitle>
       </CardHeader>
       <CardContent className="pt-2 px-6">
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -111,7 +111,6 @@ export const RoomCard = ({
     </Link>
   ) : (
     <div className="grid grid-cols-1">
-      {/*  */}
 
       <Card className="shadow-none rounded-sm mt-6">
         <CardHeader>

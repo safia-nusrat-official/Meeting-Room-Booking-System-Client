@@ -1,4 +1,3 @@
-import { PiAlignRightSimple } from "react-icons/pi";
 import { TSlot } from "../../types/slot.types";
 import { baseApi } from "./baseApi";
 import { TQueryArgs } from "./rooms.api";
@@ -26,7 +25,6 @@ const SlotApi = baseApi.injectEndpoints({
         if (args.length) {
           args.forEach((arg) => params.append(`${arg.key}`, `${arg.value}`));
         }
-        console.log(args);
         return {
           url: `/slots`,
           method: "GET",

@@ -12,14 +12,14 @@ import { TReduxResponse } from "@/types";
 import { TRoom } from "@/types/room.types";
 import { handleNonPrimitiveUpdates } from "@/utility/roomUtils/updateRooms.utils";
 import { Button, Modal } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { SlPencil } from "react-icons/sl";
 import { toast } from "sonner";
 
 const UpdateRoom = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
-  const { data, isLoading, refetch } = useGetSingleRoomQuery(id, {
+  const { data, isLoading } = useGetSingleRoomQuery(id, {
     skip: !open,
   });
   const roomData: TRoom = (!isLoading && data?.data) || null;
@@ -36,7 +36,6 @@ const UpdateRoom = ({ id }: { id: string }) => {
   };
 
   const handleUpdate: SubmitHandler<FieldValues> = async (updatedData: any) => {
-    console.log(updatedData);
     if (imageUrls.length < 1) {
       toast.error("Atleast add 1 image for room!");
       return;
@@ -59,15 +58,12 @@ const UpdateRoom = ({ id }: { id: string }) => {
       pricePerSlot: Number(updatedData.pricePerSlot || roomData?.pricePerSlot),
     };
 
-    console.log(room);
     try {
       const res = (await updateRoom({ id, room })) as TReduxResponse<any>;
-      console.log(res);
       if (res.error) {
         console.log(res.error?.message);
         toast.error(res.error?.message || res.error?.data.message);
       } else if (res?.data?.sucess) {
-        console.log(res.data);
         toast.success("Room Data Updated Successfully");
       }
     } catch (error) {
@@ -191,7 +187,6 @@ const UpdateRoom = ({ id }: { id: string }) => {
                 label="Room Images"
                 isSuccess={isSuccess}
                 isError={isError}
-                imgUrl={imageUrls}
                 setImageUrl={setImageUrls}
                 defaultFileList={defaultFileList}
               ></FormUpload>

@@ -1,4 +1,4 @@
-import { TLoginData, TUser } from "../../types/user.types";
+import { TLoginData } from "../../types/user.types";
 import { baseApi } from "./baseApi";
 
 const authApi = baseApi.injectEndpoints({

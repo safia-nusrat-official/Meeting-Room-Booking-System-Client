@@ -9,7 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import moment from "moment";
 
 export default function RecentActivities(data: any) {
-  console.log(data);
   const activities = data && data.data;
 
   return (

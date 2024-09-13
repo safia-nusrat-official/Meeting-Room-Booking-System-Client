@@ -22,15 +22,14 @@ import FormTimePicker from "@/components/shared/form/FormTimePicker";
 import moment from "moment";
 
 const CreateSlot = () => {
-  const [createSlot, { isLoading, isError }] = useCreateSlotMutation();
+  const [createSlot, { isLoading }] = useCreateSlotMutation();
   const { data: rooms, isLoading: rLoading } = useGetAllAvailableRoomsQuery([
     { key: "limit", value: "all" },
   ]);
 
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     const date = moment(data.date.$d).format("YYYY-MM-DD");
-    console.log("selected date", data.date, "formatted date", date);
+
     const slot: TSlot = {
       date,
       room: data.room,
@@ -38,11 +37,10 @@ const CreateSlot = () => {
       endTime: moment(data.endTime.$d, "hh:mm").format("HH:mm"),
       isBooked: false,
     };
-    console.log(slot);
 
     try {
       const res = (await createSlot(slot)) as TReduxResponse<any>;
-      console.log(res);
+
       if (res.error) {
         console.log(res.error);
         toast.error(
@@ -51,7 +49,6 @@ const CreateSlot = () => {
             "Failed to create slot"
         );
       } else {
-        console.log(res.data);
         toast.success(res.data?.message || "Successfully Created Slot");
       }
     } catch (error) {

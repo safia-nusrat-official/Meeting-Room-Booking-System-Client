@@ -1,12 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  TQueryArgs,
-  useGetAllAvailableRoomsQuery,
-} from "@/redux/api/rooms.api";
 import { useGetSlotsOfARoomQuery } from "@/redux/api/slots.api";
 import { TSlot } from "@/types/slot.types";
-import { Card, Skeleton } from "antd";
+import { Skeleton } from "antd";
 import moment from "moment";
 import { GoClock } from "react-icons/go";
 
@@ -23,10 +19,7 @@ const AvailableSlots = ({
   setDate: React.Dispatch<React.SetStateAction<Date | null>>;
   slots: string[];
 }) => {
-  console.log("The date that slots received", propDate)
-
   const date = propDate ? moment(propDate).format("YYYY-MM-DD") : null;
-  console.log("The date that slots made", date)
 
   const args = [
     {
@@ -76,7 +69,9 @@ const AvailableSlots = ({
               slotData.map((item: any) => (
                 <button
                   className="flex flex-col p-2 rounded-md border-[1px] border-slate-300 bg-popover hover:bg-accent hover:text-accent-foreground"
-                  onClick={() => setDate(moment(item.date, "YYYY-MM-DD").toDate())}
+                  onClick={() =>
+                    setDate(moment(item.date, "YYYY-MM-DD").toDate())
+                  }
                 >
                   <div className="flex flex-col">
                     <span className="text-slate-500 text-xs">
@@ -100,7 +95,7 @@ const AvailableSlots = ({
                   }}
                 ></Skeleton.Button>
               ))}
-              
+
             {date && slotData && slotData.length < 1 && (
               <div className="border-[1px] w-full text-center flex flex-col gap-8 col-span-2 p-8 border-slate-300 rounded-sm">
                 No Slot Available on {moment(date).format("DD MMM")}
@@ -134,7 +129,7 @@ const SlotCard = ({
   slots: string[];
   date: string;
 }) => {
-  const { endTime, room, startTime, _id } = slot;
+  const { endTime, startTime, _id } = slot;
 
   return (
     <label

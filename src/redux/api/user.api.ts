@@ -1,4 +1,3 @@
-import { TUser } from "../../types/user.types";
 import { baseApi } from "./baseApi";
 
 export type TQueryArgs = {

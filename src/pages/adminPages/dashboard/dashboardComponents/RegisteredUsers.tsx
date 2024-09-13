@@ -11,8 +11,8 @@ import { TUser } from "@/types/user.types";
 import { Skeleton, Tag } from "antd";
 
 export function RegisteredUsers() {
-  const { data, isLoading } = useGetAllUsersQuery([]);
-  console.log(data);
+  const { data } = useGetAllUsersQuery([]);
+
   return (
     <Card className="shadow-none rounded-sm col-span-4">
       <CardHeader>

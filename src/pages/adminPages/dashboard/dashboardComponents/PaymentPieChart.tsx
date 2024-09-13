@@ -29,7 +29,6 @@ export const PayemntPieChart = (data: any) => {
       fill: item._id === "stripe" ? "#ae6ae6" : "#1c3bb8",
     }));
   const totalPayments = data && data?.data?.totalPayments;
-  console.log(data);
 
   const percentages =
     chartData?.length > 0 &&

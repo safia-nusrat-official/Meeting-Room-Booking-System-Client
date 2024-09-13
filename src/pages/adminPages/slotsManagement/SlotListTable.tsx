@@ -1,14 +1,8 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { TMeta, TReduxResponse } from "@/types";
 import { TSlot } from "@/types/slot.types";
-import { Pagination, Rate, Table, Tag } from "antd";
+import { Pagination, Table, Tag } from "antd";
 import confirm from "antd/es/modal/confirm";
 import { CiCircleAlert } from "react-icons/ci";
 import { PiTrashLight } from "react-icons/pi";
@@ -25,17 +19,15 @@ import moment from "moment";
 import UpdateSlot from "./UpdateSlot";
 import SearchBar from "@/components/shared/SearchBar";
 import { IoAddCircle } from "react-icons/io5";
-import { roomFloorNumbersMap } from "@/pages/rooms/RoomDetails";
 
 const SlotListTable = () => {
   const [current, setCurrent] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data, isLoading, isFetching } = useGetAllSlotsQuery([
+  const { data, isFetching } = useGetAllSlotsQuery([
     { key: "limit", value: "7" },
     { key: "page", value: `${current}` },
     { key: "searchTerm", value: `${searchTerm}` },
-    // { key: "groupBy", value: "rooms" },
   ]);
   const [deleteSlot] = useDeleteSlotMutation();
   const slotData: TSlot[] =
@@ -57,10 +49,8 @@ const SlotListTable = () => {
         try {
           const res = (await deleteSlot(id)) as TReduxResponse<any>;
           if (res.data) {
-            console.log(res.data);
             toast.success("Slot Deleted Successfully!");
           } else {
-            console.log(res.error?.message || res.error?.data?.message);
             toast.error(res.error?.message || "Slot Delete Failed.");
           }
         } catch (error) {

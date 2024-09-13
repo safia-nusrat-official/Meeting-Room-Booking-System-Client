@@ -1,5 +1,5 @@
 import { HiOutlineUpload } from "react-icons/hi";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import {
@@ -32,13 +32,11 @@ export default function MyProfile() {
   const userData: TUser = !isLoading  && user?.data;
 
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
     const payload: Partial<TUser> = {
       address: data?.address,
       name: data?.name,
       phone: data?.phone,
     };
-    console.log(payload);
 
     const formData = new FormData();
 
@@ -56,12 +54,10 @@ export default function MyProfile() {
       console.log(result);
 
       if (result?.error) {
-        console.log(result?.message || result?.error?.message);
         setFile([]);
         toast.error(result?.error?.data?.message || result?.error?.message);
       } else {
         const user = result?.data?.data;
-        console.log(user);
         setFile([]);
         toast.success(`Profile updated Successfully!`);
       }
@@ -70,7 +66,6 @@ export default function MyProfile() {
     }
   };
   const [file, setFile] = useState<UploadFile<any>[]>([]);
-  console.log(file);
 
   return (
     <Card className="md:m-8 bg-white   shadow-none rounded-sm">
@@ -95,7 +90,7 @@ export default function MyProfile() {
                   name="profileImage"
                   render={({
                     field: { value, onChange, ...field },
-                    fieldState,
+                    
                   }) => (
                     <Form.Item
                       className="mt-4 self-center"
