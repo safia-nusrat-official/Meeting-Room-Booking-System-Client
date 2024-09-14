@@ -13,6 +13,8 @@ import moment from "moment";
 import { useGetAllBookingsQuery } from "@/redux/api/bookings.api";
 import { useEffect, useState } from "react";
 import { TBooking } from "@/types/booking.types";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function BookingStatus() {
   const { data } = useGetAllBookingsQuery([{key:"sort", value:"-createdAt"},{key:"limit", value:"7"}]);
@@ -33,7 +35,7 @@ export default function BookingStatus() {
           {moment().format("MMMM YYYY")}
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="relative">
         <Table>
           <TableHeader>
             <TableRow className="border-b border-gray-200">
@@ -77,6 +79,11 @@ export default function BookingStatus() {
             ))}
           </TableBody>
         </Table>
+        <div className="bg-gradient pb-2 bottom-0 left-1/2 -translate-x-1/2 h-1/4 bg-gradient-to-t from-white w-full justify-center flex items-end to-transparent absolute">
+          <Link to="/admin/all-users">
+            <Button variant={"link"}>See All</Button>
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );

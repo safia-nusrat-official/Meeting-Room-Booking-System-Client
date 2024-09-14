@@ -55,7 +55,7 @@ const UsersList = () => {
   const columns: ColumnsType<TUser> = [
     {
       title: "User",
-      className: "md:hidden block",
+      className: "md:hidden table-cell",
       render: (user: TUser) => {
         return (
           <div className="flex gap-2">

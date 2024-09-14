@@ -43,14 +43,13 @@ export default function RecentActivities(data: any) {
                     <p className="text-sm font-medium truncate max-w-24 leading-none text-gray-800">
                       {activity.name}
                     </p>
-                    <p className="text-xs text-gray-600">{activity.action}</p>
+                    <p className="md:text-sm text-xs text-gray-600">{activity.action}</p>
                   </div>
                 </div>
-                <p className="text-xs text-right text-gray-500">
+                <p className="md:text-sm text-xs flex flex-col md:flex-row text-right text-gray-500">
                   <span className="whitespace-nowrap">
                     {moment(activity.date).format("hh:mm a")},
                   </span>
-                  <br></br>
                   <span className="whitespace-nowrap">
                     {moment(activity.date).format("DD MMM YYYY")}
                   </span>

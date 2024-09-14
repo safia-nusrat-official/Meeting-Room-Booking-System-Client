@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const OverviewCards = () => {
   const { data, isLoading } = useGetDashboardDataQuery([]);
 
-  const { totalBookings, totalRooms, totalSlots, totalUsers } = (data &&
+  const { totalBookings,recentlyMadeBookings,  totalRooms, recentlyCreatedRooms, bookedSlots,newlySignedUps, totalSlots, totalUsers } = (data &&
     data?.data) || {
     totalBookings: 0,
     totalRooms: 0,
@@ -86,7 +86,6 @@ const OverviewCards = () => {
             <CiClock2 className="text-lg text-slate-500"></CiClock2>
           </CardHeader>
           <CardContent>
-            {" "}
             <Skeleton />
           </CardContent>
         </Card>
@@ -95,7 +94,7 @@ const OverviewCards = () => {
   ) : (
     <div className="grid gap-4 md:grid-cols-2 col-span-4 grid-cols-2 lg:grid-cols-4">
       <Link to="/admin/bookings-list">
-        <Card className="shadow-none hover:bg-[#cccccc7f] rounded-sm">
+        <Card className="shadow-none h-full hover:bg-[#cccccc7f] rounded-sm">
           <CardHeader className="flex gap-2  flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total Bookings
@@ -107,7 +106,7 @@ const OverviewCards = () => {
 
             {/* recent bookings today */}
             <p className="text-xs text-muted-foreground">
-              +20.1% from last month
+              +{recentlyMadeBookings} recent bookings in the last weekend
             </p>
           </CardContent>
         </Card>
@@ -135,7 +134,7 @@ const OverviewCards = () => {
             <div className="text-2xl font-bold">{totalUsers}</div>
             <p className="text-xs text-muted-foreground">
               {/* recent signups */}
-              +180.1% from last month
+              +{newlySignedUps} new users recently signed up
             </p>
           </CardContent>
         </Card>
@@ -161,9 +160,8 @@ const OverviewCards = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalRooms}</div>
-            {/*  */}
             <p className="text-xs text-muted-foreground">
-              +19% from last month
+              +{recentlyCreatedRooms} new rooms recently created
             </p>
           </CardContent>
         </Card>
@@ -178,7 +176,7 @@ const OverviewCards = () => {
             <div className="text-2xl font-bold">{totalSlots}</div>
             {/* total booked */}
             <p className="text-xs text-muted-foreground">
-              +201 since last hour
+              +{bookedSlots} new slots recently booked
             </p>
           </CardContent>
         </Card>
