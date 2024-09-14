@@ -357,8 +357,7 @@ const Rooms = () => {
               </Card>
             ))}
           {searchTerm && roomData && roomData.length < 1 && (
-            <div className="p-6">
-              No results
+            <div className="p-6 col-span-3 flex justify-center items-center">
               <LottieAnimation
                 animationData={searchAnimation}
               ></LottieAnimation>

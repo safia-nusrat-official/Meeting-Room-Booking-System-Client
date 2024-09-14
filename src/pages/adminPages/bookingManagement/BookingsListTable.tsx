@@ -26,6 +26,8 @@ const BookingListsTable = () => {
   const { data, isLoading, isFetching } = useGetAllBookingsQuery([
     { key: "limit", value: "7" },
     { key: "page", value: `${current}` },
+    { key: "isDeleted", value: `true` },
+    { key: "isDeleted", value: `false` },
   ]);
   const [deletebooking] = useDeleteBookingMutation();
   const bookingData: TBooking[] =

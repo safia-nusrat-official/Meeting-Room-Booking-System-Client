@@ -365,10 +365,10 @@ const ContactUs = () => {
           <div
             data-aos="fade-left"
             data-aos-delay={400}
-            className="flex md:mt-0 mt-4 md:flex-row flex-col w-full md:gap-0 gap-4 max-w-sm md:items-center items-stretch"
+            className="flex md:mt-0 mt-4 md:flex-row flex-col w-full md:gap-2 gap-4 max-w-sm md:items-center items-stretch"
           >
             <Input type="email" placeholder="Email" />
-            <Button type="submit">Subscribe</Button>
+            <Button type="submit" className="rounded-sm bg-zinc-800">Subscribe</Button>
           </div>
         </div>
       </section>
