@@ -1,9 +1,6 @@
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import SearchBar from "@/components/shared/SearchBar";
+import searchAnimation from "../../assets/animations/noSearchResults.json";
 import {
   TQueryArgs,
   useGetAllAvailableRoomsQuery,
@@ -12,6 +9,7 @@ import { TRoom } from "@/types/room.types";
 import { useState } from "react";
 import { RoomCard } from "./RoomCard";
 import {
+  Card,
   ConfigProvider,
   Divider,
   Pagination,
@@ -26,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { TMeta } from "@/types";
 import { GoPeople } from "react-icons/go";
 import { IoCloseCircle, IoFilterSharp } from "react-icons/io5";
+import LottieAnimation from "@/lib/LottieAnimation";
 
 const Rooms = () => {
   const [current, setCurrent] = useState(1);
@@ -299,7 +298,7 @@ const Rooms = () => {
       <div className="md:col-span-3 relative md:col-start-2 col-span-4 grid md:grid-cols-3 grid-cols-2 ">
         <div className="flex md:flex-row flex-col-reverse md:items-center text-slate-400 justify-between items-start col-span-3">
           {isLoading ? (
-            <Skeleton.Node active></Skeleton.Node>
+            <Skeleton active paragraph={{ rows: 1 }}></Skeleton>
           ) : (
             <p className="my-6 md:my-0">
               Showing {meta.totalDocuments > 1 && "all"}{" "}
@@ -351,8 +350,19 @@ const Rooms = () => {
             roomData.map((room) => (
               <RoomCard key={room._id as string} room={room}></RoomCard>
             ))}
+          {isLoading &&
+            Array(6).map(() => (
+              <Card>
+                <Skeleton active avatar={{ shape: "square" }}></Skeleton>
+              </Card>
+            ))}
           {searchTerm && roomData && roomData.length < 1 && (
-            <div className="p-6">No results</div>
+            <div className="p-6">
+              No results
+              <LottieAnimation
+                animationData={searchAnimation}
+              ></LottieAnimation>
+            </div>
           )}
         </div>
         {meta && (

@@ -1,8 +1,7 @@
-import { HiOutlineUpload } from "react-icons/hi";
 import { useState } from "react";
 import { TReduxResponse } from "../../types/index";
 
-import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 import {
   Card,
   CardContent,
@@ -21,7 +20,7 @@ import { logout } from "@/redux/features/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import CustomForm from "@/components/shared/form/CustomForm";
 import FormInput from "@/components/shared/form/FormInput";
-import { Button, ConfigProvider, Form, Upload } from "antd";
+import { Button, ConfigProvider } from "antd";
 import FormInputWatch from "@/components/shared/form/FormInputWatch";
 import FormUpload from "@/components/shared/form/FormUpload";
 

@@ -19,7 +19,6 @@ import { toast } from "sonner";
 
 const PayPalPayment = ({
   totalAmount,
-  setPaymentSuccess,
   setIsProcessing,
   handleConfirmBooking,
   bookingId,
@@ -27,7 +26,6 @@ const PayPalPayment = ({
   totalAmount: number;
   handleConfirmBooking: any;
   bookingId: string;
-  setPaymentSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
@@ -52,7 +50,6 @@ const PayPalPayment = ({
               bookingId={bookingId}
               totalAmount={totalAmount}
               handleConfirmBooking={handleConfirmBooking}
-              setPaymentSuccess={setPaymentSuccess}
               setIsProcessing={setIsProcessing}
             ></PayPalButtonsWrapper>
           </CardContent>
@@ -66,7 +63,6 @@ export default PayPalPayment;
 
 const PayPalButtonsWrapper = ({
   totalAmount,
-  setPaymentSuccess,
   setIsProcessing,
   handleConfirmBooking,
   bookingId,
@@ -74,7 +70,6 @@ const PayPalButtonsWrapper = ({
   totalAmount: number;
   handleConfirmBooking: any;
   bookingId: string;
-  setPaymentSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [{ isPending }] = usePayPalScriptReducer();
@@ -108,7 +103,6 @@ const PayPalButtonsWrapper = ({
       setIsProcessing(false)
       if(transaction?.data?.status==="COMPLETED"||transaction.statusCode===201){
         toast.success("Payment through PayPal successful!")
-        setPaymentSuccess(true)
         handleConfirmBooking()
       }
     } catch (error) {

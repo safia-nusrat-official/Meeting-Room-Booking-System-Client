@@ -27,14 +27,12 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 const StripeCheckoutForm = ({
   totalAmount,
   isProcessing,
-  setPaymentSuccess,
   setIsProcessing,
   handleConfirmBooking,
 }: {
   totalAmount: number;
   handleConfirmBooking: any;
   isProcessing: boolean;
-  setPaymentSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const user = useAppSelector(getUser) as TUser;
@@ -49,22 +47,21 @@ const StripeCheckoutForm = ({
       return;
     }
     setIsProcessing(true);
-    const { error, paymentIntent } = await stripe.confirmPayment({
+    const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}`,
+        receipt_email:user.email,
       },
-      redirect: "if_required",
+      redirect:"if_required"
     });
-    if (error) {
+    
+    if (result.error) {
       setIsProcessing(false);
-
-      toast.error(error.message as string);
-      setPaymentSuccess(false);
-    } else if (paymentIntent.status === "succeeded") {
+      toast.error(result.error.message as string);
+    } else if (result.paymentIntent?.status === "succeeded") {
       setIsProcessing(false);
       setKey((prev) => prev + 1);
-      setPaymentSuccess(true);
       handleConfirmBooking();
     }
   };
@@ -103,14 +100,12 @@ const StripeCheckoutForm = ({
 const StripePayment = ({
   totalAmount,
   isProcessing,
-  setPaymentSuccess,
   setIsProcessing,
   handleConfirmBooking,
 }: {
   totalAmount: number;
   handleConfirmBooking: any;
   isProcessing: boolean;
-  setPaymentSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setIsProcessing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { data, isLoading } = useGetStripeClientSecretQuery(totalAmount);
@@ -140,7 +135,6 @@ const StripePayment = ({
                 handleConfirmBooking={handleConfirmBooking}
                 totalAmount={totalAmount}
                 isProcessing={isProcessing}
-                setPaymentSuccess={setPaymentSuccess}
                 setIsProcessing={setIsProcessing}
               ></StripeCheckoutForm>
             </Elements>

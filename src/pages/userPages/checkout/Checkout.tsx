@@ -46,7 +46,6 @@ export default function Checkout() {
 
   const [paymentMethod, setPaymentMethod] = useState("stripe");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const { data, isLoading } = useGetASingleBookingQuery(id as string);
   const [updateBooking, { isLoading: updateLoading }] =
@@ -55,9 +54,6 @@ export default function Checkout() {
   const [bookingDetails, setBookingDetails] = useState<any>();
 
   const handleConfirmBooking = async () => {
-    if(!paymentSuccess){
-      return
-    }
     const updatedBooking: TBooking = {
       ...bookingDetails,
       isConfirmed: "confirmed",
@@ -307,7 +303,6 @@ export default function Checkout() {
                       handleConfirmBooking={handleConfirmBooking}
                       totalAmount={bookingDetails.totalAmount as number}
                       isProcessing={isProcessing}
-                      setPaymentSuccess={setPaymentSuccess}
                       setIsProcessing={setIsProcessing}
                     ></StripePayment>
                   </TabsContent>
@@ -316,7 +311,6 @@ export default function Checkout() {
                       bookingId={bookingDetails._id as string}
                       totalAmount={bookingDetails.totalAmount as number}
                       handleConfirmBooking={handleConfirmBooking}
-                      setPaymentSuccess={setPaymentSuccess}
                       setIsProcessing={setIsProcessing}
                     ></PayPalPayment>
                   </TabsContent>

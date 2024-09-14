@@ -11,7 +11,11 @@ import { TUser } from "@/types/user.types";
 import { Skeleton, Tag } from "antd";
 
 export function RegisteredUsers() {
-  const { data } = useGetAllUsersQuery([]);
+  const { data } = useGetAllUsersQuery([
+    {
+      key:"sort", value:"-createdAt"
+    }
+  ]);
 
   return (
     <Card className="shadow-none rounded-sm col-span-4">

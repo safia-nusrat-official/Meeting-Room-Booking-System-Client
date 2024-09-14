@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { TBooking } from "@/types/booking.types";
 
 export default function BookingStatus() {
-  const { data } = useGetAllBookingsQuery([{key:"limit", value:"7"}]);
+  const { data } = useGetAllBookingsQuery([{key:"sort", value:"-createdAt"},{key:"limit", value:"7"}]);
   const [bookings, setBookings] = useState<TBooking[]>([]);
 
   useEffect(() => {
