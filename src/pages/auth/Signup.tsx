@@ -23,9 +23,10 @@ import CustomForm from "@/components/shared/form/CustomForm";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button, ConfigProvider, Form, Upload } from "antd";
 import FormInputWatch from "@/components/shared/form/FormInputWatch";
+import FormUpload from "@/components/shared/form/FormUpload";
 
 export default function Signup() {
-  const [signup, { isLoading }] = useSignupMutation();
+  const [signup, { isLoading, isError, isSuccess }] = useSignupMutation();
   const dispatch = useAppDispatch();
   const [password, setPassword] = useState("");
   const [file, setFile] = useState<any>();
@@ -54,9 +55,9 @@ export default function Signup() {
 
       if (result?.error) {
         setFile([]);
+        console.log(result.error)
         toast.error(result?.error?.data?.message || result?.error?.message);
       } else {
-        const user = result?.data?.data;
         setFile([]);
         toast.success(`Account created Successfully!`);
         dispatch(logout());
@@ -70,7 +71,7 @@ export default function Signup() {
   return (
     <section className="relative bg-white items-start py-12 flex flex-col-reverse md:flex-row-reverse">
       <Card className="w-full border-0 border-l-[1px] md:mr-16  max-w-md shadow-none rounded-none">
-        <CardHeader className="text-center">
+        <CardHeader className="text-left md:text-center">
           <CardTitle className="text-2xl  font-bold">Signup</CardTitle>
           <CardDescription>
             Fill up the information below to create an account{" "}
@@ -87,7 +88,7 @@ export default function Signup() {
                 },
               }}
             >
-              <Controller
+              {/* <Controller
                 name="profileImage"
                 rules={{
                   required: "Profile Image is required.",
@@ -107,7 +108,8 @@ export default function Signup() {
                       maxCount={1}
                       onChange={onChange}
                       accept="image/*"
-                      fileList={file}
+                      // fileList={file}
+                      defaultFileList={file}
                       showUploadList={true}
                       listType="picture-circle"
                       beforeUpload={() => false}
@@ -118,7 +120,10 @@ export default function Signup() {
                     </Upload>
                   </Form.Item>
                 )}
-              />
+              /> */}
+              <FormUpload name="profileImage" defaultFileList={file}
+              label="Upload a Profile Photo" isError={isError}
+              isSuccess={isSuccess} setImageUrl={setFile} required></FormUpload>
             </ConfigProvider>
             <FormInput name="name" label="Your Name"></FormInput>
             <FormInput name="email" label="Your Email"></FormInput>
@@ -174,7 +179,7 @@ export default function Signup() {
           height={400}
         />
       </div>
-      <div className="flex md:hidden justify-center items-center">
+      <div className="flex mx-auto md:hidden justify-center items-center">
         <LottieAnimation
           animationData={loginAnimationData}
           width={200}

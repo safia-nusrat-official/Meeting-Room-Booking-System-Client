@@ -127,7 +127,7 @@ const MainLayout = () => {
             <DropdownMenuTrigger className="outline-none h-12 px-2 hover:bg-slate-50 items-center flex gap-2">
               <p className="md:block hidden">{user.name}</p>
               <Avatar className="">
-                <AvatarImage src={user.profileImage}></AvatarImage>
+                <AvatarImage src={user?.profileImage}></AvatarImage>
                 <AvatarFallback className="font-medium">
                   {user.name[0]}
                   {user.name.split(" ")[1][0]}
@@ -216,7 +216,7 @@ const MainLayout = () => {
         </Sider>
         <Content>
           <Outlet></Outlet>
-         <Toaster richColors></Toaster>
+          <Toaster richColors></Toaster>
         </Content>
       </Layout>
 
@@ -269,8 +269,8 @@ const MainLayout = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-end justify-between">
-          <Link to="/meeting-rooms" className="md:block hidden">
+        <div className="flex md:flex-row flex-col-reverse md:items-end items-center justify-between">
+          <Link to="/rooms" className="md:block hidden">
             <Button
               type="primary"
               className="mt-6  border-none bg-white hover:border-none hover:bg-muted-foreground font-bold text-slate-800 rounded-none"
@@ -282,10 +282,14 @@ const MainLayout = () => {
             &copy; {new Date().getFullYear()} KeyWizards. All rights reserved.
           </p>
 
-          <div className="flex"><p className="hover:underline underline-offset-2 text-[#ffffff65] md:mt-0 mt-8">
-            Privacy Policy 
-          </p>
-          <span className="ml-4 hover:underline underline-offset-2 text-[#ffffff65]">Terms & Conditions</span></div>
+          <div className="flex md:mt-0 mt-8  md:flex-row flex-col">
+            <p className="hover:underline underline-offset-2 text-[#ffffff65]">
+              Privacy Policy
+            </p>
+            <span className="hover:underline md:ml-4 ml-0 underline-offset-2 text-[#ffffff65]">
+              Terms & Conditions
+            </span>
+          </div>
         </div>
       </Footer>
     </Layout>

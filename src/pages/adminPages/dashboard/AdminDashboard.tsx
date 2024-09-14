@@ -82,7 +82,7 @@ const AdminDashboard = () => {
           </Card>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 col-span-4 lg:grid-cols-8">
+        <div className="grid gap-4 md:grid-cols-2 grid-cols-1 col-span-4 lg:grid-cols-8">
           {/* payment method piechart */}
           <PayemntPieChart data={dashboardData} />
 

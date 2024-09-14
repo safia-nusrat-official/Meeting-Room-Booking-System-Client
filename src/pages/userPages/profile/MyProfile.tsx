@@ -1,5 +1,4 @@
 import { HiOutlineUpload } from "react-icons/hi";
-import { useState } from "react";
 
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import {
@@ -11,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import FormInput from "@/components/shared/form/FormInput";
-import { ConfigProvider, Form, Skeleton, Upload, UploadFile } from "antd";
+import { ConfigProvider, Form, Skeleton, Upload } from "antd";
 import { Button as AntBtn } from "antd";
 import {
   useGetSingleUserQuery,
@@ -54,18 +53,14 @@ export default function MyProfile() {
       console.log(result);
 
       if (result?.error) {
-        setFile([]);
         toast.error(result?.error?.data?.message || result?.error?.message);
       } else {
-        const user = result?.data?.data;
-        setFile([]);
         toast.success(`Profile updated Successfully!`);
       }
     } catch (err) {
       console.log(err);
     }
   };
-  const [file, setFile] = useState<UploadFile<any>[]>([]);
 
   return (
     <Card className="md:m-8 bg-white   shadow-none rounded-sm">

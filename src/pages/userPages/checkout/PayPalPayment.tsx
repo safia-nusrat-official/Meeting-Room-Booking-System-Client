@@ -107,7 +107,7 @@ const PayPalButtonsWrapper = ({
 
       setIsProcessing(false)
       if(transaction?.data?.status==="COMPLETED"||transaction.statusCode===201){
-        toast.success("Payment Through PayPal Successful")
+        toast.success("Payment through PayPal successful!")
         setPaymentSuccess(true)
         handleConfirmBooking()
       }

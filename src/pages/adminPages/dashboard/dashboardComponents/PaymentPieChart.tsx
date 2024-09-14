@@ -38,7 +38,7 @@ export const PayemntPieChart = (data: any) => {
     }));
 
   return data ? (
-    <Card className="flex col-span-3 shadow-none rounded-sm flex-col">
+    <Card className="flex md:col-span-3 col-span-4 shadow-none rounded-sm flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Payment Method - Most Used</CardTitle>
         <CardDescription>

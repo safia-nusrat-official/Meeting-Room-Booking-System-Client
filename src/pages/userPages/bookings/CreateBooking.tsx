@@ -37,7 +37,7 @@ const CreateBooking = () => {
   const [date, setDate] = useState<Date | null>(null);
   const [slots, setSlots] = useState<string[]>([]);
 
-  const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
+  const handleSubmit: SubmitHandler<FieldValues> = async () => {
     if (!date || slots.length < 1) {
       return;
     }

@@ -14,7 +14,7 @@ const HeroSection = () => {
       <div className="overlay bg-[#00000050] backdrop-blur-sm absolute w-full h-full"></div>
       <div className="relative w-full selection:bg-[#c7f9cc8a] p-8 text-center flex flex-col items-center justify-center">
         <HeroTitle></HeroTitle>
-        <p data-aos="fade-up" data-aos-animation-duration={600} data-aos-delay="500" className="text-white mt-4">
+        <p data-aos="fade-up" data-aos-animation-duration={600} data-aos-delay="300" className="text-white mt-4">
           Efficient, hassle-free room booking for all your meeting needs.
         </p>
         <Link data-aos="fade-up" data-aos-animation-duration={500} data-aos-delay="300" to="/rooms">

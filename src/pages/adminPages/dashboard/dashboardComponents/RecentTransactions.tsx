@@ -4,7 +4,7 @@ import { Skeleton } from "antd";
 export const RecentTransactions = (data: any) => {
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 ">
       {data?.data?.length > 0 ?
         data?.data.map((booking: any) => (
           <div className="flex items-center">

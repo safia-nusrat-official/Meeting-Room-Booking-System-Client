@@ -4,7 +4,7 @@ import "../../../style/heroSection.css";
 const HeroTitle = () => {
   const lines = ["Book Your", "Ideal Meeting", "Room with", "Ease"];
 
-  const typingSpeed = 100;
+  const typingSpeed = 80;
 
   const [displayedText, setDisplayedText] = useState(["", "", "", ""]);
   const [, setCurrentLineIndex] = useState(0);

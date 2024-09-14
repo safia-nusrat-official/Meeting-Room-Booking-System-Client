@@ -52,11 +52,11 @@ const AboutUs = () => {
             data-aos="zoom-out"
             className="text-zinc-100 mt-2 my-4 max-w-[700px] selection:bg-[#ffffff66] text-sm md:text-lg"
           >
-            Welcome to KeyWizards! We are your one-stop shop for all things
+            Welcome to MeetWise! We are your one-stop shop for all things
             mechanical keyboards. Our mission is to bring you the best selection
             of high-quality keyboards, whether you’re a gamer, programmer, or
             just someone who loves the feel of a mechanical keyboard. At
-            KeyWizards, every keystroke is a magical experience.
+            MeetWise, every keystroke is a magical experience.
           </p>
         </div>
       </div>
@@ -65,10 +65,10 @@ const AboutUs = () => {
       <div data-aos="fade-down" data-aos-delay="100">
             <h3 className="text-3xl font-semibold">Our Story</h3>
             <p className="text-zinc-600 mt-2">
-              KeyWizards was founded in 2020 by a group of keyboard enthusiasts
+              MeetWise was founded in 2020 by a group of keyboard enthusiasts
               who were tired of the limited options available in the market.
               What started as a hobby turned into a passion project, and soon,
-              KeyWizards was born. From our humble beginnings in Pennsylvania,
+              MeetWise was born. From our humble beginnings in Pennsylvania,
               we've grown into a global community of keyboard lovers. Our
               journey has been fueled by a dedication to quality, innovation,
               and customer satisfaction.
@@ -79,7 +79,7 @@ const AboutUs = () => {
           <div data-aos="fade-down" data-aos-delay="100" className="">
             <h3 className="text-3xl font-semibold">Our Mission and Vision</h3>
             <p className="text-zinc-600 mt-2">
-              Our mission at KeyWizards is to provide top-notch mechanical
+              Our mission at MeetWise is to provide top-notch mechanical
               keyboards that cater to every need and preference. We believe that
               the right keyboard can transform your typing experience, whether
               for work or play. We envision a world where every keystroke is a
@@ -103,8 +103,8 @@ const AboutUs = () => {
         >
           Our team is a diverse group of individuals who share a common passion
           for mechanical keyboards. Each member brings unique skills and
-          expertise, making KeyWizards a vibrant and dynamic place to work. Meet
-          the people behind KeyWizards who make it all happen:
+          expertise, making MeetWise a vibrant and dynamic place to work. Meet
+          the people behind MeetWise who make it all happen:
         </p>
 
         <div className="grid md:grid-cols-4 mt-12 gap-12">

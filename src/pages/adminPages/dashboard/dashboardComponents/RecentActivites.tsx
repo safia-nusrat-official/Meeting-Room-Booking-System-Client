@@ -40,14 +40,20 @@ export default function RecentActivities(data: any) {
                     </AvatarFallback>
                   </Avatar>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none text-gray-800">
+                    <p className="text-sm font-medium truncate max-w-24 leading-none text-gray-800">
                       {activity.name}
                     </p>
-                    <p className="text-sm text-gray-600">{activity.action}</p>
+                    <p className="text-xs text-gray-600">{activity.action}</p>
                   </div>
                 </div>
-                <p className="text-sm whitespace-nowrap text-gray-500">
-                  {moment(activity.date).format("DD MMM YYYY")}
+                <p className="text-xs text-right text-gray-500">
+                  <span className="whitespace-nowrap">
+                    {moment(activity.date).format("hh:mm a")},
+                  </span>
+                  <br></br>
+                  <span className="whitespace-nowrap">
+                    {moment(activity.date).format("DD MMM YYYY")}
+                  </span>
                 </p>
               </li>
             ))}

@@ -11,7 +11,6 @@ const FormUpload = ({
   label,
   isSuccess,
   isError,
-  
   defaultFileList = [],
   required = true,
 }: {

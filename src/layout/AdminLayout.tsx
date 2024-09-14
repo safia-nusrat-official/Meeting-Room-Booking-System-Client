@@ -58,7 +58,7 @@ const AdminLayout = () => {
   const userPanel = (
     <div className="flex pb-4 m-4 border-b-[1px] border-white gap-4">
       <Avatar className="">
-        <AvatarImage src={user.profileImage}></AvatarImage>
+        <AvatarImage src={user?.profileImage}></AvatarImage>
         <AvatarFallback className="font-medium">
           {user.name[0]}
           {user.name.split(" ")[1][0]}

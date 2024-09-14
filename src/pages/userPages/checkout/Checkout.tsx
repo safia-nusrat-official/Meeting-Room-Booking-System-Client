@@ -55,7 +55,9 @@ export default function Checkout() {
   const [bookingDetails, setBookingDetails] = useState<any>();
 
   const handleConfirmBooking = async () => {
-
+    if(!paymentSuccess){
+      return
+    }
     const updatedBooking: TBooking = {
       ...bookingDetails,
       isConfirmed: "confirmed",
@@ -351,7 +353,6 @@ export default function Checkout() {
         </div>
       </div>
 
-      {/* success */}
 
       {bookingDetails && (
         <Modal

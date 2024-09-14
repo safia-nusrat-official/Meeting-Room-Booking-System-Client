@@ -56,7 +56,6 @@ const AvailableSlots = ({
               slotData.length > 0 &&
               slotData.map((slot) => (
                 <SlotCard
-                  date={date}
                   slots={slots}
                   setSlots={setSlots}
                   slot={slot}
@@ -122,12 +121,10 @@ const SlotCard = ({
   slot,
   slots,
   setSlots,
-  date,
 }: {
   slot: TSlot;
   setSlots: React.Dispatch<React.SetStateAction<string[]>>;
   slots: string[];
-  date: string;
 }) => {
   const { endTime, startTime, _id } = slot;
 

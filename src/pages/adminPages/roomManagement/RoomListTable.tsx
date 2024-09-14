@@ -48,7 +48,7 @@ const RoomListTable = () => {
       async onOk() {
         try {
           const res = (await deleteRoom(id)) as TReduxResponse<any>;
-          if (res.data) {w
+          if (res.data) {
             toast.success("Room Deleted Successfully!");
           } else {
             toast.success(res.error?.message || "Room Created Successfully!");

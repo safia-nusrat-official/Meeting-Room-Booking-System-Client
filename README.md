@@ -52,31 +52,32 @@ Before you begin, please ensure you have the following dependencies installed:
 ```bash
 Node.js (v20.11.0 or later)
 npm (v20.11.0 or later)
+ImgBB API Key for multi-image uploads
+Cloudinary API Key and API Secret for user profile image
+Stripe Secret Key for Secure Stripe Payment
+PayPal Client Id and Secret for Successful PayPal Transactions
 ```
 ### Installation 🛠️
-1. Clone the repository:
+1. **Clone the repository:**
  ```bash
  git clone https://github.com/safia-nusrat-official/mechanical-keyboard-ecommerce-client.git
+ cd meeting-room-booking-system-client
  ```
-2. Move to *mechanical-keyboard-ecommerce-client* :
-```bash
-cd mechanical-keyboard-ecommerce-client
-```
-3. Install the depecdencies:
+
+2. **Install the depecdencies:**
 ```bash
  npm install
  ```
 
-_n.b: Make sure to read the server repository readme to install and configure the backend beforehand if you want to run the frontend on local server!_
-
-### Configuration ⚙️
-1. In the root directory of your project, create a .env.local file and add the following configuration variables:
+3. **Set Environment Variables:**
+Create a `.env` file in the root directory and add the following:
 ```env
-VITE_IMGBB_API=4bfb6e15a3a0f1ed16af04cbe55b04b9
-VITE_STRIPE_PK=pk_test_51OX1c0EwhDuP55qLqSOaLz8t6G4L2qGcTJ40gEyOo3UskSR9FTE0wmEVNTEUStxeoC72qpg8IrNIwSuEsMbQObAi00M2UHTsZ1
+VITE_IMGBBAPIKEY=<your_imgBB_apiKey>
+VITE_STRIPE_PK=<your_stripe_pk>
+VITE_PAYPAL_CLIENT_ID=<your_paypal_client_id>
 ```
 
-## Usage 📖
+4. **Run the Application**
 ```bash
 npm run start
 # or
@@ -86,8 +87,24 @@ yarn start
 The application should now be running on http://localhost:5173 or http://localhost:5174
 
 
+## Usage 📖:
+### User Guide
+- **Sign Up / Login:** Create an account or log in to browse through available rooms.
+- **Search Rooms:** Filter and search for rooms by date, time, and capacity.
+- **Book a Room:** Select an available room and complete the booking process.
+- **Manage Bookings:** View, confirm, or cancel your bookings from the user dashboard.
+- **Proceed to Payment:** Confirm your booking in the checkout page via stripe or paypal transaction.
+
+### Admin Guide
+- **Dashboard Access:** Log in as an admin to access the admin dashboard.
+- **Manage Rooms:** Add, edit, or delete meeting rooms and their details.
+- **Manage Slots:** create, reschedule, or delete slots.
+- **Approve/Reject Bookings:** Review and manage all bookings.
+- **User Management:** Manage user roles and access rights.
+
+
 ## API Documentation 🌐
-The API Documentation can be found in the [Server Side Repository](https://github.com/safia-nusrat-official/mechanical-keyboard-ecommerce-server)
+The API Documentation can be found in the [Server Side Repository](https://github.com/safia-nusrat-official/meeting-room-booking-system)
 
 
 ## Technologies Used 💻

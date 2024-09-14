@@ -1,9 +1,3 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { TMeta, TReduxResponse } from "@/types";
@@ -24,6 +18,8 @@ import {
 } from "@/redux/api/bookings.api";
 import { TUser } from "@/types/user.types";
 import { TSlot } from "@/types/slot.types";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { AvatarImage } from "@radix-ui/react-avatar";
 
 const BookingListsTable = () => {
   const [current, setCurrent] = useState(1);
@@ -83,7 +79,6 @@ const BookingListsTable = () => {
           </Link>
         );
       },
-      responsive: ["md"],
     },
     {
       title: "User",
@@ -91,16 +86,23 @@ const BookingListsTable = () => {
       key: "user",
       render: (item: TUser) => (
         <Link className="flex flex-col break-words" to="/admin/all-users">
+          <Avatar>
+            <AvatarImage src={item?.profileImage}></AvatarImage>
+            <AvatarFallback>
+              {item.name[0]}
+              {item.name.split(" ").length > 1 && item.name.split(" ")[1][0]}
+            </AvatarFallback>
+          </Avatar>
           <span className="font-medium">{item?.name}</span>
           <span className="text-xs text-zinc-500 text-ellipsis overflow-hidden truncate max-w-28">
             {item?.email}
           </span>
         </Link>
       ),
-      responsive: ["md"],
     },
     {
       title: "Booking Details",
+      sorter: (a, b) => (b.totalAmount as number) - (a.totalAmount as number),
       render: (booking: TBooking) => {
         return (
           <div className="flex text-xs flex-col gap-4 text-slate-500">
@@ -140,14 +142,6 @@ const BookingListsTable = () => {
         );
       },
     },
-    // {
-    //   title: "Total Amount",
-    //   dataIndex: "totalAmount",
-    //   key: "totalAmount",
-    //   render: (price: string) => (
-    //     <p className="font-medium text-slate-500">$ {price}</p>
-    //   ),
-    // },
     {
       title: "Payment Details",
       render: (booking: TBooking) => {
@@ -179,6 +173,21 @@ const BookingListsTable = () => {
       title: "Status",
       dataIndex: "isConfirmed",
       key: "isConfirmed",
+      filters: [
+        {
+          text: "Confirmed",
+          value: "confirmed",
+        },
+        {
+          text: "Canceled",
+          value: "canceled",
+        },
+        {
+          text: "Unconfirmed",
+          value: "unconfirmed",
+        },
+      ],
+      onFilter: (value, item) => item.isConfirmed === value,
       render: (item: TBookingStatus) => {
         return (
           <Tag
@@ -198,44 +207,20 @@ const BookingListsTable = () => {
       title: "Actions",
       render: (item: TBooking) => {
         return (
-          <>
-            <div className="hidden md:flex gap-2">
-              {/* <UpdateBooking id={item._id as string}></UpdateBooking> */}
-              {item.isDeleted ? (
-                <Tag color="red">Deleted</Tag>
-              ) : (
-                <Button
-                  onClick={() => handleDelete(item._id as string)}
-                  variant={"destructive"}
-                  disabled={item.isConfirmed !== "canceled"}
-                >
-                  Delete
-                  <PiTrashLight className="text-lg ml-2"></PiTrashLight>
-                </Button>
-              )}
-            </div>
-            <div className="md:hidden block">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="outline-none h-12 px-2 hover:bg-slate-50 items-center flex gap-2">
-                  <Button variant="ghost">...</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="font-medium">
-                  <DropdownMenuItem>
-                    {/* <UpdateBooking id={item._id as string}></UpdateBooking> */}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Button
-                      onClick={() => handleDelete(item._id as string)}
-                      variant={"destructive"}
-                    >
-                      Delete
-                      <PiTrashLight className="text-lg ml-2"></PiTrashLight>
-                    </Button>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </>
+          <div className="">
+            {item.isDeleted ? (
+              <Tag color="red">Deleted</Tag>
+            ) : (
+              <Button
+                onClick={() => handleDelete(item._id as string)}
+                variant={"destructive"}
+                disabled={item.isConfirmed !== "canceled"}
+              >
+                Delete
+                <PiTrashLight className="text-lg ml-2"></PiTrashLight>
+              </Button>
+            )}
+          </div>
         );
       },
     },
@@ -251,6 +236,9 @@ const BookingListsTable = () => {
           className="md:hidden block"
           style={{
             padding: "4px",
+          }}
+          scroll={{
+            x: true,
           }}
           bordered
           loading={isLoading || isFetching}
